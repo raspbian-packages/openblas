@@ -1220,6 +1220,14 @@ static void gotoblas_memory_init(void) {
 }
 #endif
 
+static void openblas_fork_handler()
+{
+  int err;
+  err = pthread_atfork (BLASFUNC(blas_thread_shutdown), blas_thread_init, blas_thread_init);
+  if(err != 0)
+    fprintf(stderr, "OpenBLAS cannot install fork handler. You may meet hang after fork.\n");
+}
+
 /* Initialization for all function; this function should be called before main */
 
 static int gotoblas_initialized = 0;
@@ -1227,6 +1235,8 @@ static int gotoblas_initialized = 0;
 void CONSTRUCTOR gotoblas_init(void) {
 
   if (gotoblas_initialized) return;
+
+  openblas_fork_handler();
 
 #ifdef PROFILE
    moncontrol (0);
