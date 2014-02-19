@@ -1,0 +1,48 @@
+Source: openblas
+Section: devel
+Priority: optional
+Maintainer: Debian Science Team <debian-science-maintainers@lists.alioth.debian.org>
+Uploaders: Sylvestre Ledru <sylvestre@debian.org>,
+           Sébastien Villemot <sebastien.villemot@ens.fr>
+DM-Upload-Allowed: yes
+Standards-Version: 3.9.3
+Build-Depends: debhelper (>= 7), patch, cdbs, gfortran
+Homepage: https://github.com/xianyi/OpenBLAS
+Vcs-Svn: svn://svn.debian.org/svn/debian-science/packages/openblas/
+Vcs-Browser: http://svn.debian.org/viewsvn/debian-science/packages/openblas/
+
+Package: libopenblas-base
+Section: libs
+Architecture: amd64 i386 ia64 powerpc powerpcspe ppc64 kfreebsd-i386 kfreebsd-amd64 hurd-i386 sparc
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Provides: libblas.so.3
+Suggests: liblapack3
+Replaces: libblas3gf (<< 1.2.20110419-3), libatlas3gf-base (<< 3.8.4-4)
+Breaks: libblas3gf (<< 1.2.20110419-3), libatlas3gf-base (<< 3.8.4-4)
+Description: Optimized BLAS (linear algebra) library based on GotoBLAS2
+ OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version.
+ .
+ Unlike Atlas, OpenBLAS provides a multiple architecture library.
+ .
+ All kernel will be included in the library and dynamically switched
+ the best architecutre at run time.
+ .
+ For more information on how to rebuild locally OpenBLAS, see the section:
+ "Building Optimized OpenBLAS Packages on your ARCH" in README.Debian
+
+Package: libopenblas-dev
+Section: libdevel
+Architecture: amd64 i386 ia64 powerpc powerpcspe ppc64 kfreebsd-i386 kfreebsd-amd64 hurd-i386 sparc
+Depends: libopenblas-base (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+Provides: libblas.so
+Suggests: liblapack-dev
+Description: Optimized BLAS (linear algebra) library based on GotoBLAS2
+ OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version.
+ .
+ Unlike Atlas, OpenBLAS provides a multiple architecture library.
+ .
+ All kernel will be included in the library and dynamically switched
+ the best architecutre at run time.
+ .
+ This package includes the static libraries and symbolic links
+ needed for program development.

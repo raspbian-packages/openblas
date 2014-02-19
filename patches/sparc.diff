@@ -1,0 +1,22 @@
+--- openblas-0.1alpha1.orig/param.h	2011-04-16 13:20:12.000000000 +0000
++++ openblas-0.1alpha1/param.h	2011-04-16 13:20:29.000000000 +0000
+@@ -1404,7 +1404,7 @@
+ #define GEMM_THREAD gemm_thread_mn
+ #endif
+ 
+-#if defined(SPARC) && defined(V9)
++#if (defined(SPARC) && defined(V9)) || defined(__sparc_v9__)
+ 
+ #define SNUMOPT		2
+ #define DNUMOPT		2
+--- openblas-0.1alpha1.orig/driver/others/memory.c
++++ openblas-0.1alpha1/driver/others/memory.c
+@@ -1128,7 +1128,7 @@ static BLASULONG   init_lock = 0UL;
+ static void _touch_memory(blas_arg_t *arg, BLASLONG *range_m, BLASLONG *range_n, 
+ 			  void *sa, void *sb, BLASLONG pos) {
+ 
+-#ifndef ARCH_POWER
++#if !defined(ARCH_POWER) && !defined(ARCH_SPARC)
+ 
+   long size;
+   BLASULONG buffer;

@@ -1,0 +1,43 @@
+How to switch between the BLAS/LAPACK implementation and OpenBLAS/GotoBLAS
+optimized version
+===============================================================================
+
+BLAS:
+update-alternatives --config libblas.so.3
+
+LAPACK:
+update-alternatives --config liblapack.so.3
+
+More information are available here:
+http://wiki.debian.org/DebianScience/LinearAlgebraLibraries
+
+
+
+Building Optimized OpenBLAS Packages on your ARCH
+=================================================
+
+Building your own optimized packages of OpenBLAS is straightforward.
+Just get the sources of the package:
+
+# apt-get source openblas
+
+and type
+
+# fakeroot debian/rules custom
+
+it should produce a package called:
+# ../libopenblas-base_*.deb
+
+which should be optimized for the architecture OpenBLAS has been built on.
+
+All dependencies can be installed with the following command:
+# aptitude install build-essential dpkg-dev cdbs devscripts patch
+
+Please note that, since version openblas 0.1alpha1-5, libopenblas-base provides
+a multiple architecture library.
+
+All kernel will be included in the library and dynamically switched
+the best architecutre at run time.
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Tue, 31 May 2011 13:56:22 +0200
+

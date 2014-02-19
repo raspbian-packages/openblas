@@ -1,0 +1,30 @@
+Description: Ensure that vectorized sgemv does not use uninitialized data
+Origin: upstream, https://github.com/xianyi/OpenBLAS/commit/91ed4e4450ceabd71493e0bf80e7455df414bebf
+Bug: https://github.com/xianyi/OpenBLAS/issues/171
+Bug-Debian: http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=696000
+Last-Update: 2013-01-04
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/kernel/x86/gemv_t_sse.S
++++ b/kernel/x86/gemv_t_sse.S
+@@ -198,6 +198,20 @@
+ 	jg	.L06
+ 	ALIGN_4
+ 
++//Padding zero to prevent loading the dirty number from buffer.
++	movl	M,  I
++	movl	$8, J
++	andl	$7, I
++	xorps	%xmm0, %xmm0
++	subl	I, J
++	ALIGN_2
++.L07:
++	movss	%xmm0, 0 * SIZE(Y1)
++	addl	$SIZE, Y1
++	decl	J
++	jg	.L07
++	ALIGN_4
++
+ .L10:
+ 	movl	Y, Y1
+ 

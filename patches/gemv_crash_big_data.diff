@@ -1,0 +1,685 @@
+Description: Fix crashes of gemv on big input data
+Origin: upstream,
+        https://github.com/xianyi/OpenBLAS/commit/fd3046b32a1f7049fcb2bfb255d72e4204e5522e
+        https://github.com/xianyi/OpenBLAS/commit/0d1518add98bc3c0e83887be74cda3b23c8937ee
+        https://github.com/xianyi/OpenBLAS/commit/69200884e13e98b79487cfd1c78faf054278ec2f
+        https://github.com/xianyi/OpenBLAS/commit/5f0117385e1d4f986ad75fa66b873b014a7792c2
+        https://github.com/xianyi/OpenBLAS/commit/cea1a885b5cd38bea67feb6437ef0c3622a96c58
+        https://github.com/xianyi/OpenBLAS/commit/0b08f7479e26ce0ef8e076185bb89f16479335e9
+Bug: https://github.com/xianyi/OpenBLAS/issues/154
+     https://github.com/xianyi/OpenBLAS/issues/173
+Bug-Debian: http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=697231
+Last-Update: 2013-01-31
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/kernel/x86/gemv_t_sse.S
++++ b/kernel/x86/gemv_t_sse.S
+@@ -89,17 +89,24 @@
+ #endif
+ 
+ #define STACKSIZE	16
++#define ARGS	20
+ 
+-#define M		 4 + STACKSIZE(%esp)
+-#define N		 8 + STACKSIZE(%esp)
+-#define ALPHA		16 + STACKSIZE(%esp)
+-#define A		20 + STACKSIZE(%esp)
+-#define STACK_LDA	24 + STACKSIZE(%esp)
+-#define STACK_X		28 + STACKSIZE(%esp)
+-#define STACK_INCX	32 + STACKSIZE(%esp)
+-#define Y		36 + STACKSIZE(%esp)
+-#define STACK_INCY	40 + STACKSIZE(%esp)
+-#define BUFFER		44 + STACKSIZE(%esp)
++#define M		 4 + STACKSIZE+ARGS(%esp)
++#define N		 8 + STACKSIZE+ARGS(%esp)
++#define ALPHA		16 + STACKSIZE+ARGS(%esp)
++#define A		20 + STACKSIZE+ARGS(%esp)
++#define STACK_LDA	24 + STACKSIZE+ARGS(%esp)
++#define STACK_X		28 + STACKSIZE+ARGS(%esp)
++#define STACK_INCX	32 + STACKSIZE+ARGS(%esp)
++#define Y		36 + STACKSIZE+ARGS(%esp)
++#define STACK_INCY	40 + STACKSIZE+ARGS(%esp)
++#define BUFFER		44 + STACKSIZE+ARGS(%esp)
++
++#define MMM	0+STACKSIZE(%esp)
++#define NN	4+STACKSIZE(%esp)
++#define AA	8+STACKSIZE(%esp)
++#define LDAX	12+STACKSIZE(%esp)
++#define XX	16+STACKSIZE(%esp)
+ 	
+ #define I	%eax
+ #define J	%ebx
+@@ -114,6 +121,7 @@
+ 
+ 	PROLOGUE
+ 
++	subl	$ARGS,%esp
+ 	pushl	%ebp
+ 	pushl	%edi
+ 	pushl	%esi
+@@ -122,7 +130,42 @@
+ 	PROFCODE
+ 
+ 	movl	STACK_LDA,  LDA
++	movl	LDA,LDAX			# backup LDA
+ 	movl	STACK_X,    X
++	movl	X,XX
++	movl	N,J
++	movl	J,NN				# backup N
++	movl	A,J
++	movl	J,AA				# backup A
++    movl	M,J
++	movl	J,MMM				# mov M to MMM
++.L0t:
++	xorl	J,J
++	addl	$1,J
++	sall    $22,J                           # J=2^24*sizeof(float)=buffer size(16MB)
++	subl    $8, J                           # Don't use last 8 float in the buffer.
++	                                        # Now, split M by block J
++	subl	J,MMM				# MMM=MMM-J
++	movl	J,M		
++	jge		.L00t
++	ALIGN_4
++	
++	movl	MMM,%eax
++	addl	J,%eax
++	jle		.L999x
++	movl	%eax,M
++
++.L00t:
++	movl	AA,%eax
++	movl	%eax,A			 	# mov AA to A
++
++	movl	NN,%eax
++	movl	%eax,N				# reset N
++
++
++	movl	LDAX,  LDA			# reset LDA
++	movl	XX,X
++
+ 	movl	STACK_INCX, INCX
+ 	movl	STACK_INCY, INCY
+ 
+@@ -642,10 +685,22 @@
+ 	ALIGN_4
+  	
+ .L999:
++	movl	M,J
++	leal	(,J,SIZE),%eax
++	addl	%eax,AA
++	movl	XX,J
++	addl	%eax,J
++	movl	J,XX
++	jmp		.L0t
++	ALIGN_4
++
++.L999x:
+ 	popl	%ebx
+ 	popl	%esi
+ 	popl	%edi	
+ 	popl	%ebp
++
++	addl	$ARGS,%esp
+ 	ret
+ 
+ 	EPILOGUE
+--- a/kernel/x86/gemv_t_sse2.S
++++ b/kernel/x86/gemv_t_sse2.S
+@@ -76,18 +76,24 @@
+ #endif
+ 
+ #define STACKSIZE	16
++#define ARGS	16
++
++#define M		 4 + STACKSIZE+ARGS(%esp)
++#define N		 8 + STACKSIZE+ARGS(%esp)
++#define ALPHA		16 + STACKSIZE+ARGS(%esp)
++#define A		24 + STACKSIZE+ARGS(%esp)
++#define STACK_LDA	28 + STACKSIZE+ARGS(%esp)
++#define STACK_X		32 + STACKSIZE+ARGS(%esp)
++#define STACK_INCX	36 + STACKSIZE+ARGS(%esp)
++#define Y		40 + STACKSIZE+ARGS(%esp)
++#define STACK_INCY	44 + STACKSIZE+ARGS(%esp)
++#define BUFFER		48 + STACKSIZE+ARGS(%esp)
++
++#define MMM	0+STACKSIZE(%esp)
++#define AA	4+STACKSIZE(%esp)
++#define LDAX 8+STACKSIZE(%esp)
++#define NN	12+STACKSIZE(%esp)
+ 
+-#define M		 4 + STACKSIZE(%esp)
+-#define N		 8 + STACKSIZE(%esp)
+-#define ALPHA		16 + STACKSIZE(%esp)
+-#define A		24 + STACKSIZE(%esp)
+-#define STACK_LDA	28 + STACKSIZE(%esp)
+-#define STACK_X		32 + STACKSIZE(%esp)
+-#define STACK_INCX	36 + STACKSIZE(%esp)
+-#define Y		40 + STACKSIZE(%esp)
+-#define STACK_INCY	44 + STACKSIZE(%esp)
+-#define BUFFER		48 + STACKSIZE(%esp)
+-	
+ #define I	%eax
+ #define J	%ebx
+ 
+@@ -101,6 +107,8 @@
+ 
+ 	PROLOGUE
+ 
++	subl	$ARGS,%esp
++
+ 	pushl	%ebp
+ 	pushl	%edi
+ 	pushl	%esi
+@@ -108,7 +116,40 @@
+ 
+ 	PROFCODE
+ 
++
+ 	movl	STACK_LDA,  LDA
++	movl	LDA,LDAX			# backup LDA
++	movl	N,J
++	movl	J,NN				# backup N
++	movl	A,J
++	movl	J,AA				# backup A
++    movl	M,J
++	movl	J,MMM				# mov M to MMM
++.L0t:
++	xorl	J,J
++	addl	$1,J
++	sall    $21,J                           # J=2^21*sizeof(double)=buffer size(16MB)
++	subl    $4, J                           # Don't use last 4 double in the buffer.
++	                                        # Now, split M by block J
++	subl	J,MMM				# MMM=MMM-J
++	movl	J,M		
++	jge		.L00t
++	ALIGN_4
++	
++	movl	MMM,%eax
++	addl	J,%eax
++	jle		.L999x
++	movl	%eax,M
++
++.L00t:
++	movl	AA,%eax
++	movl	%eax,A			 	# mov AA to A
++
++	movl	NN,%eax
++	movl	%eax,N				# reset N
++
++
++	movl	LDAX,  LDA			# reset LDA
+ 	movl	STACK_X,    X
+ 	movl	STACK_INCX, INCX
+ 	movl	STACK_INCY, INCY
+@@ -117,6 +158,7 @@
+ 	leal	(,INCY, SIZE), INCY
+ 	leal	(,LDA,  SIZE), LDA
+ 
++
+ 	subl	$-16 * SIZE, A
+ 
+ 	cmpl	$0, N
+@@ -560,10 +602,19 @@
+ 	ALIGN_4
+ 	
+ .L999:
++	movl 	M,J
++	leal 	(,J,SIZE),%eax
++	addl	%eax,AA
++	jmp		.L0t
++	ALIGN_4
++
++.L999x:
+ 	popl	%ebx
+ 	popl	%esi
+ 	popl	%edi	
+ 	popl	%ebp
++
++	addl	$ARGS,%esp
+ 	ret
+ 
+ 	EPILOGUE
+--- a/kernel/x86_64/sgemv_t.S
++++ b/kernel/x86_64/sgemv_t.S
+@@ -47,7 +47,7 @@
+ 	
+ #ifndef WINDOWS_ABI
+ 
+-#define STACKSIZE	64
++#define STACKSIZE	128
+ 	
+ #define OLD_M	  %rdi
+ #define OLD_N	  %rsi
+@@ -57,6 +57,10 @@
+ #define STACK_Y		16 + STACKSIZE(%rsp)
+ #define STACK_INCY	24 + STACKSIZE(%rsp)
+ #define STACK_BUFFER	32 + STACKSIZE(%rsp)
++#define MMM		56(%rsp)
++#define NN		64(%rsp)
++#define AA		72(%rsp)
++#define LDAX	80(%rsp)
+ 
+ #else
+ 
+@@ -71,6 +75,10 @@
+ #define STACK_Y		 72 + STACKSIZE(%rsp)
+ #define STACK_INCY	 80 + STACKSIZE(%rsp)
+ #define STACK_BUFFER	 88 + STACKSIZE(%rsp)
++#defien MMM	216(%rsp)
++#defien NN	224(%rsp)
++#define AA	232(%rsp)
++#define LDAX 240(%rsp)
+ 
+ #endif
+ 
+@@ -127,29 +135,46 @@
+ 	movups	%xmm14, 192(%rsp)
+ 	movups	%xmm15, 208(%rsp)
+ 
+-	movq	OLD_M,	      M
+-	movq	OLD_N,        N
+-	movq	OLD_A,        A
+-	movq	OLD_LDA,      LDA
++	movq	OLD_M,	      MMM
++	movq	OLD_N,        NN
++	movq	OLD_A,        AA
++	movq	OLD_LDA,      LDAX
+ 	movq	OLD_X,        X
+ #else
+-	movq	OLD_M,	      M
+-	movq	OLD_N,        N
+-	movq	OLD_A,        A
+-	movq	OLD_LDA,      LDA
++	movq	OLD_M,	      MMM
++	movq	OLD_N,        NN
++	movq	OLD_A,        AA
++	movq	OLD_LDA,      LDAX
+ #endif
+-
+-	movq	STACK_INCX,   INCX
+-	movq	STACK_Y,      Y
+-	movq	STACK_INCY,   INCY
+-	movq	STACK_BUFFER, BUFFER
+-
+ #ifndef WINDOWS_ABI
+ 	pshufd	$0, %xmm0, ALPHA
+ #else
+ 	pshufd	$0, %xmm3, ALPHA
+ #endif
+ 
++
++.L0t:
++	xorq	M,M
++	addq	$1,M
++	salq	$22,M
++	subq	M,MMM
++	jge		.L00t
++	ALIGN_4
++	
++	movq	MMM,%rax
++	addq	M,%rax
++	jle		.L999x
++	movq	%rax,M
++
++.L00t:
++	movq	LDAX,LDA
++	movq	NN,N
++	movq	AA,A
++	movq	STACK_INCX,   INCX
++	movq	STACK_Y,      Y
++	movq	STACK_INCY,   INCY
++	movq	STACK_BUFFER, BUFFER
++
+ 	leaq	(,INCX, SIZE), INCX
+ 	leaq	(,INCY, SIZE), INCY
+ 	leaq	(,LDA,  SIZE), LDA
+@@ -6341,6 +6366,12 @@
+ 	ALIGN_4
+ 
+ .L999:
++	leaq	(,M,SIZE),%rax
++	addq	%rax,AA
++	jmp		.L0t
++	ALIGN_4
++
++.L999x:
+ 	movq	  0(%rsp), %rbx
+ 	movq	  8(%rsp), %rbp
+ 	movq	 16(%rsp), %r12
+--- a/kernel/x86/gemv_n_sse.S
++++ b/kernel/x86/gemv_n_sse.S
+@@ -89,17 +89,22 @@
+ #endif
+ 
+ #define STACKSIZE	16
++#define ARGS	16
+ 
+-#define M		 4 + STACKSIZE(%esp)
+-#define N		 8 + STACKSIZE(%esp)
+-#define ALPHA		16 + STACKSIZE(%esp)
+-#define A		20 + STACKSIZE(%esp)
+-#define STACK_LDA	24 + STACKSIZE(%esp)
+-#define STACK_X		28 + STACKSIZE(%esp)
+-#define STACK_INCX	32 + STACKSIZE(%esp)
+-#define Y		36 + STACKSIZE(%esp)
+-#define STACK_INCY	40 + STACKSIZE(%esp)
+-#define BUFFER		44 + STACKSIZE(%esp)
++#define M		 4 + STACKSIZE+ARGS(%esp)
++#define N		 8 + STACKSIZE+ARGS(%esp)
++#define ALPHA		16 + STACKSIZE+ARGS(%esp)
++#define A		20 + STACKSIZE+ARGS(%esp)
++#define STACK_LDA	24 + STACKSIZE+ARGS(%esp)
++#define STACK_X		28 + STACKSIZE+ARGS(%esp)
++#define STACK_INCX	32 + STACKSIZE+ARGS(%esp)
++#define Y		36 + STACKSIZE+ARGS(%esp)
++#define STACK_INCY	40 + STACKSIZE+ARGS(%esp)
++#define BUFFER		44 + STACKSIZE+ARGS(%esp)
++#define MMM	0+ARGS(%esp)
++#define YY	4+ARGS(%esp)
++#define AA	8+ARGS(%esp)
++#define LDAX	12+ARGS(%esp)
+ 	
+ #define I	%eax
+ #define J	%ebx
+@@ -114,6 +119,7 @@
+ 
+ 	PROLOGUE
+ 
++	subl	$ARGS,%esp
+ 	pushl	%ebp
+ 	pushl	%edi
+ 	pushl	%esi
+@@ -121,7 +127,34 @@
+ 
+ 	PROFCODE
+ 
++	movl	Y,J
++	movl	J,YY				# backup Y
++	movl	A,J
++	movl	J,AA				# backup A
++	movl	M,J
++	movl	J,MMM				# backup MM
++.L0t:
++	xorl	J,J
++	addl	$1,J
++	sall	$21,J
++	subl	J,MMM
++	movl	J,M
++	jge		.L00t
++	ALIGN_4
++
++	movl	MMM,%eax
++	addl	J,%eax
++	jle		.L999x
++	movl	%eax,M
++
++.L00t:
++	movl	AA,%eax
++	movl	%eax,A
++
++	movl	YY,J
++	movl	J,Y
+ 	movl	STACK_LDA,  LDA
++
+ 	movl	STACK_X,    X
+ 	movl	STACK_INCX, INCX
+ 
+@@ -651,12 +684,22 @@
+ 	addss	0 * SIZE(X), %xmm0
+ 	movss	%xmm0, (Y1)
+ 	ALIGN_3
+-
+ .L999:
++	movl	M,J
++	leal	(,J,SIZE),%eax
++	addl	%eax,AA
++	movl	YY,J
++	addl	%eax,J
++	movl	J,YY
++	jmp		.L0t
++	ALIGN_4
++
++.L999x:
+ 	popl	%ebx
+ 	popl	%esi
+ 	popl	%edi	
+ 	popl	%ebp
++	addl	$ARGS,%esp
+ 	ret
+ 
+ 	EPILOGUE
+--- a/kernel/x86/gemv_n_sse2.S
++++ b/kernel/x86/gemv_n_sse2.S
+@@ -76,17 +76,22 @@
+ #endif
+ 
+ #define STACKSIZE	16
++#define ARGS	16
+ 
+-#define M		 4 + STACKSIZE(%esp)
+-#define N		 8 + STACKSIZE(%esp)
+-#define ALPHA		16 + STACKSIZE(%esp)
+-#define A		24 + STACKSIZE(%esp)
+-#define STACK_LDA	28 + STACKSIZE(%esp)
+-#define STACK_X		32 + STACKSIZE(%esp)
+-#define STACK_INCX	36 + STACKSIZE(%esp)
+-#define Y		40 + STACKSIZE(%esp)
+-#define STACK_INCY	44 + STACKSIZE(%esp)
+-#define BUFFER		48 + STACKSIZE(%esp)
++#define M		 4 + STACKSIZE+ARGS(%esp)
++#define N		 8 + STACKSIZE+ARGS(%esp)
++#define ALPHA		16 + STACKSIZE+ARGS(%esp)
++#define A		24 + STACKSIZE+ARGS(%esp)
++#define STACK_LDA	28 + STACKSIZE+ARGS(%esp)
++#define STACK_X		32 + STACKSIZE+ARGS(%esp)
++#define STACK_INCX	36 + STACKSIZE+ARGS(%esp)
++#define Y		40 + STACKSIZE+ARGS(%esp)
++#define STACK_INCY	44 + STACKSIZE+ARGS(%esp)
++#define BUFFER		48 + STACKSIZE+ARGS(%esp)
++
++#define MMM	0+ARGS(%esp)
++#define YY	4+ARGS(%esp)
++#define AA	8+ARGS(%esp)
+ 	
+ #define I	%eax
+ #define J	%ebx
+@@ -101,6 +106,8 @@
+ 
+ 	PROLOGUE
+ 
++
++	subl	$ARGS,%esp
+ 	pushl	%ebp
+ 	pushl	%edi
+ 	pushl	%esi
+@@ -108,6 +115,33 @@
+ 
+ 	PROFCODE
+ 
++	movl	Y,J
++	movl	J,YY				# backup Y
++	movl	A,J
++	movl	J,AA				# backup A
++	movl	M,J
++	movl	J,MMM				# backup MM
++.L0t:
++	xorl	J,J
++	addl	$1,J
++	sall	$20,J
++	subl	J,MMM
++	movl	J,M
++	jge		.L00t
++	ALIGN_4
++
++	movl	MMM,%eax
++	addl	J,%eax
++	jle		.L999x
++	movl	%eax,M
++
++.L00t:
++	movl	AA,%eax
++	movl	%eax,A
++
++	movl	YY,J
++	movl	J,Y
++
+ 	movl	STACK_LDA,  LDA
+ 	movl	STACK_X,    X
+ 	movl	STACK_INCX, INCX
+@@ -677,10 +711,22 @@
+ 	ALIGN_3
+ 
+ .L999:
++	movl	M,J
++	leal	(,J,SIZE),%eax
++	addl	%eax,AA
++	movl	YY,J
++	addl	%eax,J
++	movl	J,YY
++	jmp		.L0t
++	ALIGN_4
++
++.L999x:
++
+ 	popl	%ebx
+ 	popl	%esi
+ 	popl	%edi	
+ 	popl	%ebp
++	addl	$ARGS,%esp
+ 	ret
+ 
+ 	EPILOGUE
+--- a/kernel/x86_64/dgemv_t.S
++++ b/kernel/x86_64/dgemv_t.S
+@@ -47,7 +47,7 @@
+ 
+ #ifndef WINDOWS_ABI
+ 
+-#define STACKSIZE	64
++#define STACKSIZE	128
+ 	
+ #define OLD_M	  %rdi
+ #define OLD_N	  %rsi
+@@ -57,7 +57,10 @@
+ #define STACK_Y		16 + STACKSIZE(%rsp)
+ #define STACK_INCY	24 + STACKSIZE(%rsp)
+ #define STACK_BUFFER	32 + STACKSIZE(%rsp)
+-
++#define MMM	56(%rsp)
++#define NN	64(%rsp)
++#define AA	72(%rsp)
++#define LDAX	80(%rsp)
+ #else
+ 
+ #define STACKSIZE	256
+@@ -71,6 +74,11 @@
+ #define STACK_Y		 72 + STACKSIZE(%rsp)
+ #define STACK_INCY	 80 + STACKSIZE(%rsp)
+ #define STACK_BUFFER	 88 + STACKSIZE(%rsp)
++//Temp variables for M,N,A,LDA
++#define MMM	224(%rsp)
++#define NN	232(%rsp)
++#define AA	240(%rsp)
++#define LDAX	248(%rsp)
+ 
+ #endif
+ 
+@@ -131,13 +139,51 @@
+ 	movq	OLD_A,        A
+ 	movq	OLD_LDA,      LDA
+ 	movq	OLD_X,        X
++
++	movq	M,	      MMM
++	movq	N,            NN
++	movq	A,            AA
++	movq	LDA,	      LDAX
++
+ #else
+-	movq	OLD_M,	      M
+-	movq	OLD_N,        N
+-	movq	OLD_A,        A
+-	movq	OLD_LDA,      LDA
++	movq	OLD_M,	      MMM
++	movq	OLD_N,        NN
++	movq	OLD_A,        AA
++	movq	OLD_LDA,      LDAX
++#endif
++#ifdef HAVE_SSE3
++#ifndef WINDOWS_ABI
++	movddup	%xmm0, ALPHA
++#else
++	movddup	%xmm3, ALPHA
++#endif
++#else
++#ifndef WINDOWS_ABI
++	movapd	%xmm0, ALPHA
++#else
++	movapd	%xmm3, ALPHA
++#endif
++	unpcklpd ALPHA, ALPHA
+ #endif
+ 
++
++
++.L0x:
++	xorq	M,M
++	addq	$1,M
++	salq	$22,M
++	subq	M,MMM
++	jge .L00
++
++	movq	MMM,%rax
++	addq	M,%rax
++	jle	.L999x
++	movq	%rax,M
++
++.L00:	
++	movq	LDAX,LDA
++	movq	NN,N
++	movq	AA,A
+ 	movq	STACK_INCX,   INCX
+ 	movq	STACK_Y,      Y
+ 	movq	STACK_INCY,   INCY
+@@ -153,21 +199,6 @@
+ 
+ 	subq	$-16 * SIZE, A
+ 
+-#ifdef HAVE_SSE3
+-#ifndef WINDOWS_ABI
+-	movddup	%xmm0, ALPHA
+-#else
+-	movddup	%xmm3, ALPHA
+-#endif
+-#else
+-#ifndef WINDOWS_ABI
+-	movapd	%xmm0, ALPHA
+-#else
+-	movapd	%xmm3, ALPHA
+-#endif
+-	unpcklpd ALPHA, ALPHA
+-#endif
+-
+ 	testq	M, M
+ 	jle	.L999
+ 	testq	N, N
+@@ -854,7 +885,6 @@
+ 
+ .L21:
+ #endif
+-
+ 	subq	$4, N
+ 
+ 	leaq	16 * SIZE(BUFFER), X1
+@@ -2461,6 +2491,12 @@
+ 	ALIGN_4
+ 
+ .L999:
++	leaq	(, M, SIZE), %rax
++	addq %rax,AA
++	jmp .L0x;
++	ALIGN_4
++
++.L999x:
+ 	movq	  0(%rsp), %rbx
+ 	movq	  8(%rsp), %rbp
+ 	movq	 16(%rsp), %r12

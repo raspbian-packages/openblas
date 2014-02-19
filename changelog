@@ -1,0 +1,193 @@
+openblas (0.1.1-6+deb7u3) wheezy; urgency=low
+
+  * fork-handler.patch: fixes hangs of OpenBLAS when called from a program
+    using OpenMP (Closes: #739331)
+
+ -- Sébastien Villemot <sebastien@debian.org>  Wed, 19 Feb 2014 18:41:55 +0100
+
+openblas (0.1.1-6+deb7u2) stable; urgency=low
+
+  * power7.patch: new patch, fixes FTBFS on powerpc machines with Power7 arch
+
+ -- Sébastien Villemot <sebastien@debian.org>  Tue, 04 Jun 2013 10:09:50 +0200
+
+openblas (0.1.1-6+deb7u1) stable; urgency=low
+
+  * sgemv_uninitialized_buffer.diff: new patch taken from upstream, ensures that
+    vectorized sgemv does not use uninitialized data (Closes: #696000)
+  * dot_uninitialized_buffer.diff: new patch taken from upstream, ensures that
+    vectorized dot does not use uninitialized data
+  * gemv_crash_big_data.diff: new patch taken from upstream, fixes crashes of
+    gemv on big input data (Closes: #697231)
+  * 32bit_athlon.diff: new patch taken from upstream, fixes crashes on 32-bit
+    Athlon CPUs (Closes: #697233)
+
+ -- Sébastien Villemot <sebastien@debian.org>  Sat, 05 Jan 2013 14:13:23 +0100
+
+openblas (0.1.1-6) unstable; urgency=low
+
+  * kill_threads_at_unload.diff: new patch, taken upstream (Closes: #673061)
+
+ -- Sébastien Villemot <sebastien.villemot@ens.fr>  Sat, 11 Aug 2012 15:47:58 +0000
+
+openblas (0.1.1-5) unstable; urgency=low
+
+  * libopenblas-base.prerm: avoid crash if libblas.so.3gf already deleted
+  * Add myself to Uploaders
+  * Set DM-Upload-Allowed to yes
+
+ -- Sébastien Villemot <sebastien.villemot@ens.fr>  Sun, 24 Jun 2012 16:15:11 +0000
+
+openblas (0.1.1-4) unstable; urgency=low
+
+  * Fix the FTBFS under KFreebsd. Thanks to Sébastien Villemot (Closes: #677165)
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Wed, 13 Jun 2012 10:29:51 +0200
+
+openblas (0.1.1-3) unstable; urgency=low
+
+  * Upload in unstable
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Sat, 02 Jun 2012 17:33:58 +0200
+
+openblas (0.1.1-3~exp4) experimental; urgency=low
+
+  * Rollback previous upload
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Fri, 01 Jun 2012 11:04:51 +0200
+
+openblas (0.1.1-3~exp3) experimental; urgency=low
+
+  * Fix a bad alternative link to the old library name
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Fri, 01 Jun 2012 10:28:09 +0200
+
+openblas (0.1.1-3~exp2) experimental; urgency=low
+
+  * Fix FTBFS (Closes: #666277)
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Wed, 30 May 2012 14:52:40 +0200
+
+openblas (0.1.1-3~exp1) experimental; urgency=low
+
+  * Replaces and Breaks updated against the right versions of other impacted
+    packages
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Mon, 21 May 2012 13:13:46 +0200
+
+openblas (0.1.1-2) experimental; urgency=low
+
+  * Moved removal from postinst to preinst
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Fri, 18 May 2012 15:58:32 +0200
+
+openblas (0.1.1-1) experimental; urgency=low
+
+  * New upstream release
+  * Remove libblas.so.3gf references before the install
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Mon, 14 May 2012 18:47:53 +0200
+
+openblas (0.1.0-1) experimental; urgency=low
+
+  * New upstream release
+  * Standards-Version updated to 3.9.3
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Wed, 04 Apr 2012 14:31:34 +0200
+
+openblas (0.1alpha2.5-1~exp2) experimental; urgency=low
+
+  * Join modifications with blas, lapack, atlas and openblas.
+    Declare the replacements of all *3gf blas & lapack implementation
+    (See bug #660607)
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Mon, 20 Feb 2012 19:33:41 +0100
+
+openblas (0.1alpha2.5-1~exp1) experimental; urgency=low
+
+  * New upstream release
+  * Fix an upgrade issue (Closes: #659786)
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Sun, 19 Feb 2012 15:50:41 +0100
+
+openblas (0.1alpha2.3-1~exp1) experimental; urgency=low
+
+  * New upstream release
+    Fix FTBFS under KfreeBSD (Closes: #635552)
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Mon, 05 Sep 2011 15:24:24 +0200
+
+openblas (0.1alpha2.2-4~exp1) experimental; urgency=low
+
+  * Rename the reference libblas.so.3gf to libblas.so.3
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Sat, 03 Sep 2011 20:24:39 +0200
+
+openblas (0.1alpha2.2-3) unstable; urgency=low
+
+  * Same player try again: the lib has different names with build with the
+    dynamic arch or not.
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Tue, 26 Jul 2011 18:40:04 +0200
+
+openblas (0.1alpha2.2-2) unstable; urgency=low
+
+  * Disable dynamic arch on non amd64 / i386 archs (Closes: #631887)
+  * Fix a FTBFS under hurd
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Tue, 26 Jul 2011 16:56:27 +0200
+
+openblas (0.1alpha2.2-1) unstable; urgency=low
+
+  * New upstream release (Closes: #631886)
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Mon, 25 Jul 2011 10:46:44 +0200
+
+openblas (0.1alpha2.1-1) unstable; urgency=low
+
+  * New upstream release
+  * gfortran added a build dep
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Wed, 29 Jun 2011 21:18:48 +0200
+
+openblas (0.1alpha2-1) unstable; urgency=low
+
+  * New upstream release
+  * Good news: use DYNAMIC_ARCH=1 in the build option of OpenBLAS/Gotoblas
+    to support multiple architecture. All kernel will be included in the library
+    and dynamically switched the best architecture at run time.
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Thu, 23 Jun 2011 10:44:43 +0200
+
+openblas (0.1alpha1-4) experimental; urgency=low
+
+  * Fix FTBFS under kfreebsd, sparc & hurd.
+  * Limit architectures to amd64 i386 ia64 powerpc powerpcspe ppc64
+    kfreebsd-i386 kfreebsd-amd64 hurd-i386 sparc
+  * cherry-pick from upstream to fail build when the arch is not supported
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Mon, 30 May 2011 17:05:23 +0200
+
+openblas (0.1alpha1-3) experimental; urgency=low
+
+  * clean target now really cleans everything. Thanks to Ryan Lovett
+    (Closes: #624253)
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Wed, 04 May 2011 18:03:10 +0200
+
+openblas (0.1alpha1-2) experimental; urgency=low
+
+  * Update the README.Debian file
+  * watch file removed for now (it was the one from atlas)
+  * Fix a custom build issue (thanks to Ryan Lovett for the bug report)
+  * Fix a FTBFS under sparc
+  * Switch to dpkg-source 3.0 (quilt) format
+  * Standards-Version updated to version 3.9.2
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Sat, 16 Apr 2011 15:23:22 +0200
+
+openblas (0.1alpha1-1) experimental; urgency=low
+
+  * Initial version (Closes: #605456)
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Fri, 04 Feb 2011 18:28:26 +0100

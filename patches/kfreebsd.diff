@@ -1,0 +1,11 @@
+--- openblas-0.1alpha1.orig/ctest.c	2011-05-30 14:55:26.000000000 +0000
++++ openblas-0.1alpha1/ctest.c	2011-05-30 14:55:20.000000000 +0000
+@@ -34,7 +34,7 @@
+ OS_LINUX
+ #endif
+ 
+-#if defined(__FreeBSD__)
++#if defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
+ OS_FreeBSD
+ #endif
+ 

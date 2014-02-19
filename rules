@@ -1,0 +1,53 @@
+#!/usr/bin/make -f
+# Sylvestre Ledru <sylvestre@debian.org>
+
+include /usr/share/cdbs/1/rules/debhelper.mk
+
+DEB_DH_MAKESHLIBS_ARGS_libopenblas-base = -n
+
+COMMON_MAKE_OPTIONS = "NO_LAPACK=1"
+ENABLE_DYNAMIC_ARCHS := amd64 i386 kfreebsd-amd64 kfreebsd-i386
+ifneq (,$(findstring $(DEB_HOST_ARCH),$(ENABLE_DYNAMIC_ARCHS)))
+	DYNAMIC_ARCH_ARG="DYNAMIC_ARCH=1"
+	TARGET_GENERIC_ARG="TARGET=GENERIC"
+endif
+
+build: build-arch
+
+build-arch: build-stamp
+
+build-stamp:
+	if test "$(TARGET)" = ""; then 		\
+			echo "Support multiple architectures"; \
+			$(MAKE) $(COMMON_MAKE_OPTIONS) $(DYNAMIC_ARCH_ARG) $(TARGET_GENERIC_ARG);		\
+	fi
+
+	if test "$(TARGET)" = "custom"; then 		\
+			echo "Leave the detection to GotoBLAS / OpenBLAS"; \
+			$(MAKE) $(COMMON_MAKE_OPTIONS); 								\
+	fi
+
+	if test "$(TARGET)" != "" -a "$(TARGET)" != "custom"; then 		\
+			echo "Use the value '$(TARGET)' provided by the user";	\
+			$(MAKE) $(COMMON_MAKE_OPTIONS) TARGET=$(TARGET);									\
+	fi;
+
+	rm libopenblas.so
+	mv libopenblas*-*.so libopenblas.so.0
+	ln -s libopenblas.so.0 libopenblas.so
+	mv libopenblas*-*.a libopenblas.a
+	touch $@
+
+custom: custom-stamp
+	dch --local='+custom'  "custom build on: `uname -a`"
+	LANG=C debian/rules TARGET=custom build binary
+
+clean::
+	$(MAKE) clean
+	rm -f libopenblas.so.0
+
+# Build a custom package optimized for the current arch
+custom-stamp:
+
+get-orig-source:
+	-uscan --upstream-version 0
