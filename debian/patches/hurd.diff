@@ -1,0 +1,16 @@
+Index: openblas-0.1alpha1/ctest.c
+===================================================================
+--- openblas-0.1alpha1.orig/ctest.c	2011-05-30 17:02:35.000000000 +0200
++++ openblas-0.1alpha1/ctest.c	2011-05-30 17:04:39.000000000 +0200
+@@ -70,6 +70,11 @@
+ OS_INTERIX
+ #endif
+ 
++#if defined(__gnu_hurd__)
++/* Hurd is very similar to GNU/Linux, it should work out of the box */
++OS_LINUX
++#endif
++
+ #if defined(__i386) || defined(_X86)
+ ARCH_X86
+ #endif

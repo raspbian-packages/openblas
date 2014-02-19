@@ -1,0 +1,3 @@
+version=3
+opts=filenamemangle=s/.+\/tarball\/v(.+)$/openblas_$1.orig.tar.gz/ \
+https://github.com/xianyi/OpenBLAS/tags .*/tarball/v(\d[\d\.]+)

@@ -1,0 +1,19 @@
+Description: Make OpenBLAS compile on Power7 architecture
+ The workaround is to fallback on the Power6 arch on these machines. This seems
+ to work (did a small test on partch.debian.org).
+Author: Sébastien Villemot <sebastien@debian.org>
+Bug: https://github.com/xianyi/OpenBLAS/issues/220
+Applied-Upstream: https://github.com/xianyi/OpenBLAS/commit/109500178ca1b45ae1afb476daad75a1955f5fbe
+Last-Update: 2013-06-04
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/cpuid_power.c
++++ b/cpuid_power.c
+@@ -114,6 +114,7 @@
+   if (!strncasecmp(p, "PPC970", 6)) return CPUTYPE_PPC970;
+   if (!strncasecmp(p, "POWER5", 6)) return CPUTYPE_POWER5;
+   if (!strncasecmp(p, "POWER6", 6)) return CPUTYPE_POWER6;
++  if (!strncasecmp(p, "POWER7", 6)) return CPUTYPE_POWER6;
+   if (!strncasecmp(p, "Cell",   4)) return CPUTYPE_CELL;
+   if (!strncasecmp(p, "7447",   4)) return CPUTYPE_PPCG4;
+ 

@@ -1,0 +1,19 @@
+Index: openblas-0.1alpha2.2/common_linux.h
+===================================================================
+--- openblas-0.1alpha2.2.orig/common_linux.h	2011-07-26 16:39:34.000000000 +0200
++++ openblas-0.1alpha2.2/common_linux.h	2011-07-26 16:41:03.000000000 +0200
+@@ -78,7 +78,13 @@
+   return syscall(SYS_set_mempolicy, mode, addr, flag);
+ }
+ 
+-static inline int my_gettid(void) { return syscall(SYS_gettid); }
++static inline int my_gettid(void) { 
++#ifdef SYS_gettid
++return syscall(SYS_gettid); 
++#else
++return getpid();
++#endif
++}
+ 
+ #endif
+ #endif

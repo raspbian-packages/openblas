@@ -1,0 +1,75 @@
+Description: Ensure that vectorized dot product does not use uninitialized data
+Origin: upstream,
+        https://github.com/xianyi/OpenBLAS/commit/d311236dfdefa41f31a2e7fefa548abf47f0461c
+Bug: https://github.com/xianyi/OpenBLAS/issues/189
+Last-Update: 2013-01-31
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/kernel/x86_64/dot_sse.S
++++ b/kernel/x86_64/dot_sse.S
+@@ -530,7 +530,7 @@
+ #endif
+ 	movsd	-32 * SIZE(Y), %xmm8
+ 
+-	pshufd	$0x39, %xmm4,  %xmm5
++	pshufd	$0x29, %xmm4,  %xmm5
+ 
+ 	mulps	%xmm8,  %xmm5
+ 	addps	%xmm5,  %xmm3
+@@ -750,7 +750,8 @@
+ 	xorps	%xmm5, %xmm5
+ 	movhlps	%xmm4, %xmm5
+ 
+-	mulps	-32 * SIZE(Y), %xmm5
++	movlps  -32 * SIZE(Y), %xmm4
++	mulps	%xmm4, %xmm5
+ 	addps	%xmm5, %xmm0
+ 
+ 	addq	$2 * SIZE, X
+@@ -992,7 +993,7 @@
+ 	movsd	-32 * SIZE(Y), %xmm8
+ 
+ 	movss	%xmm5, %xmm4
+-	shufps	$0x93, %xmm5,  %xmm4
++	shufps	$0x93, %xmm4,  %xmm4
+ 
+ 	mulps	%xmm8,  %xmm4
+ 	addps	%xmm4,  %xmm3
+--- a/kernel/x86_64/zdot_sse.S
++++ b/kernel/x86_64/zdot_sse.S
+@@ -699,7 +699,7 @@
+ 	movsd	-32 * SIZE(X), %xmm4
+ 
+ 	pshufd	$0xb1,  %xmm4, %xmm12 
+-	shufps	$0x39,  %xmm8, %xmm8
++	shufps	$0x59,  %xmm8, %xmm8
+ 	mulps	%xmm8,  %xmm4
+ 	addps	%xmm4,  %xmm0
+ 	mulps	%xmm8,  %xmm12
+@@ -1336,7 +1336,7 @@
+ 
+ 	movss	%xmm9,  %xmm8
+ 	pshufd	$0xb1,  %xmm4, %xmm12 
+-	shufps	$0x93,  %xmm8, %xmm8
++	shufps	$0x03,  %xmm8, %xmm8
+ 	mulps	%xmm8,  %xmm4
+ 	addps	%xmm4,  %xmm0
+ 	mulps	%xmm8,  %xmm12
+@@ -1697,7 +1697,7 @@
+ 	movsd	-32 * SIZE(Y), %xmm4
+ 
+ 	pshufd	$0xb1,  %xmm4, %xmm12 
+-	shufps	$0x39,  %xmm8, %xmm8
++	shufps	$0xa9,  %xmm8, %xmm8
+ 	mulps	%xmm8,  %xmm4
+ 	addps	%xmm4,  %xmm0
+ 	mulps	%xmm8,  %xmm12
+@@ -2024,7 +2024,7 @@
+ 
+ 	movss	%xmm9,  %xmm8
+ 	pshufd	$0xb1,  %xmm4, %xmm12 
+-	shufps	$0x93,  %xmm8, %xmm8
++	shufps	$0x03,  %xmm8, %xmm8
+ 	mulps	%xmm8,  %xmm4
+ 	addps	%xmm4,  %xmm0
+ 	mulps	%xmm8,  %xmm12

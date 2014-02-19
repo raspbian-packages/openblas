@@ -1,0 +1,21 @@
+Description: Fix crash on 32-bit Athlon CPU
+Origin: upstream, https://github.com/xianyi/OpenBLAS/commit/9fb341a9f8d94e4d532d51b1216d92e74a67a569
+Bug-Debian: http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=697233
+Last-Update: 2013-01-04
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/kernel/setparam-ref.c
++++ b/kernel/setparam-ref.c
+@@ -634,10 +634,10 @@ static void init_parameter(void) {
+   TABLE_NAME.xgemm_q = XGEMM_DEFAULT_Q;
+ #endif
+ 
+-#if defined(CORE_KATMAI)  || defined(CORE_COPPERMINE) || defined(CORE_BANIAS) || defined(CORE_YONAH)
++#if defined(CORE_KATMAI)  || defined(CORE_COPPERMINE) || defined(CORE_BANIAS) || defined(CORE_YONAH) || defined(CORE_ATHLON)
+ 
+ #ifdef DEBUG
+-  fprintf(stderr, "Katmai, Coppermine, Banias\n");
++  fprintf(stderr, "Katmai, Coppermine, Banias, Athlon\n");
+ #endif
+ 
+   TABLE_NAME.sgemm_p =  64 * (l2 >> 7);

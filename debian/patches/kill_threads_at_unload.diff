@@ -1,0 +1,43 @@
+Description: Kill the threads when unloading the library
+Origin: https://github.com/xianyi/OpenBLAS/commit/a55821a2ec514ca0a20a07e436bcc82d2f9c962e
+Bug: https://github.com/xianyi/OpenBLAS/issues/132
+Bug-Debian: http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=673061
+
+diff --git a/driver/others/blas_server.c b/driver/others/blas_server.c
+index 66067a0..f16b827 100644
+--- a/driver/others/blas_server.c
++++ b/driver/others/blas_server.c
+@@ -435,7 +435,7 @@ static int blas_thread_server(void *arg){
+ 
+   blas_memory_free(buffer);
+ 
+-  pthread_exit(NULL);
++  //pthread_exit(NULL);
+ 
+   return 0;
+ }
+diff --git a/driver/others/blas_server_win32.c b/driver/others/blas_server_win32.c
+index c71e7c2..16eed4c 100644
+--- a/driver/others/blas_server_win32.c
++++ b/driver/others/blas_server_win32.c
+@@ -433,7 +433,7 @@ int exec_blas(BLASLONG num, blas_queue_t *queue){
+ /* Shutdown procedure, but user don't have to call this routine. The */
+ /* kernel automatically kill threads.                                */
+ 
+-int blas_thread_shutdown_(void){
++int BLASFUNC(blas_thread_shutdown)(void){
+ 
+   int i;
+ 
+diff --git a/driver/others/memory.c b/driver/others/memory.c
+index af9b54e..ff8cc24 100644
+--- a/driver/others/memory.c
++++ b/driver/others/memory.c
+@@ -1289,6 +1289,7 @@ void DESTRUCTOR gotoblas_quit(void) {
+    moncontrol (1);
+ #endif
+ 
++   blas_shutdown();
+ }
+ 
+ #if (defined(C_PGI) || (!defined(C_SUN) && defined(F_INTERFACE_SUN))) && (defined(ARCH_X86) || defined(ARCH_X86_64))
