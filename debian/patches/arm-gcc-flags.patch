@@ -1,0 +1,21 @@
+Description: Remove custom GCC flags on ARM CPUs
+Author: Sébastien Villemot <sebastien@debian.org>
+Forwarded: not-needed
+Last-Update: 2014-06-15
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/Makefile.arm
++++ b/Makefile.arm
+@@ -1,12 +1,8 @@
+ 
+ ifeq ($(CORE), ARMV7)
+-CCOMMON_OPT += -marm -mfpu=vfpv3  -mfloat-abi=hard -march=armv7-a
+-FCOMMON_OPT += -marm -mfpu=vfpv3  -mfloat-abi=hard -march=armv7-a
+ endif
+ 
+ ifeq ($(CORE), ARMV6)
+-CCOMMON_OPT += -marm -mfpu=vfp -mfloat-abi=hard  -march=armv6
+-FCOMMON_OPT += -marm -mfpu=vfp -mfloat-abi=hard  -march=armv6
+ endif
+ 
+ 

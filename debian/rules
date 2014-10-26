@@ -1,0 +1,88 @@
+#!/usr/bin/make -f
+
+include /usr/share/dpkg/buildflags.mk
+include /usr/share/dpkg/pkg-info.mk
+
+MAKE_OPTIONS := NO_LAPACKE=1 NO_AFFINITY=1 NO_WARMUP=1 CFLAGS="$(CPPFLAGS) $(CFLAGS)" FFLAGS="$(FFLAGS)"
+
+ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
+	MAKE_OPTIONS += DEBUG=1
+endif
+
+# Build generic package with hardcoded max number of threads of 64
+GENERIC_OPTIONS := NUM_THREADS=64
+
+# On x86 archs, enable dynamic arch selection and select GENERIC target
+ENABLE_DYNAMIC_ARCHS := amd64 i386 kfreebsd-amd64 kfreebsd-i386
+ifneq (,$(findstring $(DEB_HOST_ARCH),$(ENABLE_DYNAMIC_ARCHS)))
+	GENERIC_OPTIONS += DYNAMIC_ARCH=1 TARGET=GENERIC
+endif
+
+# We cannot use the ARMv7 profile on armhf, because it requires a 32-register FP unit.
+# See kernel/arm/KERNEL.ARMv7: it loads some *_vfpv3.S files, which use 32 registers.
+# Also, it FTBFS if GCC flag -mvfpv3 is removed (see arm-gcc-flags.patch), because GCC
+# refuses asm files with 32 FP registers in that case.
+# Issue discussed in https://github.com/xianyi/OpenBLAS/issues/388
+ifeq ($(DEB_HOST_ARCH),armhf)
+	GENERIC_OPTIONS += TARGET=ARMV6
+endif
+
+# There is no dynamic arch selection on PowerPC. To avoid selecting a
+# target based on the buildd hardware, we enforce a generic-enough
+# target.
+ifeq ($(DEB_HOST_ARCH),powerpc)
+	GENERIC_OPTIONS += TARGET=PPCG4
+endif
+
+
+ifeq ($(TARGET),)
+	# Generic package
+	MAKE_OPTIONS += $(GENERIC_OPTIONS)
+else ifeq ($(TARGET),custom)
+	# Custom package, leave the arch detection to OpenBLAS
+else
+	# Use the TARGET value provided by the user
+	MAKE_OPTIONS += TARGET=$(TARGET)
+endif
+
+
+%:
+	dh $@
+
+debian/blas-openblas.pc: debian/blas-openblas.pc.in
+	sed -e "s%@DEB_VERSION_UPSTREAM@%$(DEB_VERSION_UPSTREAM)%" < $< > $@
+
+debian/lapack-openblas.pc: debian/lapack-openblas.pc.in
+	sed -e "s%@DEB_VERSION_UPSTREAM@%$(DEB_VERSION_UPSTREAM)%" < $< > $@
+
+override_dh_auto_build: debian/blas-openblas.pc debian/lapack-openblas.pc
+	$(MAKE) $(MAKE_OPTIONS)
+
+	$(MAKE) -C interface shared-blas-lapack $(MAKE_OPTIONS)
+
+override_dh_auto_install:
+	$(MAKE) install $(MAKE_OPTIONS) DESTDIR=debian/tmp/ PREFIX=/usr
+
+override_dh_auto_clean:
+	dh_auto_clean
+	rm -f debian/*.pc
+
+custom:
+	dch --local='+custom'  "custom build on: `uname -a`"
+	LANG=C debian/rules TARGET=custom build binary
+
+# We want packages linked with -lblas to depend on any BLAS alternative, and we
+# want packages linked with -lopenblas to depend specifically on
+# libopenblas-base.
+#
+# Such a setting is not supported by dh_makeshlibs, so we ship a hand-crafted
+# shlibs file.
+override_dh_makeshlibs:
+	dh_makeshlibs
+	cp debian/libopenblas-base.shlibs debian/libopenblas-base/DEBIAN/shlibs
+
+override_dh_gencontrol:
+	dh_gencontrol -- -VBuilt-Using="`dpkg-query -W -f='$${source:Package} (= $${source:Version})' liblapack-pic`"
+
+get-orig-source:
+	-uscan --upstream-version 0
