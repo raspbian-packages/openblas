@@ -1,0 +1,61 @@
+Description: Various fixes for kFreeBSD shared library
+ Under kFreeBSD, give a SONAME to the shared library and install it. Also link
+ it against libm.
+ Simply use the same code as Linux for all these operations.
+Author: Sébastien Villemot <sebastien@debian.org>
+Forwarded: not-needed
+Last-Update: 2014-08-05
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/exports/Makefile
++++ b/exports/Makefile
+@@ -99,7 +99,7 @@ $(LIBDYNNAME) : ../$(LIBNAME) osx.def
+ dllinit.$(SUFFIX) : dllinit.c
+ 	$(CC) $(CFLAGS) -c -o $(@F) -s $<
+ 
+-ifeq ($(OSNAME), Linux)
++ifeq ($(OSNAME), $(filter $(OSNAME),Linux FreeBSD))
+ 
+ so : ../$(LIBSONAME)
+ 
+@@ -121,7 +121,7 @@ endif
+ endif
+ 
+ #http://stackoverflow.com/questions/7656425/makefile-ifeq-logical-or
+-ifeq ($(OSNAME), $(filter $(OSNAME),FreeBSD NetBSD))
++ifeq ($(OSNAME), $(filter $(OSNAME),NetBSD))
+ 
+ so : ../$(LIBSONAME)
+ 
+--- a/Makefile.install
++++ b/Makefile.install
+@@ -60,17 +60,12 @@ endif
+ #for install shared library
+ ifndef NO_SHARED
+ 	@echo Copying the shared library to $(DESTDIR)$(OPENBLAS_LIBRARY_DIR)
+-ifeq ($(OSNAME), Linux)
++ifeq ($(OSNAME), $(filter $(OSNAME),Linux FreeBSD))
+ 	@install -pm755 $(LIBSONAME) $(DESTDIR)$(OPENBLAS_LIBRARY_DIR)
+ 	@cd $(DESTDIR)$(OPENBLAS_LIBRARY_DIR) ; \
+ 	ln -fs $(LIBSONAME) $(LIBPREFIX).so ; \
+ 	ln -fs $(LIBSONAME) $(LIBPREFIX).so.$(MAJOR_VERSION)
+ endif
+-ifeq ($(OSNAME), FreeBSD)
+-	@cp $(LIBSONAME) $(DESTDIR)$(OPENBLAS_LIBRARY_DIR)
+-	@cd $(DESTDIR)$(OPENBLAS_LIBRARY_DIR) ; \
+-	ln -fs $(LIBSONAME) $(LIBPREFIX).so
+-endif
+ ifeq ($(OSNAME), NetBSD)
+ 	@cp $(LIBSONAME) $(DESTDIR)$(OPENBLAS_LIBRARY_DIR)
+ 	@cd $(DESTDIR)$(OPENBLAS_LIBRARY_DIR) ; \
+--- a/Makefile.system
++++ b/Makefile.system
+@@ -204,7 +204,7 @@ ifeq ($(OSNAME), NetBSD)
+ MD5SUM = md5 -n
+ endif
+ 
+-ifeq ($(OSNAME), Linux)
++ifeq ($(OSNAME), $(filter $(OSNAME),Linux FreeBSD))
+ EXTRALIB	+= -lm
+ NO_EXPRECISION = 1
+ endif

@@ -1,0 +1,10 @@
+prefix=/usr
+libdir=${prefix}/lib/openblas-base
+includedir=${prefix}/include/openblas
+Name: openblas-lapack
+Description: Optimized BLAS (linear algebra) library, LAPACK
+Version: @DEB_VERSION_UPSTREAM@
+URL: https://github.com/xianyi/OpenBLAS
+Libs: -L${libdir} -llapack
+Libs.private: -L${libdir} -llapack -lm
+Cflags: -I${includedir}

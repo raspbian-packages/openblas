@@ -1,0 +1,25 @@
+Description: Run testsuite even when compiling custom package
+Author: Sébastien Villemot <sebastien@debian.org>
+Bug-Debian: http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=677866
+Forwarded: not-needed
+Last-Update: 2013-07-26
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/Makefile
++++ b/Makefile
+@@ -110,7 +110,6 @@ endif
+ 
+ tests :
+ ifndef NOFORTRAN
+-ifndef TARGET
+ ifndef CROSS
+ 	touch $(LIBNAME)
+ ifndef NO_FBLAS
+@@ -124,7 +123,6 @@ ifndef NO_CBLAS
+ endif
+ endif
+ endif
+-endif
+ 
+ libs :
+ ifeq ($(CORE), UNKOWN)

@@ -1,0 +1,48 @@
+Source: openblas
+Section: devel
+Priority: optional
+Maintainer: Debian Science Team <debian-science-maintainers@lists.alioth.debian.org>
+Uploaders: Sébastien Villemot <sebastien@debian.org>
+Standards-Version: 3.9.6
+Build-Depends: dpkg-dev (>= 1.16.2~), debhelper (>= 9), gfortran,
+               liblapack-pic (>= 3.5.0-3~)
+Homepage: https://github.com/xianyi/OpenBLAS
+Vcs-Git: git://anonscm.debian.org/debian-science/packages/openblas.git
+Vcs-Browser: http://anonscm.debian.org/gitweb/?p=debian-science/packages/openblas.git
+
+Package: libopenblas-base
+Section: libs
+Architecture: amd64 armhf i386 powerpc ppc64 kfreebsd-i386 kfreebsd-amd64
+Depends: ${shlibs:Depends}, ${misc:Depends}, libblas-common
+Provides: libblas.so.3, liblapack.so.3
+Replaces: libblas3gf (<< 1.2.20110419-3), libatlas3gf-base (<< 3.8.4-4)
+Breaks: libblas3gf (<< 1.2.20110419-3), libatlas3gf-base (<< 3.8.4-4)
+Built-Using: ${Built-Using}
+Description: Optimized BLAS (linear algebra) library based on GotoBLAS2
+ OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version.
+ .
+ Unlike Atlas, OpenBLAS provides a multiple architecture library.
+ .
+ All kernel will be included in the library and dynamically switched to
+ the best architecture at run time (only on x86 arches).
+ .
+ For more information on how to rebuild locally OpenBLAS, see the section:
+ "Building Optimized OpenBLAS Packages on your ARCH" in README.Debian
+
+Package: libopenblas-dev
+Section: libdevel
+Architecture: amd64 armhf i386 powerpc ppc64 kfreebsd-i386 kfreebsd-amd64
+Depends: libopenblas-base (= ${binary:Version}), libblas-dev, ${shlibs:Depends},
+ ${misc:Depends}
+Provides: libblas.so, liblapack.so
+Built-Using: ${Built-Using}
+Description: Optimized BLAS (linear algebra) library based on GotoBLAS2
+ OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version.
+ .
+ Unlike Atlas, OpenBLAS provides a multiple architecture library.
+ .
+ All kernel will be included in the library and dynamically switched to
+ the best architecture at run time (only on x86 arches).
+ .
+ This package includes the static libraries and symbolic links
+ needed for program development.

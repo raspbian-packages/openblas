@@ -1,0 +1,44 @@
+How to switch between the various BLAS/LAPACK implementations
+=============================================================
+
+BLAS:
+$ sudo update-alternatives --config libblas.so.3
+
+LAPACK:
+$ sudo update-alternatives --config liblapack.so.3
+
+More information is available at:
+
+ http://wiki.debian.org/DebianScience/LinearAlgebraLibraries
+
+
+Building an optimized OpenBLAS packages on your architecture
+============================================================
+
+Note that libopenblas-base provides a multiple architecture library. All
+kernels are included in the library and the one matching your architecture is
+selected at run time.
+
+If you nevertheless want to create a custom OpenBLAS package, optimized only
+for your specific machine, proceeds as follows.
+
+Install the build dependencies:
+
+$ sudo aptitude build-dep openblas
+$ sudo aptitude install devscripts
+
+Get the sources of the package:
+
+$ apt-get source openblas
+
+Compile the package:
+
+$ cd openblas-<VERSION>
+$ fakeroot debian/rules custom
+
+It should produce a package that you can install with:
+
+$ sudo dpkg -i ../libopenblas-base_<DEBVERSION>.deb
+
+ -- Sébastien Villemot <sebastien@debian.org>, Tue,  5 Aug 2014 16:52:28 +0200
+ -- Sylvestre Ledru <sylvestre@debian.org>  Tue, 31 May 2011 13:56:22 +0200
