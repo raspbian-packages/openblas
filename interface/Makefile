@@ -2103,4 +2103,8 @@ zimatcopy.$(SUFFIX) zimatcopy.$(PSUFFIX) : zimatcopy.c
 cblas_zimatcopy.$(SUFFIX) cblas_zimatcopy.$(PSUFFIX) : zimatcopy.c
 	$(CC) -c $(CFLAGS) -DCBLAS $< -o $(@F)
 
-
+# The list of symbols to be removed can be seen in the diff between LAPACK's
+# original SRC/Makefile and the version of that same file that is included in
+# OpenBLAS (unfiltered) tarball
+delete-duplicate-lapack-objects:
+	cd ../lapack-netlib && rm $(SLAPACKOBJS) $(DLAPACKOBJS) $(CLAPACKOBJS) $(ZLAPACKOBJS) lsame.o xerbla.o
