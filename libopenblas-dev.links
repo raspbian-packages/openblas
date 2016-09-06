@@ -1,0 +1,4 @@
+usr/lib/libopenblas.a usr/lib/openblas-base/libblas.a
+usr/lib/libopenblas.a usr/lib/openblas-base/liblapack.a
+usr/lib/openblas-base/libblas.so.3 usr/lib/openblas-base/libblas.so
+usr/lib/openblas-base/liblapack.so.3 usr/lib/openblas-base/liblapack.so
