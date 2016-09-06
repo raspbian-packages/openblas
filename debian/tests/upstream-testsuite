@@ -1,0 +1,21 @@
+#!/bin/sh
+# Execute upstream's testsuite against the installed binaries.
+
+set -e
+
+if [ -z "$ADTTMP" ]
+then
+	echo "Temporary directory \$ADTTMP is not set. Aborting" >&2
+	exit 1
+fi
+
+# Work from $ADTTMP as we need to treat the original source as read-only
+cp -a test Makefile* ?_check cpuid* ctest* getarch* param.h "$ADTTMP"/
+cd "$ADTTMP"/test
+
+# Make tests use the installed binaries instead of using the build result path
+sed -i -e 's,\.\./\$(LIBNAME),,g' Makefile
+sed -i -e 's,CEXTRALIB =,CEXTRALIB = -lopenblas -lpthread,' Makefile
+
+# Execute tests
+make
