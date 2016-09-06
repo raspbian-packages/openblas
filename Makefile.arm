@@ -20,8 +20,8 @@ endif
 endif
 
 ifeq ($(CORE), ARMV6)
-CCOMMON_OPT += -marm -mfpu=vfp -mfloat-abi=hard  -march=armv6
-FCOMMON_OPT += -marm -mfpu=vfp -mfloat-abi=hard  -march=armv6
+CCOMMON_OPT += -marm -mfpu=vfpv3-d16 -mfloat-abi=hard  -march=armv7-a
+FCOMMON_OPT += -marm -mfpu=vfpv3-d16 -mfloat-abi=hard  -march=armv7-a
 endif
 
 
