@@ -2137,3 +2137,8 @@ cblas_cgeadd.$(SUFFIX) cblas_cgeadd.$(PSUFFIX) : zgeadd.c
 cblas_zgeadd.$(SUFFIX) cblas_zgeadd.$(PSUFFIX) : zgeadd.c
 	$(CC) -c $(CFLAGS) -DCBLAS $< -o $(@F)
 
+# The list of symbols to be removed can be seen in the diff between LAPACK's
+# original SRC/Makefile and the version of that same file that is included in
+# OpenBLAS (unfiltered) tarball
+delete-duplicate-lapack-objects:
+	cd ../lapack-netlib && rm $(SLAPACKOBJS) $(DLAPACKOBJS) $(CLAPACKOBJS) $(ZLAPACKOBJS) lsame.o xerbla.o
