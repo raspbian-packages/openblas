@@ -89,7 +89,7 @@ override_dh_auto_clean:
 
 custom:
 	dch --local='+custom'  "custom build on: `uname -a`"
-	LANG=C debian/rules TARGET=custom build binary
+	LANG=C DEB_CFLAGS_MAINT_APPEND="-march=native -mtune=native" debian/rules TARGET=custom build binary
 
 # We want packages linked with -lblas to depend on any BLAS alternative, and we
 # want packages linked with -lopenblas to depend specifically on
