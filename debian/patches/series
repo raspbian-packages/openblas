@@ -4,3 +4,5 @@ no-embedded-lapack.patch
 shared-blas-lapack.patch
 matgen-symbols-not-included.patch
 order-files.patch
+mips-implement-mb-and-wmb.patch
+mips-remove-incorrect-blas_lock-implementation.patch

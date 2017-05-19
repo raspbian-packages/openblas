@@ -1,0 +1,58 @@
+Description: mips: remove incorrect blas_lock implementations
+ MIPS 32-bit currently has an empty blas_lock implementation which is
+ worse than nothing at all. MIPS 64-bit does has a blas_lock
+ implementation but is broken. Remove them and fallback to the generic
+ version in common.h which should do the right thing on MIPS.
+Author: James Cowgill <james410@cowgill.org.uk>
+Origin: https://github.com/jcowgill/OpenBLAS/commit/de7875ca5df77306c5f7216959d3c15d82a0a259
+Forwarded: https://github.com/xianyi/OpenBLAS/pull/1178
+Bug-Debian: http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=861486
+Reviewed-By: Sébastien Villemot <sebastien@debian.org>
+Last-Update: 2017-05-06
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/common_mips.h
++++ b/common_mips.h
+@@ -42,11 +42,6 @@ USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ 
+ #ifndef ASSEMBLER
+ 
+-static void INLINE blas_lock(volatile unsigned long *address){
+-
+-}
+-#define BLAS_LOCK_DEFINED
+-
+ static inline unsigned int rpcc(void){
+   unsigned long ret;
+ 
+--- a/common_mips64.h
++++ b/common_mips64.h
+@@ -78,28 +78,6 @@ USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ 
+ #ifndef ASSEMBLER
+ 
+-static void INLINE blas_lock(volatile unsigned long *address){
+-
+-  long int ret, val = 1;
+-
+-  do {
+-    while (*address) {YIELDING;};
+-
+-    __asm__ __volatile__(
+-			 "1:	ll	%0, %3\n"
+-			 "	ori	%2, %0, 1\n"
+-			 "	sc	%2, %1\n"
+-			 "	beqz	%2, 1b\n"
+-			 "	 andi	%2, %0, 1\n"
+-			 "	sync\n"
+-			 : "=&r" (val), "=m" (address), "=&r" (ret)
+-			 : "m" (address)
+-			 : "memory");
+-
+-  } while (ret);
+-}
+-#define BLAS_LOCK_DEFINED
+-
+ static inline unsigned int rpcc(void){
+   unsigned long ret;
+ 
