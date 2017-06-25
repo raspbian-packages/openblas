@@ -1,10 +1,19 @@
-openblas (0.2.19-2+rpi1) stretch-staging; urgency=medium
+openblas (0.2.19-3+rpi1) stretch-staging; urgency=medium
 
   [changes brought forward from 0.2.15-1+rpi1 by Peter Michael Green <plugwash@raspbian.org> at Fri, 11 Mar 2016 23:39:32 +0000]
   * Disable arm-gcc-flags.patch which was enforcing gcc flags that are wrong
     for raspbian.
 
- -- Raspbian forward porter <root@raspbian.org>  Thu, 09 Feb 2017 15:15:29 +0000
+ -- Raspbian forward porter <root@raspbian.org>  Sun, 25 Jun 2017 23:34:08 +0000
+
+openblas (0.2.19-3) unstable; urgency=medium
+
+  * New patches that fix threading issue on mips64el.
+    + d/p/mips-implement-mb-and-wmb.patch
+    + d/p/mips-remove-incorrect-blas_lock-implementation.patch
+    Thanks to James Cowgill (Closes: #861486)
+
+ -- Sébastien Villemot <sebastien@debian.org>  Sat, 06 May 2017 15:22:06 +0200
 
 openblas (0.2.19-2) unstable; urgency=medium
 
