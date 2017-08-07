@@ -1,0 +1,4 @@
+usr/lib/libopenblas*.a
+usr/lib/libopenblas.so
+usr/include/*   /usr/include/openblas/
+debian/*.pc     /usr/lib/pkgconfig
