@@ -118,7 +118,7 @@ endif
 dllinit.$(SUFFIX) : dllinit.c
 	$(CC) $(CFLAGS) -c -o $(@F) -s $<
 
-ifeq ($(OSNAME), $(filter $(OSNAME),Linux SunOS Android))
+ifeq ($(OSNAME), $(filter $(OSNAME),Linux SunOS Android FreeBSD))
 
 so : ../$(LIBSONAME)
 
@@ -152,7 +152,7 @@ endif
 endif
 
 #http://stackoverflow.com/questions/7656425/makefile-ifeq-logical-or
-ifeq ($(OSNAME), $(filter $(OSNAME),FreeBSD NetBSD))
+ifeq ($(OSNAME), $(filter $(OSNAME),NetBSD))
 
 so : ../$(LIBSONAME)
 
