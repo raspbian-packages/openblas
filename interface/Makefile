@@ -2156,7 +2156,7 @@ libblas.so.3: $(SBLAS1OBJS) $(SBLAS2OBJS) $(SBLAS3OBJS) $(DBLAS1OBJS) $(DBLAS2OB
 
 # The prerequisites must match the symbols deleted in target delete-duplicate-lapack-objects
 liblapack.so.3: $(SLAPACKOBJS) $(DLAPACKOBJS) $(CLAPACKOBJS) $(ZLAPACKOBJS) ../kernel/lsame.o ../driver/others/xerbla.o
-	$(CC) $(LDFLAGS) -shared -o $@ $^ ../lapack-netlib/* -Wl,-soname,liblapack.so.3 -L.. -lopenblas $(EXTRALIB)
+	$(CC) $(LDFLAGS) -shared -o $@ $^ `LC_ALL=C ls ../lapack-netlib/*` -Wl,-soname,liblapack.so.3 -L.. -lopenblas $(EXTRALIB)
 
 clean::
 	rm -f libblas.so.3 liblapack.so.3
