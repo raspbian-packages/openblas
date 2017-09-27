@@ -1,11 +1,16 @@
 How to switch between the various BLAS/LAPACK implementations
 =============================================================
 
-BLAS:
-$ sudo update-alternatives --config libblas.so.3
+- BLAS:
 
-LAPACK:
-$ sudo update-alternatives --config liblapack.so.3
+ $ sudo update-alternatives --config libblas.so.3-<multiarch>
+
+- LAPACK:
+
+ $ sudo update-alternatives --config liblapack.so.3-<multiarch>
+
+where <multiarch> is the multiarch path for you architecture (e.g.
+x86_64-linux-gnu for amd64).
 
 More information is available at:
 
@@ -27,22 +32,41 @@ locally for optimal performance.
 If you want to create a custom OpenBLAS package, optimized for your specific
 machine, proceed as follows.
 
-Install the build dependencies:
+1) Install the build dependencies and the source of the package:
 
-$ sudo aptitude build-dep openblas
+ $ sudo apt-get build-dep openblas
+ $ apt-get source openblas
 
-Get the sources of the package:
+2) Compile the package:
 
-$ apt-get source openblas
+ $ cd openblas-<UPSTREAM_VERSION>
+ $ DEB_BUILD_OPTIONS=custom dpkg-buildpackage -uc -b
 
-Compile the package:
+where <UPSTREAM_VERSION> is replaced with the appropriate value.
 
-$ cd openblas-<VERSION>
-$ DEB_BUILD_OPTIONS=custom dpkg-buildpackage -uc -b
+3) When the build finishes, it should produce a .deb file, whose precise name
+you can figure out using:
 
-It should produce a package that you can install with:
+ $ ls ../libopenblas-base_*.deb
 
-$ sudo dpkg -i ../libopenblas-base_<DEBVERSION>.deb
+Install it using:
 
- -- Sébastien Villemot <sebastien@debian.org>, Thu, 27 Jul 2017 15:17:29 +0200
+ $ sudo dpkg -i ../libopenblas-base_<VERSION>_<ARCH>.deb
+
+replacing <VERSION> and <ARCH> with the appropriate values.
+
+4) If you don't want the Debian package manager to overwrite your optimized
+package with a generic one on system upgrades, you can mark the OpenBLAS
+package to be on hold, with the following command:
+
+ $ sudo aptitude hold libopenblas-base
+
+Don't forget however to periodically check whether a more recent version of the
+package is available for the Debian suite that you are tracking, in which case
+you should go again through this procedure. The version check can be performed
+using:
+
+ $ aptitude versions libopenblas-base
+
+ -- Sébastien Villemot <sebastien@debian.org>, Fri,  8 Sep 2017 21:36:31 +0200
  -- Sylvestre Ledru <sylvestre@debian.org>  Tue, 31 May 2011 13:56:22 +0200

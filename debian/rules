@@ -17,6 +17,9 @@ ifneq (,$(findstring $(DEB_HOST_ARCH),$(ENABLE_DYNAMIC_ARCHS)))
 	GENERIC_OPTIONS += DYNAMIC_ARCH=1
 endif
 
+# For other archs, there is no dynamic arch selection. To avoid selecting a
+# target based on the buildd hardware, we enforce a generic-enough target.
+
 # We cannot use the ARMv7 profile on armhf, because it requires a 32-register FP unit.
 # See kernel/arm/KERNEL.ARMv7: it loads some *_vfpv3.S files, which use 32 registers.
 # Also, it FTBFS if GCC flag -mvfpv3 is removed (see arm-gcc-flags.patch), because GCC
@@ -31,16 +34,17 @@ ifeq ($(DEB_HOST_ARCH),arm64)
 	GENERIC_OPTIONS += TARGET=ARMV8
 endif
 
-# There is no dynamic arch selection on PowerPC. To avoid selecting a
-# target based on the buildd hardware, we enforce a generic-enough
-# target.
 ifeq ($(DEB_HOST_ARCH),powerpc)
 	GENERIC_OPTIONS += TARGET=PPCG4
 endif
 
-# Same for mips64el
 ifeq ($(DEB_HOST_ARCH),mips64el)
 	GENERIC_OPTIONS += TARGET=SICORTEX
+endif
+
+# POWER6 is the most generic arch that compiles on ppc64
+ifeq ($(DEB_HOST_ARCH),ppc64)
+	GENERIC_OPTIONS += TARGET=POWER6
 endif
 
 ifeq ($(DEB_HOST_ARCH),ppc64el)
@@ -49,6 +53,10 @@ endif
 
 ifeq ($(DEB_HOST_ARCH),sparc64)
 	GENERIC_OPTIONS += TARGET=SPARC
+endif
+
+ifeq ($(DEB_HOST_ARCH),s390x)
+	GENERIC_OPTIONS += TARGET=ZARCH_GENERIC
 endif
 
 
@@ -65,23 +73,14 @@ endif
 %:
 	dh $@
 
-debian/blas-openblas.pc: debian/blas-openblas.pc.in
-	sed -e "s%@DEB_VERSION_UPSTREAM@%$(DEB_VERSION_UPSTREAM)%" < $< > $@
-
-debian/lapack-openblas.pc: debian/lapack-openblas.pc.in
-	sed -e "s%@DEB_VERSION_UPSTREAM@%$(DEB_VERSION_UPSTREAM)%" < $< > $@
-
-override_dh_auto_build: debian/blas-openblas.pc debian/lapack-openblas.pc
+override_dh_auto_build:
 	$(MAKE) $(MAKE_OPTIONS)
 
 	$(MAKE) -C interface shared-blas-lapack $(MAKE_OPTIONS)
 
 override_dh_auto_install:
-	$(MAKE) install $(MAKE_OPTIONS) DESTDIR=debian/tmp/ PREFIX=/usr
-
-override_dh_auto_clean:
-	dh_auto_clean
-	rm -f debian/*.pc
+	$(MAKE) install $(MAKE_OPTIONS) DESTDIR=debian/tmp/ PREFIX=/usr OPENBLAS_INCLUDE_DIR=/usr/include/$(DEB_HOST_MULTIARCH) OPENBLAS_LIBRARY_DIR=/usr/lib/$(DEB_HOST_MULTIARCH)
+	mv debian/tmp/usr/include/$(DEB_HOST_MULTIARCH)/cblas.h debian/tmp/usr/include/$(DEB_HOST_MULTIARCH)/cblas-openblas.h
 
 # We want packages linked with -lblas to depend on any BLAS alternative, and we
 # want packages linked with -lopenblas to depend specifically on
@@ -96,8 +95,18 @@ override_dh_makeshlibs:
 override_dh_gencontrol:
 	dh_gencontrol -- -VBuilt-Using="`dpkg-query -W -f='$${source:Package} (= $${source:Version})' liblapack-pic`"
 
-override_dh_strip:
-	dh_strip --dbgsym-migration='libopenblas-dbg (<< 0.2.16-1~)'
+GENERATED_DEBIAN_FILES := $(patsubst %.in,%,$(wildcard debian/*.pc.in debian/*.postinst.in debian/*.prerm.in))
+
+$(GENERATED_DEBIAN_FILES): %: %.in
+	sed -e "s/@DEB_VERSION_UPSTREAM@/$(DEB_VERSION_UPSTREAM)/g" \
+	    -e "s/@DEB_HOST_MULTIARCH@/$(DEB_HOST_MULTIARCH)/g" < $< > $@
+
+override_dh_install: $(GENERATED_DEBIAN_FILES)
+	dh_install
+
+override_dh_clean:
+	dh_clean
+	rm -f $(GENERATED_DEBIAN_FILES)
 
 get-orig-source:
 	-uscan --upstream-version 0

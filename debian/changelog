@@ -1,10 +1,31 @@
-openblas (0.2.20+ds-2+rpi1) buster-staging; urgency=medium
+openblas (0.2.20+ds-4+rpi1) buster-staging; urgency=medium
 
   [changes brought forward from 0.2.15-1+rpi1 by Peter Michael Green <plugwash@raspbian.org> at Fri, 11 Mar 2016 23:39:32 +0000]
   * Disable arm-gcc-flags.patch which was enforcing gcc flags that are wrong
     for raspbian.
 
- -- Peter Michael Green <plugwash@raspbian.org>  Mon, 07 Aug 2017 03:57:00 +0000
+ -- Raspbian forward porter <root@raspbian.org>  Wed, 27 Sep 2017 03:09:05 +0000
+
+openblas (0.2.20+ds-4) unstable; urgency=medium
+
+  * Add support for s390x.
+    New patch force-zarch.patch introduced to force the generic build.
+    (Closes: #875618)
+  * Enforce TARGET=POWER6 on ppc64, to avoid FTBFS on some buildds.
+  * Drop obsolete code for -dbgsym migration.
+
+ -- Sébastien Villemot <sebastien@debian.org>  Tue, 19 Sep 2017 14:51:23 +0200
+
+openblas (0.2.20+ds-3) unstable; urgency=low
+
+  * Multi-archify the package.
+    Incidentally, remove the dependency of libopenblas-dev on libblas-dev, since
+    cblas.h is now managed by the alternative.
+  * Ship openblas.pc in libopenblas-dev.
+  * Improve README.Debian for building a custom package
+  * Bump Standards-Version to 4.1.0.
+
+ -- Sébastien Villemot <sebastien@debian.org>  Sat, 09 Sep 2017 10:29:44 +0200
 
 openblas (0.2.20+ds-2) unstable; urgency=medium
 

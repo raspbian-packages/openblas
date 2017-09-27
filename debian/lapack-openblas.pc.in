@@ -1,6 +1,6 @@
 prefix=/usr
-libdir=${prefix}/lib/openblas-base
-includedir=${prefix}/include/openblas
+libdir=${prefix}/lib/@DEB_HOST_MULTIARCH@/openblas
+includedir=${prefix}/include/@DEB_HOST_MULTIARCH@
 Name: openblas-lapack
 Description: Optimized BLAS (linear algebra) library, LAPACK
 Version: @DEB_VERSION_UPSTREAM@

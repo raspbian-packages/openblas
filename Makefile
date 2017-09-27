@@ -208,7 +208,7 @@ hpl_p :
 
 netlib :
 	mkdir lapack-netlib
-	cd lapack-netlib && ar -x /usr/lib/lapack/liblapack_pic.a
+	cd lapack-netlib && ar -x /usr/lib/$$(dpkg-architecture -q DEB_HOST_MULTIARCH)/liblapack_pic.a
 	make -C interface delete-duplicate-lapack-objects
 	ar -ru $(LIBNAME) `LC_ALL=C ls lapack-netlib/*`
 
