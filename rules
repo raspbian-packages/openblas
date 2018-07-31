@@ -1,0 +1,106 @@
+#!/usr/bin/make -f
+
+include /usr/share/dpkg/buildflags.mk
+include /usr/share/dpkg/pkg-info.mk
+
+MAKE_OPTIONS := NO_LAPACKE=1 NO_AFFINITY=1 USE_OPENMP=0 NO_WARMUP=1 CFLAGS="$(CPPFLAGS) $(CFLAGS)" FFLAGS="$(FFLAGS)"
+
+# Avoid having -O2 automatically added (especially for DEB_BUILD_OPTIONS=noopt)
+MAKE_OPTIONS += COMMON_OPT= FCOMMON_OPT=-frecursive
+
+# Build generic package with hardcoded max number of threads of 64
+GENERIC_OPTIONS := NUM_THREADS=64
+
+# On x86 archs, enable dynamic arch selection
+ENABLE_DYNAMIC_ARCHS := amd64 i386 kfreebsd-amd64 kfreebsd-i386
+ifneq (,$(findstring $(DEB_HOST_ARCH),$(ENABLE_DYNAMIC_ARCHS)))
+	GENERIC_OPTIONS += DYNAMIC_ARCH=1 DYNAMIC_OLDER=1
+endif
+
+# For other archs, there is no dynamic arch selection. To avoid selecting a
+# target based on the buildd hardware, we enforce a generic-enough target.
+
+# We cannot use the ARMv7 profile on armhf, because it requires a 32-register FP unit.
+# See kernel/arm/KERNEL.ARMv7: it loads some *_vfpv3.S files, which use 32 registers.
+# Also, it FTBFS if GCC flag -mvfpv3 is removed (see arm-gcc-flags.patch), because GCC
+# refuses asm files with 32 FP registers in that case.
+# Issue discussed in https://github.com/xianyi/OpenBLAS/issues/388
+# See also debian/patches/arm-gcc-flags.patch which is related.
+ifeq ($(DEB_HOST_ARCH),armhf)
+	GENERIC_OPTIONS += TARGET=ARMV6
+endif
+
+ifeq ($(DEB_HOST_ARCH),arm64)
+	GENERIC_OPTIONS += TARGET=ARMV8
+endif
+
+ifeq ($(DEB_HOST_ARCH),powerpc)
+	GENERIC_OPTIONS += TARGET=PPCG4
+endif
+
+ifeq ($(DEB_HOST_ARCH),mips64el)
+	GENERIC_OPTIONS += TARGET=SICORTEX
+endif
+
+# POWER6 is the most generic arch that compiles on ppc64
+ifeq ($(DEB_HOST_ARCH),ppc64)
+	GENERIC_OPTIONS += TARGET=POWER6
+endif
+
+ifeq ($(DEB_HOST_ARCH),ppc64el)
+	GENERIC_OPTIONS += TARGET=POWER8
+endif
+
+ifeq ($(DEB_HOST_ARCH),sparc64)
+	GENERIC_OPTIONS += TARGET=SPARC
+endif
+
+ifeq ($(DEB_HOST_ARCH),s390x)
+	GENERIC_OPTIONS += TARGET=ZARCH_GENERIC
+endif
+
+
+ifeq (,$(filter custom,$(DEB_BUILD_OPTIONS)))
+	# Generic package
+	MAKE_OPTIONS += $(GENERIC_OPTIONS)
+else
+	# Custom package: leave the arch detection to OpenBLAS, and optimize for the current CPU
+	export DEB_CFLAGS_MAINT_APPEND := -march=native -mtune=native
+	export DEB_FFLAGS_MAINT_APPEND := -march=native -mtune=native
+endif
+
+
+%:
+	dh $@
+
+override_dh_auto_build:
+	$(MAKE) $(MAKE_OPTIONS)
+
+	$(MAKE) -C interface shared-blas-lapack $(MAKE_OPTIONS)
+
+override_dh_auto_install:
+	$(MAKE) install $(MAKE_OPTIONS) DESTDIR=debian/tmp/ PREFIX=/usr OPENBLAS_INCLUDE_DIR=/usr/include/$(DEB_HOST_MULTIARCH) OPENBLAS_LIBRARY_DIR=/usr/lib/$(DEB_HOST_MULTIARCH)
+	mv debian/tmp/usr/include/$(DEB_HOST_MULTIARCH)/cblas.h debian/tmp/usr/include/$(DEB_HOST_MULTIARCH)/cblas-openblas.h
+
+# We want packages linked with -lblas to depend on any BLAS alternative, and we
+# want packages linked with -lopenblas to depend specifically on
+# libopenblas-base.
+#
+# Such a setting is not supported by dh_makeshlibs, so we ship a hand-crafted
+# shlibs file.
+override_dh_makeshlibs:
+	dh_makeshlibs
+	cp debian/libopenblas-base.shlibs debian/libopenblas-base/DEBIAN/shlibs
+
+GENERATED_DEBIAN_FILES := $(patsubst %.in,%,$(wildcard debian/*.pc.in debian/*.postinst.in debian/*.prerm.in))
+
+$(GENERATED_DEBIAN_FILES): %: %.in
+	sed -e "s/@DEB_VERSION_UPSTREAM@/$(DEB_VERSION_UPSTREAM)/g" \
+	    -e "s/@DEB_HOST_MULTIARCH@/$(DEB_HOST_MULTIARCH)/g" < $< > $@
+
+override_dh_install: $(GENERATED_DEBIAN_FILES)
+	dh_install
+
+override_dh_clean:
+	dh_clean
+	rm -f $(GENERATED_DEBIAN_FILES)
