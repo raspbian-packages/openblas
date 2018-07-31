@@ -1,0 +1,60 @@
+Source: openblas
+Maintainer: Debian Science Team <debian-science-maintainers@lists.alioth.debian.org>
+Uploaders: Sébastien Villemot <sebastien@debian.org>
+Section: devel
+Priority: optional
+Build-Depends: debhelper (>= 11),
+               dh-exec,
+               gfortran,
+               liblapack-pic (>= 3.7.1-2~)
+Standards-Version: 4.1.5
+Vcs-Browser: https://salsa.debian.org/science-team/openblas
+Vcs-Git: https://salsa.debian.org/science-team/openblas.git
+Homepage: https://github.com/xianyi/OpenBLAS
+Rules-Requires-Root: no
+
+Package: libopenblas-base
+Architecture: amd64 arm64 armhf i386 powerpc ppc64el ppc64 kfreebsd-i386 kfreebsd-amd64 mips64el sparc64 s390x
+Multi-Arch: same
+Section: libs
+Depends: ${shlibs:Depends},
+         ${misc:Depends}
+Breaks: libblas3 (<< 3.7.1-2~),
+        liblapack3 (<< 3.7.1-2~),
+        libatlas3-base (<< 3.10.3-4~),
+        libopenblas-dev (<< 0.2.20+ds-3~)
+Provides: libblas.so.3,
+          liblapack.so.3
+Description: Optimized BLAS (linear algebra) library (shared library)
+ OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version.
+ .
+ Unlike Atlas, OpenBLAS provides a multiple architecture library.
+ .
+ All kernel will be included in the library and dynamically switched to
+ the best architecture at run time (only on x86 arches).
+ .
+ For more information on how to rebuild locally OpenBLAS, see the section:
+ "Building Optimized OpenBLAS Packages on your ARCH" in README.Debian
+
+Package: libopenblas-dev
+Architecture: amd64 arm64 armhf i386 powerpc ppc64el ppc64 kfreebsd-i386 kfreebsd-amd64 mips64el sparc64 s390x
+Multi-Arch: same
+Section: libdevel
+Depends: libopenblas-base (= ${binary:Version}),
+         ${shlibs:Depends},
+         ${misc:Depends}
+Breaks: libblas-dev (<< 3.7.1-2~),
+        liblapack-dev (<< 3.7.1-2~),
+        libatlas-base-dev (<< 3.10.3-4~)
+Provides: libblas.so,
+          liblapack.so
+Description: Optimized BLAS (linear algebra) library (development files)
+ OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version.
+ .
+ Unlike Atlas, OpenBLAS provides a multiple architecture library.
+ .
+ All kernel will be included in the library and dynamically switched to
+ the best architecture at run time (only on x86 arches).
+ .
+ This package includes the static libraries and symbolic links
+ needed for program development.
