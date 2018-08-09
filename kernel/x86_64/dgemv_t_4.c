@@ -28,7 +28,7 @@ USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "common.h"
 
-#if defined(HASWELL) || defined(ZEN) || defined(STEAMROLLER)  || defined(EXCAVATOR)
+#if defined(HASWELL) || defined(ZEN) || defined(STEAMROLLER)  || defined(EXCAVATOR) || defined (SKYLAKEX)
 #include "dgemv_t_microk_haswell-4.c"
 #endif
 
@@ -393,9 +393,9 @@ int CNAME(BLASLONG m, BLASLONG n, BLASLONG dummy1, FLOAT alpha, FLOAT *a, BLASLO
 		{
 
 			dgemv_kernel_4x1(NB,a_ptr,xbuffer,ybuffer);
-			a_ptr  += lda;
+			// a_ptr  += lda;
 			*y_ptr += ybuffer[0] * alpha;
-			y_ptr  += inc_y;
+			// y_ptr  += inc_y;
 
 		}
 		a += NB;

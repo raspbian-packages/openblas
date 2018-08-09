@@ -31,7 +31,7 @@ USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #if defined(BULLDOZER) || defined(PILEDRIVER) || defined(STEAMROLLER)  || defined(EXCAVATOR)
 #include "zgemv_t_microk_bulldozer-4.c"
-#elif defined(HASWELL) || defined(ZEN)
+#elif defined(HASWELL) || defined(ZEN) || defined (SKYLAKEX)
 #include "zgemv_t_microk_haswell-4.c"
 #endif
 
@@ -302,8 +302,8 @@ int CNAME(BLASLONG m, BLASLONG n, BLASLONG dummy1, FLOAT alpha_r, FLOAT alpha_i,
 			if ( n2 & 1 )
 			{
 				zgemv_kernel_4x1(NB,a_ptr,xbuffer,y_ptr,alpha);
-				a_ptr += lda;
-				y_ptr += 2;
+				/* a_ptr += lda;
+				y_ptr += 2; */
 
 			}
 
@@ -313,7 +313,7 @@ int CNAME(BLASLONG m, BLASLONG n, BLASLONG dummy1, FLOAT alpha_r, FLOAT alpha_i,
 
 			for( i = 0; i < n1 ; i++)
 			{
-				memset(ybuffer,0,64);
+				memset(ybuffer,0,sizeof(ybuffer));
 				zgemv_kernel_4x4(NB,ap,xbuffer,ybuffer,alpha);
 				ap[0] += lda4;
 				ap[1] += lda4;
@@ -338,7 +338,7 @@ int CNAME(BLASLONG m, BLASLONG n, BLASLONG dummy1, FLOAT alpha_r, FLOAT alpha_i,
 
 			for( i = 0; i < n2 ; i++)
 			{
-				memset(ybuffer,0,64);
+				memset(ybuffer,0,sizeof(ybuffer));
 				zgemv_kernel_4x1(NB,a_ptr,xbuffer,ybuffer,alpha);
 				a_ptr += lda;
 				y_ptr[0] += ybuffer[0];

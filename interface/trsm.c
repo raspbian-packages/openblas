@@ -210,11 +210,16 @@ void CNAME(enum CBLAS_ORDER order,
 	   blasint m, blasint n,
 #ifndef COMPLEX
 	   FLOAT alpha,
-#else
-	   FLOAT *alpha,
-#endif
 	   FLOAT *a, blasint lda,
 	   FLOAT *b, blasint ldb) {
+#else
+	   void *valpha,
+	   void *va, blasint lda,
+	   void *vb, blasint ldb) {
+  FLOAT *alpha = (FLOAT*) valpha;
+  FLOAT *a = (FLOAT*) va;
+  FLOAT *b = (FLOAT*) vb;
+#endif
 
   blas_arg_t args;
   int side, uplo, trans, unit;
@@ -361,12 +366,13 @@ void CNAME(enum CBLAS_ORDER order,
   mode |= (trans << BLAS_TRANSA_SHIFT);
   mode |= (side  << BLAS_RSIDE_SHIFT);
 
-  args.nthreads = num_cpu_avail(3);
   if ( args.m < 2*GEMM_MULTITHREAD_THRESHOLD )
 	args.nthreads = 1;
   else
 	if ( args.n < 2*GEMM_MULTITHREAD_THRESHOLD )
 		args.nthreads = 1;
+  else
+	args.nthreads = num_cpu_avail(3);
 		
 
   if (args.nthreads == 1) {

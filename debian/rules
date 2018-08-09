@@ -14,7 +14,7 @@ GENERIC_OPTIONS := NUM_THREADS=64
 # On x86 archs, enable dynamic arch selection
 ENABLE_DYNAMIC_ARCHS := amd64 i386 kfreebsd-amd64 kfreebsd-i386
 ifneq (,$(findstring $(DEB_HOST_ARCH),$(ENABLE_DYNAMIC_ARCHS)))
-	GENERIC_OPTIONS += DYNAMIC_ARCH=1
+	GENERIC_OPTIONS += DYNAMIC_ARCH=1 DYNAMIC_OLDER=1
 endif
 
 # For other archs, there is no dynamic arch selection. To avoid selecting a
@@ -92,9 +92,6 @@ override_dh_makeshlibs:
 	dh_makeshlibs
 	cp debian/libopenblas-base.shlibs debian/libopenblas-base/DEBIAN/shlibs
 
-override_dh_gencontrol:
-	dh_gencontrol -- -VBuilt-Using="`dpkg-query -W -f='$${source:Package} (= $${source:Version})' liblapack-pic`"
-
 GENERATED_DEBIAN_FILES := $(patsubst %.in,%,$(wildcard debian/*.pc.in debian/*.postinst.in debian/*.prerm.in))
 
 $(GENERATED_DEBIAN_FILES): %: %.in
@@ -107,6 +104,3 @@ override_dh_install: $(GENERATED_DEBIAN_FILES)
 override_dh_clean:
 	dh_clean
 	rm -f $(GENERATED_DEBIAN_FILES)
-
-get-orig-source:
-	-uscan --upstream-version 0

@@ -52,8 +52,9 @@ void NAME(blasint *N, FLOAT *x, blasint *INCX, FLOAT *y, blasint *INCY){
 
 #else
 
-void CNAME(blasint n, FLOAT *x, blasint incx, FLOAT *y, blasint incy){
-
+void CNAME(blasint n, void *vx, blasint incx, void *vy, blasint incy){
+FLOAT *x = (FLOAT*)vx;
+FLOAT *y = (FLOAT*)vy;
 #endif
 
 #ifdef SMP
@@ -78,12 +79,12 @@ void CNAME(blasint n, FLOAT *x, blasint incx, FLOAT *y, blasint incy){
   if (incy < 0) y -= (n - 1) * incy * 2;
 
 #ifdef SMP
-  nthreads = num_cpu_avail(1);
-
   //disable multi-thread when incx==0 or incy==0
   //In that case, the threads would be dependent.
   if (incx == 0 || incy == 0)
 	  nthreads = 1;
+  else
+	  nthreads = num_cpu_avail(1);
 
   if (nthreads == 1) {
 #endif

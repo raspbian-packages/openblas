@@ -74,8 +74,9 @@ USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #if !defined(DSDOT)
 	fmadd	DOTF, TMPX, TMPY, DOTF
 #else // DSDOT
-	fmul	TMPX, TMPX, TMPY
+	fcvt	d3, TMPY
 	fcvt	d2, TMPX
+	fmul	d2, d2, d3
 	fadd	DOTF, DOTF, d2
 #endif
 .endm
@@ -87,12 +88,14 @@ USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #if !defined(DSDOT)
 	fmla	v0.4s, v2.4s, v3.4s
 #else
-	fmul	v2.4s, v2.4s, v3.4s
-	ext	v3.16b, v2.16b, v2.16b, #8
-	fcvtl	v2.2d, v2.2s
+	fcvtl2	v5.2d, v3.4s
+	fcvtl2	v4.2d, v2.4s
 	fcvtl	v3.2d, v3.2s
+	fcvtl	v2.2d, v2.2s
+	fmul	v4.2d, v4.2d, v5.2d
+	fmul	v2.2d, v2.2d, v3.2d
+	fadd	v2.2d, v2.2d, v4.2d
 	fadd	v0.2d, v0.2d, v2.2d
-	fadd	v0.2d, v0.2d, v3.2d
 #endif
 #else //DOUBLE
 	ld1	{v2.2d, v3.2d}, [X], #32
@@ -136,8 +139,9 @@ USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #if !defined(DSDOT)
 	fmadd	DOTF, TMPX, TMPY, DOTF
 #else // DSDOT
-	fmul	TMPX, TMPX, TMPY
+	fcvt	d3, TMPY
 	fcvt	d2, TMPX
+	fmul	d2, d2, d3
 	fadd	DOTF, DOTF, d2
 #endif
 .endm
@@ -154,51 +158,51 @@ USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endif
 
 	cmp	N, xzr
-	ble	dot_kernel_L999
+	ble	.Ldot_kernel_L999
 
 	cmp	INC_X, #1
-	bne	dot_kernel_S_BEGIN
+	bne	.Ldot_kernel_S_BEGIN
 	cmp	INC_Y, #1
-	bne	dot_kernel_S_BEGIN
+	bne	.Ldot_kernel_S_BEGIN
 
-dot_kernel_F_BEGIN:
+.Ldot_kernel_F_BEGIN:
 
 	asr	I, N, #2
 	cmp	I, xzr
-	beq	dot_kernel_F1
+	beq	.Ldot_kernel_F1
 
-dot_kernel_F4:
+.Ldot_kernel_F4:
 
 	KERNEL_F4
 
 	subs	I, I, #1
-	bne	dot_kernel_F4
+	bne	.Ldot_kernel_F4
 
 	KERNEL_F4_FINALIZE
 
-dot_kernel_F1:
+.Ldot_kernel_F1:
 
 	ands	I, N, #3
-	ble	dot_kernel_L999
+	ble	.Ldot_kernel_L999
 
-dot_kernel_F10:
+.Ldot_kernel_F10:
 
 	KERNEL_F1
 
 	subs    I, I, #1
-        bne     dot_kernel_F10
+        bne     .Ldot_kernel_F10
 
 	ret
 
-dot_kernel_S_BEGIN:
+.Ldot_kernel_S_BEGIN:
 
 	INIT_S
 
 	asr	I, N, #2
 	cmp	I, xzr
-	ble	dot_kernel_S1
+	ble	.Ldot_kernel_S1
 
-dot_kernel_S4:
+.Ldot_kernel_S4:
 
 	KERNEL_S1
 	KERNEL_S1
@@ -206,21 +210,21 @@ dot_kernel_S4:
 	KERNEL_S1
 
 	subs	I, I, #1
-	bne	dot_kernel_S4
+	bne	.Ldot_kernel_S4
 
-dot_kernel_S1:
+.Ldot_kernel_S1:
 
 	ands	I, N, #3
-	ble	dot_kernel_L999
+	ble	.Ldot_kernel_L999
 
-dot_kernel_S10:
+.Ldot_kernel_S10:
 
 	KERNEL_S1
 
 	subs    I, I, #1
-        bne     dot_kernel_S10
+        bne     .Ldot_kernel_S10
 
-dot_kernel_L999:
+.Ldot_kernel_L999:
 
 	ret
 

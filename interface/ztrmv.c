@@ -152,8 +152,11 @@ void NAME(char *UPLO, char *TRANS, char *DIAG,
 
 void CNAME(enum CBLAS_ORDER order, enum CBLAS_UPLO Uplo,
 	   enum CBLAS_TRANSPOSE TransA, enum CBLAS_DIAG Diag,
-	   blasint n, FLOAT  *a, blasint lda, FLOAT  *x, blasint incx) {
+	   blasint n, void  *va, blasint lda, void  *vx, blasint incx) {
 
+  FLOAT *a = (FLOAT*) va;
+  FLOAT *x = (FLOAT*) vx;
+  
   int trans, uplo, unit, buffer_size;
   blasint info;
   FLOAT *buffer;
@@ -235,6 +238,9 @@ void CNAME(enum CBLAS_ORDER order, enum CBLAS_UPLO Uplo,
       nthreads = 2;
   } else
       nthreads = 1;
+
+/* FIXME TRMV multithreading appears to be broken, see issue 1332*/
+  nthreads = 1;
 
   if(nthreads > 1) {
     buffer_size = n > 16 ? 0 : n * 4 + 40;

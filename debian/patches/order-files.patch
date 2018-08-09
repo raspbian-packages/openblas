@@ -8,7 +8,7 @@ Last-Update: 2016-09-06
 This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 --- a/Makefile
 +++ b/Makefile
-@@ -210,7 +210,7 @@ netlib :
+@@ -220,7 +220,7 @@ netlib :
  	mkdir lapack-netlib
  	cd lapack-netlib && ar -x /usr/lib/$$(dpkg-architecture -q DEB_HOST_MULTIARCH)/liblapack_pic.a
  	make -C interface delete-duplicate-lapack-objects
@@ -19,7 +19,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  	rm -rf lapack-netlib
 --- a/interface/Makefile
 +++ b/interface/Makefile
-@@ -2156,7 +2156,7 @@ libblas.so.3: $(SBLAS1OBJS) $(SBLAS2OBJS
+@@ -2168,7 +2168,7 @@ libblas.so.3: $(SBLAS1OBJS) $(SBLAS2OBJS
  
  # The prerequisites must match the symbols deleted in target delete-duplicate-lapack-objects
  liblapack.so.3: $(SLAPACKOBJS) $(DLAPACKOBJS) $(CLAPACKOBJS) $(ZLAPACKOBJS) ../kernel/lsame.o ../driver/others/xerbla.o

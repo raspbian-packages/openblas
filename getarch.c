@@ -82,7 +82,7 @@ USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifdef OS_WINDOWS
 #include <windows.h>
 #endif
-#if defined(__FreeBSD__) || defined(__APPLE__)
+#if defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__DragonFly__) || defined(__APPLE__)
 #include <sys/types.h>
 #include <sys/sysctl.h>
 #endif
@@ -134,6 +134,7 @@ USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /* #define FORCE_I6400		*/
 /* #define FORCE_P6600		*/
 /* #define FORCE_P5600		*/
+/* #define FORCE_I6500		*/
 /* #define FORCE_ITANIUM2	*/
 /* #define FORCE_SPARC		*/
 /* #define FORCE_SPARCV7	*/
@@ -323,6 +324,21 @@ USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                      "-DFMA3"
 #define LIBNAME   "haswell"
 #define CORENAME  "HASWELL"
+#endif
+
+#ifdef FORCE_SKYLAKEX
+#define FORCE
+#define FORCE_INTEL
+#define ARCHITECTURE    "X86"
+#define SUBARCHITECTURE "SKYLAKEX"
+#define ARCHCONFIG   "-DSKYLAKEX " \
+		     "-DL1_DATA_SIZE=32768 -DL1_DATA_LINESIZE=64 " \
+		     "-DL2_SIZE=262144 -DL2_LINESIZE=64 " \
+		     "-DDTB_DEFAULT_ENTRIES=64 -DDTB_SIZE=4096 " \
+		     "-DHAVE_CMOV -DHAVE_MMX -DHAVE_SSE -DHAVE_SSE2 -DHAVE_SSE3 -DHAVE_SSSE3 -DHAVE_SSE4_1 -DHAVE_SSE4_2 -DHAVE_AVX " \
+                     "-DFMA3 -DHAVE_AVX512VL -march=skylake-avx512"
+#define LIBNAME   "skylakex"
+#define CORENAME  "SKYLAKEX"
 #endif
 
 #ifdef FORCE_ATOM
@@ -765,6 +781,20 @@ USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #else
 #endif
 
+#ifdef FORCE_I6500
+#define FORCE
+#define ARCHITECTURE    "MIPS"
+#define SUBARCHITECTURE "I6500"
+#define SUBDIRNAME      "mips64"
+#define ARCHCONFIG   "-DI6500 " \
+       "-DL1_DATA_SIZE=65536 -DL1_DATA_LINESIZE=32 " \
+       "-DL2_SIZE=1048576 -DL2_LINESIZE=32 " \
+       "-DDTB_DEFAULT_ENTRIES=64 -DDTB_SIZE=4096 -DL2_ASSOCIATIVE=8 "
+#define LIBNAME   "i6500"
+#define CORENAME  "I6500"
+#else
+#endif
+
 #ifdef FORCE_ITANIUM2
 #define FORCE
 #define ARCHITECTURE    "IA64"
@@ -1059,7 +1089,7 @@ static int get_num_cores(void) {
 
 #ifdef OS_WINDOWS
   SYSTEM_INFO sysinfo;
-#elif defined(__FreeBSD__) || defined(__APPLE__)
+#elif defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__DragonFly__) || defined(__APPLE__)
   int m[2], count;
   size_t len;
 #endif
@@ -1073,7 +1103,7 @@ static int get_num_cores(void) {
   GetSystemInfo(&sysinfo);
   return sysinfo.dwNumberOfProcessors;
 
-#elif defined(__FreeBSD__) || defined(__APPLE__)
+#elif defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__DragonFly__) || defined(__APPLE__)
   m[0] = CTL_HW;
   m[1] = HW_NCPU;
   len = sizeof(int);
@@ -1101,7 +1131,7 @@ int main(int argc, char *argv[]){
 #ifdef FORCE
     printf("CORE=%s\n", CORENAME);
 #else
-#if defined(INTEL_AMD) || defined(POWER) || defined(__mips__) || defined(__arm__) || defined(__aarch64__) || defined(ZARCH)
+#if defined(INTEL_AMD) || defined(POWER) || defined(__mips__) || defined(__arm__) || defined(__aarch64__) || defined(ZARCH) || defined(sparc)
     printf("CORE=%s\n", get_corename());
 #endif
 #endif
@@ -1166,9 +1196,7 @@ int main(int argc, char *argv[]){
 #elif NO_PARALLEL_MAKE==1
     printf("MAKE += -j 1\n");
 #else
-#ifndef OS_WINDOWS
     printf("MAKE += -j %d\n", get_num_cores());
-#endif
 #endif
 
     break;
@@ -1209,7 +1237,7 @@ int main(int argc, char *argv[]){
 #ifdef FORCE
     printf("#define CHAR_CORENAME \"%s\"\n", CORENAME);
 #else
-#if defined(INTEL_AMD) || defined(POWER) || defined(__mips__) || defined(__arm__) || defined(__aarch64__) || defined(ZARCH)
+#if defined(INTEL_AMD) || defined(POWER) || defined(__mips__) || defined(__arm__) || defined(__aarch64__) || defined(ZARCH) || defined(sparc)
     printf("#define CHAR_CORENAME \"%s\"\n", get_corename());
 #endif
 #endif

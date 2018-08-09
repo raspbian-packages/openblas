@@ -10,7 +10,7 @@ Last-Update: 2014-05-08
 This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 --- a/interface/Makefile
 +++ b/interface/Makefile
-@@ -2145,3 +2145,18 @@ cblas_xerbla.$(SUFFIX) cblas_xerbla.$(PS
+@@ -2157,3 +2157,18 @@ cblas_xerbla.$(SUFFIX) cblas_xerbla.$(PS
  # OpenBLAS (unfiltered) tarball
  delete-duplicate-lapack-objects:
  	cd ../lapack-netlib && rm $(SLAPACKOBJS) $(DLAPACKOBJS) $(CLAPACKOBJS) $(ZLAPACKOBJS) lsame.o xerbla.o

@@ -1,10 +1,39 @@
-openblas (0.2.20+ds-4+rpi1) buster-staging; urgency=medium
+openblas (0.3.2+ds-1+rpi1) buster-staging; urgency=medium
 
   [changes brought forward from 0.2.15-1+rpi1 by Peter Michael Green <plugwash@raspbian.org> at Fri, 11 Mar 2016 23:39:32 +0000]
   * Disable arm-gcc-flags.patch which was enforcing gcc flags that are wrong
     for raspbian.
 
- -- Raspbian forward porter <root@raspbian.org>  Wed, 27 Sep 2017 03:09:05 +0000
+ -- Raspbian forward porter <root@raspbian.org>  Thu, 09 Aug 2018 15:21:52 +0000
+
+openblas (0.3.2+ds-1) unstable; urgency=medium
+
+  * New upstream version 0.3.2+ds
+    + fixes regression that induced incorrect SVD computation
+      (Closes: #903659)
+  * Bump to debhelper compat level 11
+  * Add Rules-Requires-Root: no
+  * Bump S-V to 4.1.5
+
+ -- Sébastien Villemot <sebastien@debian.org>  Tue, 31 Jul 2018 18:28:12 +0200
+
+openblas (0.3.1+ds-1) unstable; urgency=medium
+
+  * New upstream version 0.3.1
+    + cblas_* now take a void* for complex arrays (Closes: #877883)
+  * d/copyright: reflect upstream changes
+  * force-zarch.patch: remove patch, applied upstream
+  * Compile with DYNAMIC_OLDER=1, for better support of old amd64 CPUs
+  * Remove Built-Using field.
+    Since both LAPACK and ATLAS are under BSD-3-clause, there is no reason to
+    use this field (which is now restricted to license compliance issues).
+  * d/rules: remove get-orig-source target.
+  * Bump to S-V 4.1.4
+  * Replace ADTTMP by AUTOPKGTEST_TMP in tests.
+  * Ship *.md files in libopenblas-dev
+  * Update Vcs-* fields for move to salsa
+
+ -- Sébastien Villemot <sebastien@debian.org>  Wed, 04 Jul 2018 10:53:01 +0200
 
 openblas (0.2.20+ds-4) unstable; urgency=medium
 

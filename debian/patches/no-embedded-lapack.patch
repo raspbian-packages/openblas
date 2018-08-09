@@ -1,6 +1,6 @@
 Description: Adapt build system for the absence of lapack-netlib/ and relapack directories.
  Instead use the binary provided by package liblapack-pic, stripping from it the
- symbols that are overriden by OpenBLAS.
+ symbols that are overridden by OpenBLAS.
 Author: Sébastien Villemot <sebastien@debian.org>
 Forwarded: not-needed
 Last-Update: 2017-07-27
@@ -8,7 +8,7 @@ Last-Update: 2017-07-27
 This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 --- a/Makefile
 +++ b/Makefile
-@@ -206,72 +206,14 @@ hpl_p :
+@@ -216,73 +216,14 @@ hpl_p :
  	fi; \
  	done
  
@@ -21,7 +21,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  
 -else
 -netlib : lapack_prebuild
--ifndef NOFORTRAN
+-ifeq ($(NOFORTRAN), $(filter 0,$(NOFORTRAN)))
 -	@$(MAKE) -C $(NETLIB_LAPACK_DIR) lapacklib
 -	@$(MAKE) -C $(NETLIB_LAPACK_DIR) tmglib
 -endif
@@ -42,7 +42,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 -	@$(MAKE) -C $(NETLIB_LAPACK_DIR) lapack_prof
 -
 -lapack_prebuild :
--ifndef NOFORTRAN
+-ifeq ($(NOFORTRAN), $(filter 0,$(NOFORTRAN)))
 -	-@echo "FORTRAN     = $(FC)" > $(NETLIB_LAPACK_DIR)/make.inc
 -	-@echo "OPTS        = $(LAPACK_FFLAGS)" >> $(NETLIB_LAPACK_DIR)/make.inc
 -	-@echo "POPTS       = $(LAPACK_FPFLAGS)" >> $(NETLIB_LAPACK_DIR)/make.inc
@@ -52,7 +52,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 -	-@echo "CC          = $(CC)" >> $(NETLIB_LAPACK_DIR)/make.inc
 -	-@echo "override CFLAGS      = $(LAPACK_CFLAGS)" >> $(NETLIB_LAPACK_DIR)/make.inc
 -	-@echo "ARCH        = $(AR)" >> $(NETLIB_LAPACK_DIR)/make.inc
--	-@echo "ARCHFLAGS   = -ru" >> $(NETLIB_LAPACK_DIR)/make.inc
+-	-@echo "ARCHFLAGS   = $(ARFLAGS) -ru" >> $(NETLIB_LAPACK_DIR)/make.inc
 -	-@echo "RANLIB      = $(RANLIB)" >> $(NETLIB_LAPACK_DIR)/make.inc
 -	-@echo "LAPACKLIB   = ../$(LIBNAME)" >> $(NETLIB_LAPACK_DIR)/make.inc
 -	-@echo "TMGLIB      = ../$(LIBNAME)" >> $(NETLIB_LAPACK_DIR)/make.inc
@@ -80,14 +80,15 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 -ifeq ($(BUILD_LAPACK_DEPRECATED), 1)
 -	-@echo "BUILD_DEPRECATED      = 1" >> $(NETLIB_LAPACK_DIR)/make.inc
 -endif
+-	-@echo "LAPACKE_WITH_TMG      = 1" >> $(NETLIB_LAPACK_DIR)/make.inc
 -	-@cat  make.inc >> $(NETLIB_LAPACK_DIR)/make.inc
 -endif
 +clean::
 +	rm -rf lapack-netlib
  
  large.tgz :
- ifndef NOFORTRAN
-@@ -336,10 +278,5 @@ ifeq ($(OSNAME), Darwin)
+ ifeq ($(NOFORTRAN), $(filter 0,$(NOFORTRAN)))
+@@ -348,10 +289,5 @@ ifeq ($(OSNAME), Darwin)
  	@rm -rf getarch.dSYM getarch_2nd.dSYM
  endif
  	@rm -f Makefile.conf config.h Makefile_kernel.conf config_kernel.h st* *.dylib
@@ -111,7 +112,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  # - CC is an implicit variable so neither '?=' or 'ifndef' can be used.
 --- a/interface/Makefile
 +++ b/interface/Makefile
-@@ -2139,3 +2139,9 @@ cblas_zgeadd.$(SUFFIX) cblas_zgeadd.$(PS
+@@ -2151,3 +2151,9 @@ cblas_zgeadd.$(SUFFIX) cblas_zgeadd.$(PS
  
  cblas_xerbla.$(SUFFIX) cblas_xerbla.$(PSUFFIX) : xerbla.c
  	$(CC) -c $(CFLAGS) -DCBLAS $< -o $(@F)

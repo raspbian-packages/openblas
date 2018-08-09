@@ -1,9 +1,38 @@
 include_directories(${PROJECT_SOURCE_DIR})
+include_directories(${PROJECT_BINARY_DIR})
 
-set(OpenBLAS_utest_src
-  utest_main.c
-  test_amax.c
+if (MSVC AND "${CMAKE_C_COMPILER_ID}" MATCHES Clang)
+  set(OpenBLAS_utest_src utest_main2.c)
+else ()
+  set(OpenBLAS_utest_src
+    utest_main.c
+    test_amax.c
+    test_rotmg.c
+    test_rot.c
+    test_axpy.c
+    test_dsdot.c
+    test_swap.c
   )
+endif ()
+
+# crashing on travis cl with an error code suggesting resource not found
+if (NOT MSVC)
+set(OpenBLAS_utest_src
+  ${OpenBLAS_utest_src}
+  test_dotu.c
+  )
+endif ()
+
+# known to hang with the native Windows and Android threads
+# FIXME needs checking if this works on any of the other platforms
+if (NOT USE_OPENMP)
+if (OS_CYGWIN_NT OR OS_LINUX)
+set(OpenBLAS_utest_src
+  ${OpenBLAS_utest_src}
+  test_fork.c
+  )
+endif()
+endif()
 
 if (NOT NO_LAPACK)
 set(OpenBLAS_utest_src
@@ -35,7 +64,7 @@ endforeach()
 if (MSVC)
 add_custom_command(TARGET ${OpenBLAS_utest_bin}
           POST_BUILD
-          COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_BINARY_DIR}/lib/$<CONFIG>/${OpenBLAS_LIBNAME}.dll ${CMAKE_CURRENT_BINARY_DIR}/.
+          COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_BINARY_DIR}/lib/${CMAKE_CFG_INTDIR}/${OpenBLAS_LIBNAME}.dll ${CMAKE_CURRENT_BINARY_DIR}/.
 )
 endif()
 

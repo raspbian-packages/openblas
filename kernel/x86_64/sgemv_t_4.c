@@ -34,7 +34,7 @@ USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "sgemv_t_microk_bulldozer-4.c"
 #elif defined(SANDYBRIDGE)
 #include "sgemv_t_microk_sandy-4.c"
-#elif defined(HASWELL) || defined(ZEN)
+#elif defined(HASWELL) || defined(ZEN) || defined (SKYLAKEX)
 #include "sgemv_t_microk_haswell-4.c"
 #endif
 
@@ -406,9 +406,9 @@ int CNAME(BLASLONG m, BLASLONG n, BLASLONG dummy1, FLOAT alpha, FLOAT *a, BLASLO
 		{
 
 			sgemv_kernel_4x1(NB,a_ptr,xbuffer,ybuffer);
-			a_ptr  += lda;
+			// a_ptr  += lda;
 			*y_ptr += ybuffer[0] * alpha;
-			y_ptr  += inc_y;
+			// y_ptr  += inc_y;
 
 		}
 		a += NB;

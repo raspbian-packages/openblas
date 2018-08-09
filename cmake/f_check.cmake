@@ -20,12 +20,6 @@
 # NEEDBUNDERSCORE
 # NEED2UNDERSCORES
 
-if (MSVC)
-  # had to do this for MSVC, else CMake automatically assumes I have ifort... -hpa
-  include(CMakeForceCompiler)
-  CMAKE_FORCE_Fortran_COMPILER(gfortran GNU)
-endif ()
-
 if (NOT NO_LAPACK)
   enable_language(Fortran)
 else()
@@ -34,17 +28,13 @@ else()
 endif()
 
 if (NOT ONLY_CBLAS)
-  # N.B. f_check is not cross-platform, so instead try to use CMake variables
   # run f_check (appends to TARGET files)
-#  message(STATUS "Running f_check...")
-#  execute_process(COMMAND perl f_check ${TARGET_MAKE} ${TARGET_CONF} ${CMAKE_Fortran_COMPILER}
-#    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
 
   # TODO: detect whether underscore needed, set #defines and BU appropriately - use try_compile
   # TODO: set FEXTRALIB flags a la f_check?
 
   set(BU "_")
-  file(APPEND ${TARGET_CONF}
+  file(APPEND ${TARGET_CONF_TEMP}
     "#define BUNDERSCORE _\n"
     "#define NEEDBUNDERSCORE 1\n"
     "#define NEED2UNDERSCORES 0\n")
@@ -56,7 +46,7 @@ else ()
   set(NO_FBLAS 1)
   #set(F_COMPILER GFORTRAN) # CMake handles the fortran compiler
   set(BU "_")
-  file(APPEND ${TARGET_CONF}
+  file(APPEND ${TARGET_CONF_TEMP}
     "#define BUNDERSCORE _\n"
     "#define NEEDBUNDERSCORE 1\n")
 endif()
