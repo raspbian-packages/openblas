@@ -9,8 +9,8 @@ endif
 endif
 
 ifeq ($(CORE), ARMV6)
-CCOMMON_OPT += -mfpu=vfp -march=armv6
-FCOMMON_OPT += -mfpu=vfp -march=armv6
+CCOMMON_OPT += -mfpu=vfpv3-d16 -march=armv7-a
+FCOMMON_OPT += -mfpu=vfpv3-d16 -march=armv7-a
 endif
 
 ifeq ($(CORE), ARMV5)
