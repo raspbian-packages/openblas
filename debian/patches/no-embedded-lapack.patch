@@ -8,7 +8,7 @@ Last-Update: 2017-07-27
 This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 --- a/Makefile
 +++ b/Makefile
-@@ -216,73 +216,14 @@ hpl_p :
+@@ -216,75 +216,14 @@ hpl_p :
  	fi; \
  	done
  
@@ -67,6 +67,8 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 -ifdef SMP
 -ifeq ($(OSNAME), WINNT)
 -	-@echo "LOADER      = $(FC)" >> $(NETLIB_LAPACK_DIR)/make.inc
+-else ifeq ($(OSNAME), Haiku)
+-	-@echo "LOADER      = $(FC)" >> $(NETLIB_LAPACK_DIR)/make.inc
 -else
 -	-@echo "LOADER      = $(FC) -pthread" >> $(NETLIB_LAPACK_DIR)/make.inc
 -endif
@@ -88,7 +90,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  
  large.tgz :
  ifeq ($(NOFORTRAN), $(filter 0,$(NOFORTRAN)))
-@@ -348,10 +289,5 @@ ifeq ($(OSNAME), Darwin)
+@@ -350,10 +289,5 @@ ifeq ($(OSNAME), Darwin)
  	@rm -rf getarch.dSYM getarch_2nd.dSYM
  endif
  	@rm -f Makefile.conf config.h Makefile_kernel.conf config_kernel.h st* *.dylib

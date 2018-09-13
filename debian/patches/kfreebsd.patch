@@ -13,8 +13,8 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  dllinit.$(SUFFIX) : dllinit.c
  	$(CC) $(CFLAGS) -c -o $(@F) -s $<
  
--ifeq ($(OSNAME), $(filter $(OSNAME),Linux SunOS Android))
-+ifeq ($(OSNAME), $(filter $(OSNAME),Linux SunOS Android FreeBSD))
+-ifeq ($(OSNAME), $(filter $(OSNAME),Linux SunOS Android Haiku))
++ifeq ($(OSNAME), $(filter $(OSNAME),Linux SunOS Android Haiku FreeBSD))
  
  so : ../$(LIBSONAME)
  
@@ -33,8 +33,8 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  #for install shared library
  ifndef NO_SHARED
  	@echo Copying the shared library to $(DESTDIR)$(OPENBLAS_LIBRARY_DIR)
--ifeq ($(OSNAME), $(filter $(OSNAME),Linux SunOS Android))
-+ifeq ($(OSNAME), $(filter $(OSNAME),Linux SunOS Android FreeBSD))
+-ifeq ($(OSNAME), $(filter $(OSNAME),Linux SunOS Android Haiku))
++ifeq ($(OSNAME), $(filter $(OSNAME),Linux SunOS Android Haiku FreeBSD))
  	@install -pm755 $(LIBSONAME) "$(DESTDIR)$(OPENBLAS_LIBRARY_DIR)"
  	@cd "$(DESTDIR)$(OPENBLAS_LIBRARY_DIR)" ; \
  	ln -fs $(LIBSONAME) $(LIBPREFIX).so ; \
