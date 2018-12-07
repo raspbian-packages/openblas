@@ -14,8 +14,6 @@ ifeq ($(ARCH), amd64)
 override ARCH=x86_64
 endif
 
-NETLIB_LAPACK_DIR = $(TOPDIR)/lapack-netlib
-
 # Default C compiler
 # - Only set if not specified on the command line or inherited from the environment.
 # - CC is an implicit variable so neither '?=' or 'ifndef' can be used.
