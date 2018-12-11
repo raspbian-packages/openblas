@@ -1,10 +1,20 @@
-openblas (0.3.3+ds-1+rpi1) buster-staging; urgency=medium
+openblas (0.3.4+ds-1+rpi1) buster-staging; urgency=medium
 
   [changes brought forward from 0.2.15-1+rpi1 by Peter Michael Green <plugwash@raspbian.org> at Fri, 11 Mar 2016 23:39:32 +0000]
   * Disable arm-gcc-flags.patch which was enforcing gcc flags that are wrong
     for raspbian.
 
- -- Raspbian forward porter <root@raspbian.org>  Thu, 13 Sep 2018 19:36:04 +0000
+ -- Raspbian forward porter <root@raspbian.org>  Tue, 11 Dec 2018 01:29:36 +0000
+
+openblas (0.3.4+ds-1) unstable; urgency=medium
+
+  * New upstream version 0.3.4+ds
+  * d/copyright: reflect upstream changes
+  * Dynamic kernel selection is now implemented on arm64
+  * Switch to new way of specifying debhelper compat level
+  * Increase priority in alternatives system to 100 (Closes: #911131)
+
+ -- Sébastien Villemot <sebastien@debian.org>  Fri, 07 Dec 2018 15:49:27 +0100
 
 openblas (0.3.3+ds-1) unstable; urgency=medium
 

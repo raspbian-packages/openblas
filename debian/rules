@@ -12,7 +12,7 @@ MAKE_OPTIONS += COMMON_OPT= FCOMMON_OPT=-frecursive
 GENERIC_OPTIONS := NUM_THREADS=64
 
 # On x86 archs, enable dynamic arch selection
-ENABLE_DYNAMIC_ARCHS := amd64 i386 kfreebsd-amd64 kfreebsd-i386
+ENABLE_DYNAMIC_ARCHS := amd64 arm64 i386 kfreebsd-amd64 kfreebsd-i386
 ifneq (,$(findstring $(DEB_HOST_ARCH),$(ENABLE_DYNAMIC_ARCHS)))
 	GENERIC_OPTIONS += DYNAMIC_ARCH=1 DYNAMIC_OLDER=1
 endif
@@ -28,10 +28,6 @@ endif
 # See also debian/patches/arm-gcc-flags.patch which is related.
 ifeq ($(DEB_HOST_ARCH),armhf)
 	GENERIC_OPTIONS += TARGET=ARMV6
-endif
-
-ifeq ($(DEB_HOST_ARCH),arm64)
-	GENERIC_OPTIONS += TARGET=ARMV8
 endif
 
 ifeq ($(DEB_HOST_ARCH),powerpc)

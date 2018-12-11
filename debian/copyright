@@ -155,6 +155,7 @@ Files: benchmark/cholesky.c
  driver/others/blas_server_win32.c
  driver/others/divtable.c
  driver/others/dynamic.c
+ driver/others/dynamic_arm64.c
  driver/others/lamc3.c
  driver/others/lamch.c
  driver/others/lsame.c
@@ -438,9 +439,16 @@ Files: benchmark/cholesky.c
  kernel/x86_64/ctrsm_kernel_LT_bulldozer.c
  kernel/x86_64/ctrsm_kernel_RN_bulldozer.c
  kernel/x86_64/ctrsm_kernel_RT_bulldozer.c
+ kernel/x86_64/dgemm_beta_skylakex.c
+ kernel/x86_64/dgemm_kernel_16x2_skylakex.S
+ kernel/x86_64/dgemm_ncopy_8_skylakex.c
+ kernel/x86_64/dgemm_tcopy_8_skylakex.c
  kernel/x86_64/dtrsm_kernel_LN_bulldozer.c
  kernel/x86_64/dtrsm_kernel_RN_haswell.c
  kernel/x86_64/dtrsm_kernel_RT_bulldozer.c
+ kernel/x86_64/sgemm_beta_skylakex.c
+ kernel/x86_64/sgemm_ncopy_4_skylakex.c
+ kernel/x86_64/sgemm_tcopy_16_skylakex.c
  kernel/x86_64/strsm_kernel_LN_bulldozer.c
  kernel/x86_64/strsm_kernel_LT_bulldozer.c
  kernel/x86_64/strsm_kernel_RN_bulldozer.c
@@ -449,7 +457,6 @@ Files: benchmark/cholesky.c
  kernel/x86_64/ztrsm_kernel_LT_bulldozer.c
  kernel/x86_64/ztrsm_kernel_RN_bulldozer.c
  kernel/x86_64/ztrsm_kernel_RT_bulldozer.c
- kernel/x86_64/dgemm_kernel_16x2_skylakex.S
  lapack/getf2/getf2_k.c
  lapack/getf2/zgetf2_k.c
  lapack/getrf/getrf_parallel.c

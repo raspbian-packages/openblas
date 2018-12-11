@@ -3,7 +3,7 @@ Maintainer: Debian Science Team <debian-science-maintainers@lists.alioth.debian.
 Uploaders: Sébastien Villemot <sebastien@debian.org>
 Section: devel
 Priority: optional
-Build-Depends: debhelper (>= 11),
+Build-Depends: debhelper-compat (= 11),
                dh-exec,
                gfortran,
                liblapack-pic (>= 3.7.1-2~)
@@ -31,7 +31,7 @@ Description: Optimized BLAS (linear algebra) library (shared library)
  Unlike Atlas, OpenBLAS provides a multiple architecture library.
  .
  All kernel will be included in the library and dynamically switched to
- the best architecture at run time (only on x86 arches).
+ the best architecture at run time (only on amd64, arm64 and i386).
  .
  For more information on how to rebuild locally OpenBLAS, see the section:
  "Building Optimized OpenBLAS Packages on your ARCH" in README.Debian
@@ -54,7 +54,7 @@ Description: Optimized BLAS (linear algebra) library (development files)
  Unlike Atlas, OpenBLAS provides a multiple architecture library.
  .
  All kernel will be included in the library and dynamically switched to
- the best architecture at run time (only on x86 arches).
+ the best architecture at run time (only on amd64, arm64 and i386).
  .
  This package includes the static libraries and symbolic links
  needed for program development.

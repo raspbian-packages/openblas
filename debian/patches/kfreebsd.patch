@@ -29,7 +29,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  
 --- a/Makefile.install
 +++ b/Makefile.install
-@@ -66,13 +66,13 @@ endif
+@@ -67,14 +67,14 @@ endif
  #for install shared library
  ifndef NO_SHARED
  	@echo Copying the shared library to $(DESTDIR)$(OPENBLAS_LIBRARY_DIR)
@@ -40,6 +40,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  	ln -fs $(LIBSONAME) $(LIBPREFIX).so ; \
  	ln -fs $(LIBSONAME) $(LIBPREFIX).so.$(MAJOR_VERSION)
  endif
+ 
 -ifeq ($(OSNAME), $(filter $(OSNAME),FreeBSD OpenBSD NetBSD DragonFly))
 +ifeq ($(OSNAME), $(filter $(OSNAME),OpenBSD NetBSD DragonFly))
  	@cp $(LIBSONAME) "$(DESTDIR)$(OPENBLAS_LIBRARY_DIR)"
@@ -47,7 +48,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  	ln -fs $(LIBSONAME) $(LIBPREFIX).so
 --- a/Makefile.system
 +++ b/Makefile.system
-@@ -261,7 +261,7 @@ ifeq ($(OSNAME), NetBSD)
+@@ -266,7 +266,7 @@ ifeq ($(OSNAME), NetBSD)
  MD5SUM = md5 -n
  endif
  

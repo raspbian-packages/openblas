@@ -51,7 +51,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 -	-@echo "LOADOPTS    = $(FFLAGS) $(EXTRALIB)" >> $(NETLIB_LAPACK_DIR)/make.inc
 -	-@echo "CC          = $(CC)" >> $(NETLIB_LAPACK_DIR)/make.inc
 -	-@echo "override CFLAGS      = $(LAPACK_CFLAGS)" >> $(NETLIB_LAPACK_DIR)/make.inc
--	-@echo "ARCH        = $(AR)" >> $(NETLIB_LAPACK_DIR)/make.inc
+-	-@echo "override ARCH        = $(AR)" >> $(NETLIB_LAPACK_DIR)/make.inc
 -	-@echo "ARCHFLAGS   = $(ARFLAGS) -ru" >> $(NETLIB_LAPACK_DIR)/make.inc
 -	-@echo "RANLIB      = $(RANLIB)" >> $(NETLIB_LAPACK_DIR)/make.inc
 -	-@echo "LAPACKLIB   = ../$(LIBNAME)" >> $(NETLIB_LAPACK_DIR)/make.inc
@@ -103,8 +103,8 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  	@echo Done.
 --- a/Makefile.system
 +++ b/Makefile.system
-@@ -9,8 +9,6 @@ ifndef TOPDIR
- TOPDIR = .
+@@ -14,8 +14,6 @@ ifeq ($(ARCH), amd64)
+ override ARCH=x86_64
  endif
  
 -NETLIB_LAPACK_DIR = $(TOPDIR)/lapack-netlib
@@ -126,10 +126,10 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 +	cd ../lapack-netlib && rm $(SLAPACKOBJS) $(DLAPACKOBJS) $(CLAPACKOBJS) $(ZLAPACKOBJS) lsame.o xerbla.o
 --- a/Makefile.install
 +++ b/Makefile.install
-@@ -48,14 +48,6 @@ ifndef NO_CBLAS
- 	@sed 's/common/openblas_config/g' cblas.h > "$(DESTDIR)$(OPENBLAS_INCLUDE_DIR)/cblas.h"
+@@ -49,14 +49,6 @@ ifndef NO_CBLAS
  endif
  
+ ifneq ($(OSNAME), AIX)
 -ifndef NO_LAPACKE
 -	@echo Copying LAPACKE header files to $(DESTDIR)$(OPENBLAS_INCLUDE_DIR)
 -	@-install -pm644 $(NETLIB_LAPACK_DIR)/LAPACKE/include/lapacke.h "$(DESTDIR)$(OPENBLAS_INCLUDE_DIR)/lapacke.h"

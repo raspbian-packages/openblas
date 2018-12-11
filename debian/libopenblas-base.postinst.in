@@ -4,11 +4,11 @@ set -e
 
 update-alternatives --install /usr/lib/@DEB_HOST_MULTIARCH@/libblas.so.3 \
                     libblas.so.3-@DEB_HOST_MULTIARCH@ \
-	            /usr/lib/@DEB_HOST_MULTIARCH@/openblas/libblas.so.3 40
+	            /usr/lib/@DEB_HOST_MULTIARCH@/openblas/libblas.so.3 100
 
 update-alternatives --install /usr/lib/@DEB_HOST_MULTIARCH@/liblapack.so.3 \
                     liblapack.so.3-@DEB_HOST_MULTIARCH@ \
-	            /usr/lib/@DEB_HOST_MULTIARCH@/openblas/liblapack.so.3 40
+	            /usr/lib/@DEB_HOST_MULTIARCH@/openblas/liblapack.so.3 100
 
 #DEBHELPER#
 
