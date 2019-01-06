@@ -103,8 +103,8 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  	@echo Done.
 --- a/Makefile.system
 +++ b/Makefile.system
-@@ -14,8 +14,6 @@ ifeq ($(ARCH), amd64)
- override ARCH=x86_64
+@@ -20,8 +20,6 @@ else ifeq ($(ARCH), aarch64)
+ override ARCH=arm64
  endif
  
 -NETLIB_LAPACK_DIR = $(TOPDIR)/lapack-netlib

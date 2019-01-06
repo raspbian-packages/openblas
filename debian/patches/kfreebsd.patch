@@ -48,7 +48,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  	ln -fs $(LIBSONAME) $(LIBPREFIX).so
 --- a/Makefile.system
 +++ b/Makefile.system
-@@ -266,7 +266,7 @@ ifeq ($(OSNAME), NetBSD)
+@@ -272,7 +272,7 @@ ifeq ($(OSNAME), NetBSD)
  MD5SUM = md5 -n
  endif
  

@@ -1,10 +1,17 @@
-openblas (0.3.4+ds-1+rpi1) buster-staging; urgency=medium
+openblas (0.3.5+ds-1+rpi1) buster-staging; urgency=medium
 
   [changes brought forward from 0.2.15-1+rpi1 by Peter Michael Green <plugwash@raspbian.org> at Fri, 11 Mar 2016 23:39:32 +0000]
   * Disable arm-gcc-flags.patch which was enforcing gcc flags that are wrong
     for raspbian.
 
- -- Raspbian forward porter <root@raspbian.org>  Tue, 11 Dec 2018 01:29:36 +0000
+ -- Raspbian forward porter <root@raspbian.org>  Sun, 06 Jan 2019 13:26:21 +0000
+
+openblas (0.3.5+ds-1) unstable; urgency=medium
+
+  * New upstream version 0.3.5+ds
+  * Bump S-V to 4.3.0
+
+ -- Sébastien Villemot <sebastien@debian.org>  Fri, 04 Jan 2019 10:28:31 +0100
 
 openblas (0.3.4+ds-1) unstable; urgency=medium
 
