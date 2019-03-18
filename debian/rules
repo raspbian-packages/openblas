@@ -11,10 +11,11 @@ MAKE_OPTIONS += COMMON_OPT= FCOMMON_OPT=-frecursive
 # Build generic package with hardcoded max number of threads of 64
 GENERIC_OPTIONS := NUM_THREADS=64
 
-# On x86 archs, enable dynamic arch selection
+# On x86 and arm64 archs, enable dynamic arch selection
+# TARGET=GENERIC is needed to avoid FTBFS when CPU detectin fails (see #923607)
 ENABLE_DYNAMIC_ARCHS := amd64 arm64 i386 kfreebsd-amd64 kfreebsd-i386
 ifneq (,$(findstring $(DEB_HOST_ARCH),$(ENABLE_DYNAMIC_ARCHS)))
-	GENERIC_OPTIONS += DYNAMIC_ARCH=1 DYNAMIC_OLDER=1
+	GENERIC_OPTIONS += DYNAMIC_ARCH=1 DYNAMIC_OLDER=1 TARGET=GENERIC
 endif
 
 # For other archs, there is no dynamic arch selection. To avoid selecting a

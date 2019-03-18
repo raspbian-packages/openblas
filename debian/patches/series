@@ -5,3 +5,4 @@ shared-blas-lapack.patch
 matgen-symbols-not-included.patch
 order-files.patch
 skylakex-dgemm.patch
+target-generic.patch

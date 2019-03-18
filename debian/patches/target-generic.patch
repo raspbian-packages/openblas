@@ -1,0 +1,20 @@
+Description: Make TARGET=GENERIC compatible with DYNAMIC_ARCH=1
+Origin: backport, https://github.com/xianyi/OpenBLAS/commit/5b95534afcc80d54f51bd766b617fd3f494ec65a
+Bug: https://github.com/xianyi/OpenBLAS/issues/2048
+Bug-Debian: https://bugs.debian.org/923607
+Last-Update: 2019-03-11
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+diff --git a/kernel/Makefile.L3 b/kernel/Makefile.L3
+index eafcfb1b..bf5fffe8 100644
+--- a/kernel/Makefile.L3
++++ b/kernel/Makefile.L3
+@@ -24,7 +24,7 @@ ifeq ($(TARGET), LOONGSON3B)
+ USE_TRMM = 1
+ endif
+ 
+-ifeq ($(TARGET), GENERIC)
++ifeq ($(CORE), GENERIC)
+ USE_TRMM = 1
+ endif
+ 
