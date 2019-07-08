@@ -277,7 +277,7 @@ ifeq ($(OSNAME), NetBSD)
 MD5SUM = md5 -n
 endif
 
-ifeq ($(OSNAME), Linux)
+ifeq ($(OSNAME), $(filter $(OSNAME),Linux FreeBSD))
 EXTRALIB	+= -lm
 NO_EXPRECISION = 1
 endif
