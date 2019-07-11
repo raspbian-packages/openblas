@@ -1,0 +1,6 @@
+#!/usr/bin/dh-exec
+
+usr/lib/${DEB_HOST_MULTIARCH}/libopenblas.a usr/lib/${DEB_HOST_MULTIARCH}/openblas/libblas.a
+usr/lib/${DEB_HOST_MULTIARCH}/libopenblas.a usr/lib/${DEB_HOST_MULTIARCH}/openblas/liblapack.a
+usr/lib/${DEB_HOST_MULTIARCH}/openblas/libblas.so.3 usr/lib/${DEB_HOST_MULTIARCH}/openblas/libblas.so
+usr/lib/${DEB_HOST_MULTIARCH}/openblas/liblapack.so.3 usr/lib/${DEB_HOST_MULTIARCH}/openblas/liblapack.so
