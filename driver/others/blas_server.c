@@ -796,16 +796,6 @@ int exec_blas(BLASLONG num, blas_queue_t *queue){
   fprintf(STDERR, "Exec_blas is called. Number of executing threads : %ld\n", num);
 #endif
 
-#ifdef __ELF__
-  if (omp_in_parallel && (num > 1)) {
-    if (omp_in_parallel() > 0) {
-      fprintf(stderr,
-	      "OpenBLAS Warning : Detect OpenMP Loop and this application may hang. "
-	      "Please rebuild the library with USE_OPENMP=1 option.\n");
-    }
-  }
-#endif
-
   if ((num > 1) && queue -> next) exec_blas_async(1, queue -> next);
 
 #ifdef TIMING_DEBUG
