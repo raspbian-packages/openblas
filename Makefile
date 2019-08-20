@@ -224,7 +224,7 @@ netlib :
 	mkdir lapack-netlib
 	cd lapack-netlib && ar -x /usr/lib/$$(dpkg-architecture -q DEB_HOST_MULTIARCH)/liblapack_pic.a
 	make -C interface delete-duplicate-lapack-objects
-	ar -ru $(LIBNAME) lapack-netlib/*
+	ar -ru $(LIBNAME) `LC_ALL=C ls lapack-netlib/*`
 
 clean::
 	rm -rf lapack-netlib
