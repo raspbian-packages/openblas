@@ -1,0 +1,7 @@
+#!/usr/bin/dh-exec
+
+usr/lib/*/libopenblas*.a
+usr/lib/*/libopenblas.so
+usr/lib/*/pkgconfig/openblas.pc
+usr/include/*
+debian/*.pc     /usr/lib/${DEB_HOST_MULTIARCH}/pkgconfig
