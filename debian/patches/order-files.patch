@@ -1,0 +1,30 @@
+Description: Order files
+ Order the files when calling `ar' or $(CC), to make the build reproducible.
+Author: Alexis Bienvenüe <pado@passoire.fr>
+Bugs-Debian: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=824639
+Reviewed-by: Sébastien Villemot <sebastien@debian.org>
+Last-Update: 2016-09-06
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/Makefile
++++ b/Makefile
+@@ -224,7 +224,7 @@ netlib :
+ 	mkdir lapack-netlib
+ 	cd lapack-netlib && ar -x /usr/lib/$$(dpkg-architecture -q DEB_HOST_MULTIARCH)/liblapack_pic.a
+ 	make -C interface delete-duplicate-lapack-objects
+-	ar -ru $(LIBNAME) lapack-netlib/*
++	ar -ru $(LIBNAME) `LC_ALL=C ls lapack-netlib/*`
+ 
+ clean::
+ 	rm -rf lapack-netlib
+--- a/interface/Makefile
++++ b/interface/Makefile
+@@ -2215,7 +2215,7 @@ libblas.so.3: $(SBLAS1OBJS) $(SBLAS2OBJS
+ 
+ # The prerequisites must match the symbols deleted in target delete-duplicate-lapack-objects
+ liblapack.so.3: $(SLAPACKOBJS) $(DLAPACKOBJS) $(CLAPACKOBJS) $(ZLAPACKOBJS) ../kernel/lsame.o ../driver/others/xerbla.o
+-	$(CC) $(LDFLAGS) -shared -o $@ $^ ../lapack-netlib/* -Wl,-soname,liblapack.so.3 -L.. -lopenblas $(EXTRALIB)
++	$(CC) $(LDFLAGS) -shared -o $@ $^ `LC_ALL=C ls ../lapack-netlib/*` -Wl,-soname,liblapack.so.3 -L.. -lopenblas $(EXTRALIB)
+ 
+ clean::
+ 	rm -f libblas.so.3 liblapack.so.3
