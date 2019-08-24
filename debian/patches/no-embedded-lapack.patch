@@ -8,7 +8,7 @@ Last-Update: 2017-07-27
 This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 --- a/Makefile
 +++ b/Makefile
-@@ -216,75 +216,14 @@ hpl_p :
+@@ -220,75 +220,14 @@ hpl_p :
  	fi; \
  	done
  
@@ -90,7 +90,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  
  large.tgz :
  ifeq ($(NOFORTRAN), $(filter 0,$(NOFORTRAN)))
-@@ -350,10 +289,5 @@ ifeq ($(OSNAME), Darwin)
+@@ -354,10 +293,5 @@ ifeq ($(OSNAME), Darwin)
  	@rm -rf getarch.dSYM getarch_2nd.dSYM
  endif
  	@rm -f Makefile.conf config.h Makefile_kernel.conf config_kernel.h st* *.dylib
@@ -103,7 +103,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  	@echo Done.
 --- a/Makefile.system
 +++ b/Makefile.system
-@@ -20,8 +20,6 @@ else ifeq ($(ARCH), aarch64)
+@@ -25,8 +25,6 @@ else ifeq ($(ARCH), aarch64)
  override ARCH=arm64
  endif
  

@@ -8,7 +8,7 @@ Last-Update: 2016-09-06
 This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 --- a/Makefile
 +++ b/Makefile
-@@ -220,7 +220,7 @@ netlib :
+@@ -224,7 +224,7 @@ netlib :
  	mkdir lapack-netlib
  	cd lapack-netlib && ar -x /usr/lib/$$(dpkg-architecture -q DEB_HOST_MULTIARCH)/liblapack_pic.a
  	make -C interface delete-duplicate-lapack-objects

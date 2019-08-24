@@ -39,6 +39,12 @@ set(OpenBLAS_utest_src
   ${OpenBLAS_utest_src}
   test_potrs.c
   )
+if (NOT NO_CBLAS AND NOT NO_LAPACKE)
+set(OpenBLAS_utest_src
+  ${OpenBLAS_utest_src}
+  test_kernel_regress.c
+  )
+endif()
 endif()
 
 set(OpenBLAS_utest_bin openblas_utest)

@@ -31,7 +31,7 @@ Description: Optimized BLAS (linear algebra) library (shared library)
  Unlike Atlas, OpenBLAS provides a multiple architecture library.
  .
  All kernel will be included in the library and dynamically switched to the
- best architecture at run time (only on amd64, arm64, i386, ppc64el and ppc64).
+ best architecture at run time (only on amd64, arm64, i386 and ppc64el).
  .
  For more information on how to rebuild locally OpenBLAS, see the section:
  "Building Optimized OpenBLAS Packages on your ARCH" in README.Debian

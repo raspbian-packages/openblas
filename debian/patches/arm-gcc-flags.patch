@@ -9,14 +9,12 @@ Last-Update: 2015-04-29
 This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 --- a/Makefile.arm
 +++ b/Makefile.arm
-@@ -9,8 +9,8 @@ endif
+@@ -9,6 +9,6 @@ endif
  endif
  
  ifeq ($(CORE), ARMV6)
--CCOMMON_OPT += -mfpu=vfp -march=armv6
--FCOMMON_OPT += -mfpu=vfp -march=armv6
+-CCOMMON_OPT += -mfpu=vfp
+-FCOMMON_OPT += -mfpu=vfp
 +CCOMMON_OPT += -mfpu=vfpv3-d16 -march=armv7-a
 +FCOMMON_OPT += -mfpu=vfpv3-d16 -march=armv7-a
  endif
- 
- ifeq ($(CORE), ARMV5)

@@ -13,7 +13,7 @@ GENERIC_OPTIONS := NUM_THREADS=64
 
 # Architectures with dynamic arch selection
 # TARGET=GENERIC is needed to avoid FTBFS when CPU detection fails (see #923607)
-ENABLE_DYNAMIC_ARCHS := amd64 arm64 i386 kfreebsd-amd64 kfreebsd-i386 ppc64 ppc64el
+ENABLE_DYNAMIC_ARCHS := amd64 arm64 i386 kfreebsd-amd64 kfreebsd-i386 ppc64el
 ifneq (,$(findstring $(DEB_HOST_ARCH),$(ENABLE_DYNAMIC_ARCHS)))
 	GENERIC_OPTIONS += DYNAMIC_ARCH=1 DYNAMIC_OLDER=1 TARGET=GENERIC
 endif
@@ -35,6 +35,13 @@ endif
 # POWER6 and above
 ifeq ($(DEB_HOST_ARCH),powerpc)
 	GENERIC_OPTIONS += TARGET=PPCG4
+endif
+
+# We do not use DYNAMIC_ARCH selection on ppc64 because it fails to build.
+# See https://buildd.debian.org/status/fetch.php?pkg=openblas&arch=ppc64&ver=0.3.6%2Bds-1&stamp=1562602383&raw=0
+# POWER6 is the most generic arch that compiles on ppc64
+ifeq ($(DEB_HOST_ARCH),ppc64)
+	GENERIC_OPTIONS += TARGET=POWER6
 endif
 
 ifeq ($(DEB_HOST_ARCH),mips64el)
