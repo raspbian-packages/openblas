@@ -1,0 +1,40 @@
+From: Raspbian forward porter <root@raspbian.org>
+Subject: Automatically generated patch (0.3.7+ds-1+rpi1)
+
+Last (up to) 3 git changes, FYI:
+
+commit e5cdb5bc2fdbe4ed5849a311d639ae1e43ddffb5
+Merge: c514376 51be127
+Author: Raspbian automatic forward porter <root@raspbian.org>
+Date:   Sat Aug 24 06:04:09 2019 +0100
+
+    Merge version 0.3.6+ds-1+rpi1 and 0.3.7+ds-1 to produce 0.3.7+ds-1+rpi1
+
+commit 51be127fefff977e35950b127f4f642b9661d64b
+Merge: 792daf6 51c9282
+Author: Sébastien Villemot <sebastien@debian.org>
+Date:   Tue Aug 20 16:52:34 2019 +0100
+
+    Merge openblas (0.3.7+ds-1) import into refs/heads/workingbranch
+
+commit 792daf6d1ad1dca6d81a262dcf1d72dc96e0464d
+Author: Debian Science Team <debian-science-maintainers@lists.alioth.debian.org>
+Date:   Tue Aug 20 16:52:34 2019 +0100
+
+    dgemm-test-without-lapacke
+    
+    
+    Gbp-Pq: Name dgemm-test-without-lapacke.patch
+---
+
+--- openblas-0.3.7+ds.orig/Makefile.arm
++++ openblas-0.3.7+ds/Makefile.arm
+@@ -9,6 +9,6 @@ endif
+ endif
+ 
+ ifeq ($(CORE), ARMV6)
+-CCOMMON_OPT += -mfpu=vfp
+-FCOMMON_OPT += -mfpu=vfp
++CCOMMON_OPT += -mfpu=vfp -march=armv6
++FCOMMON_OPT += -mfpu=vfp -march=armv6
+ endif
