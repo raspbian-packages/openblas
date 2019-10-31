@@ -1,0 +1,59 @@
+Description: Various fixes for kFreeBSD shared library
+ Under kFreeBSD, give a SONAME to the shared library and install it. Also link
+ it against libm.
+ Simply use the same code as Linux for all these operations.
+Author: Sébastien Villemot <sebastien@debian.org>
+Forwarded: not-needed
+Last-Update: 2014-08-05
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/exports/Makefile
++++ b/exports/Makefile
+@@ -126,7 +126,7 @@ endif
+ dllinit.$(SUFFIX) : dllinit.c
+ 	$(CC) $(CFLAGS) -c -o $(@F) -s $<
+ 
+-ifeq ($(OSNAME), $(filter $(OSNAME),Linux SunOS Android Haiku))
++ifeq ($(OSNAME), $(filter $(OSNAME),Linux SunOS Android Haiku FreeBSD))
+ 
+ so : ../$(LIBSONAME)
+ 
+@@ -171,7 +171,7 @@ endif
+ endif
+ 
+ #http://stackoverflow.com/questions/7656425/makefile-ifeq-logical-or
+-ifeq ($(OSNAME), $(filter $(OSNAME),FreeBSD OpenBSD NetBSD DragonFly))
++ifeq ($(OSNAME), $(filter $(OSNAME),OpenBSD NetBSD DragonFly))
+ 
+ so : ../$(LIBSONAME)
+ 
+--- a/Makefile.install
++++ b/Makefile.install
+@@ -67,14 +67,14 @@ endif
+ #for install shared library
+ ifneq ($(NO_SHARED),1)
+ 	@echo Copying the shared library to $(DESTDIR)$(OPENBLAS_LIBRARY_DIR)
+-ifeq ($(OSNAME), $(filter $(OSNAME),Linux SunOS Android Haiku))
++ifeq ($(OSNAME), $(filter $(OSNAME),Linux SunOS Android Haiku FreeBSD))
+ 	@install -pm755 $(LIBSONAME) "$(DESTDIR)$(OPENBLAS_LIBRARY_DIR)"
+ 	@cd "$(DESTDIR)$(OPENBLAS_LIBRARY_DIR)" ; \
+ 	ln -fs $(LIBSONAME) $(LIBPREFIX).so ; \
+ 	ln -fs $(LIBSONAME) $(LIBPREFIX).so.$(MAJOR_VERSION)
+ endif
+ 
+-ifeq ($(OSNAME), $(filter $(OSNAME),FreeBSD OpenBSD NetBSD DragonFly))
++ifeq ($(OSNAME), $(filter $(OSNAME),OpenBSD NetBSD DragonFly))
+ 	@cp $(LIBSONAME) "$(DESTDIR)$(OPENBLAS_LIBRARY_DIR)"
+ 	@cd "$(DESTDIR)$(OPENBLAS_LIBRARY_DIR)" ; \
+ 	ln -fs $(LIBSONAME) $(LIBPREFIX).so
+--- a/Makefile.system
++++ b/Makefile.system
+@@ -292,7 +292,7 @@ ifeq ($(OSNAME), NetBSD)
+ MD5SUM = md5 -n
+ endif
+ 
+-ifeq ($(OSNAME), Linux)
++ifeq ($(OSNAME), $(filter $(OSNAME),Linux FreeBSD))
+ EXTRALIB	+= -lm
+ NO_EXPRECISION = 1
+ endif

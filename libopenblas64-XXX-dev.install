@@ -1,0 +1,5 @@
+usr/lib/*/@SUBDIR@/libopenblas64*.a
+usr/lib/*/@SUBDIR@/libopenblas64.so
+usr/lib/*/@SUBDIR@/pkgconfig/openblas.pc
+usr/lib/*/@SUBDIR@/cmake/*
+usr/include/*/@SUBDIR@/*
