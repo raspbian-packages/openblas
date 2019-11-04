@@ -1,3 +1,23 @@
 Tests: upstream-testsuite
 Restrictions: allow-stderr
-Depends: @, gfortran
+Depends: libopenblas-pthread-dev, gfortran
+
+Tests: upstream-testsuite
+Restrictions: allow-stderr
+Depends: libopenblas-openmp-dev, gfortran
+
+Tests: upstream-testsuite
+Restrictions: allow-stderr
+Depends: libopenblas-serial-dev, gfortran
+
+Tests: upstream-testsuite64
+Restrictions: allow-stderr
+Depends: libopenblas64-pthread-dev, gfortran
+
+Tests: upstream-testsuite64
+Restrictions: allow-stderr
+Depends: libopenblas64-openmp-dev, gfortran
+
+Tests: upstream-testsuite64
+Restrictions: allow-stderr
+Depends: libopenblas64-serial-dev, gfortran

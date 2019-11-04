@@ -1,10 +1,47 @@
-openblas (0.3.7+ds-1+rpi1) bullseye-staging; urgency=medium
+openblas (0.3.7+ds-3+rpi1) bullseye-staging; urgency=medium
 
   [changes brought forward from 0.2.15-1+rpi1 by Peter Michael Green <plugwash@raspbian.org> at Fri, 11 Mar 2016 23:39:32 +0000]
   * Disable arm-gcc-flags.patch which was enforcing gcc flags that are wrong
     for raspbian.
 
- -- Raspbian forward porter <root@raspbian.org>  Sat, 24 Aug 2019 05:04:09 +0000
+ -- Raspbian forward porter <root@raspbian.org>  Mon, 04 Nov 2019 18:12:34 +0000
+
+openblas (0.3.7+ds-3) unstable; urgency=medium
+
+  * Upload to unstable. (no change).
+
+ -- Mo Zhou <cdluminate@gmail.com>  Thu, 31 Oct 2019 20:46:13 +0800
+
+openblas (0.3.7+ds-2) experimental; urgency=medium
+
+  [ Multi-Flavour Update of OpenBLAS (Closes: #878121, #684344) ]
+  * (32-bit, 64-bit)-index * (pthread, openmp, serial)-threadding = 6 Variants.
+    Each one assigned with different priority values in alternatives system:
+    + libopenblas0-{pthread,openmp,serial}    (priority = 100,95,90)
+      * Provides: libopenblas.so.0, libblas.so.3, liblapack.so.3
+    + libopenblas64-0-{pthread,openmp,serial} (priority = 100,95,90)
+      * Provides: libopenblas64.so.0, libblas64.so.3, liblapack64.so.3
+      - 64-bit-indexing versions are only available on 64-bit archs.
+  * Let libopenblas0 and libopenblas64-0 be meta packages. They pull one of the
+    three threadding variants. On resolving shlib dependencies, these meta
+    packages, instead of specific variants used for building, should be used as
+    the dependencies.
+  * Turn libopenblas-base into a transitional dummy package.
+  * Update/Create control files and maintscripts for all these variants.
+  * Autopkgtest: test all the 6 variants.
+
+  [ Mo Zhou ]
+  * Append myself to Uploaders.
+  * Simplify architecture detection part of rules.
+  * Bump B-D lapack to >= 3.8.0-5 (for liblapack64-dev).
+  * rules: Deparallelize build targets to avoid messy buildlog
+  * Update existing patches accordingly for the new feature.
+  * Merge order-files.patch into shared-blas-lapack.patch
+  * Create template postrm for libopenblas-dev to avoid leftover.
+  * Remove the unnecessary overrides from rules.
+  * Upload to experimental.
+
+ -- Mo Zhou <cdluminate@gmail.com>  Fri, 25 Oct 2019 21:03:40 +0800
 
 openblas (0.3.7+ds-1) unstable; urgency=medium
 
