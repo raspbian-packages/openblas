@@ -3,6 +3,11 @@
 
 set -e
 
+if [ $(dpkg-architecture -qDEB_HOST_ARCH_BITS) != 64 ]; then
+    echo "$(basename $0): test only supported on 64bit"
+    exit 77
+fi
+
 if [ -z "$AUTOPKGTEST_TMP" ]
 then
 	echo "Temporary directory \$AUTOPKGTEST_TMP is not set. Aborting" >&2

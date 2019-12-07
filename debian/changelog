@@ -1,10 +1,24 @@
-openblas (0.3.7+ds-3+rpi1) bullseye-staging; urgency=medium
+openblas (0.3.7+ds-5+rpi1) bullseye-staging; urgency=medium
 
   [changes brought forward from 0.2.15-1+rpi1 by Peter Michael Green <plugwash@raspbian.org> at Fri, 11 Mar 2016 23:39:32 +0000]
   * Disable arm-gcc-flags.patch which was enforcing gcc flags that are wrong
     for raspbian.
 
- -- Raspbian forward porter <root@raspbian.org>  Mon, 04 Nov 2019 18:12:34 +0000
+ -- Raspbian forward porter <root@raspbian.org>  Sat, 07 Dec 2019 05:03:54 +0000
+
+openblas (0.3.7+ds-5) unstable; urgency=medium
+
+  * Link the OMP variant of shared blas/lapack against gomp. (Closes: #945791)
+
+ -- Mo Zhou <cdluminate@gmail.com>  Mon, 02 Dec 2019 13:33:33 +0800
+
+openblas (0.3.7+ds-4) unstable; urgency=medium
+
+  * Don’t run the 64-bit autopkgtests on 32-bit architectures.
+    Thanks to Matthias Klose (Closes: #944474)
+  * Bump S-V to 4.4.1
+
+ -- Sébastien Villemot <sebastien@debian.org>  Wed, 27 Nov 2019 17:49:02 +0100
 
 openblas (0.3.7+ds-3) unstable; urgency=medium
 
