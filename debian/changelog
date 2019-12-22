@@ -1,10 +1,34 @@
-openblas (0.3.7+ds-5+rpi1) bullseye-staging; urgency=medium
+openblas (0.3.7+ds-7+rpi1) bullseye-staging; urgency=medium
 
   [changes brought forward from 0.2.15-1+rpi1 by Peter Michael Green <plugwash@raspbian.org> at Fri, 11 Mar 2016 23:39:32 +0000]
   * Disable arm-gcc-flags.patch which was enforcing gcc flags that are wrong
     for raspbian.
 
- -- Raspbian forward porter <root@raspbian.org>  Sat, 07 Dec 2019 05:03:54 +0000
+ -- Raspbian forward porter <root@raspbian.org>  Sun, 22 Dec 2019 01:37:14 +0000
+
+openblas (0.3.7+ds-7) unstable; urgency=medium
+
+  * Fix (piuparts) install failure due to missing dir. (Closes: #946828)
+  * Autopkgtest: print libopenblas{,64} selection before the test.
+
+ -- Mo Zhou <cdluminate@gmail.com>  Wed, 18 Dec 2019 23:38:15 +0800
+
+openblas (0.3.7+ds-6) unstable; urgency=medium
+
+  * Restore pkgconfig’s openblas.pc (for 32-bit indexing)
+    This file is now managed by the alternatives system, since there are several
+    variants of it. (Closes: #946698)
+    By the way, add openblas64.pc (for 64-bit indexing).
+  * Fix alternatives symlink for openblas64_config.h (64-bit indexing variants)
+  * Drop empty postrm script for libopenblas-dev
+  * Make long description of libopenblas0 different from that of
+    libopenblas64-0.
+    Similar change for libopenblas-dev vs. libopenblas64-dev.
+  * Fix the blas{,64}.pc and lapack{,64}.pc alternatives.
+    For 32-bit indexing, the files pointed to an inexistent $libdir.
+    The 64-bit indexing variants were pointing to 32-bit libraries.
+
+ -- Sébastien Villemot <sebastien@debian.org>  Sun, 15 Dec 2019 22:02:19 +0100
 
 openblas (0.3.7+ds-5) unstable; urgency=medium
 

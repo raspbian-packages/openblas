@@ -1,10 +1,10 @@
 prefix=/usr
-libdir=${prefix}/lib/@DEB_HOST_MULTIARCH@/openblas
+libdir=${prefix}/lib/@DEB_HOST_MULTIARCH@/@SUBDIR@
 includedir=${prefix}/include/@DEB_HOST_MULTIARCH@
-Name: openblas-lapack
+Name: openblas-lapack@INDEXING@
 Description: Optimized BLAS (linear algebra) library, LAPACK
 Version: @DEB_VERSION_UPSTREAM@
 URL: https://github.com/xianyi/OpenBLAS
-Libs: -L${libdir} -llapack
-Libs.private: -L${libdir} -llapack -lgfortran -lpthread -lm
+Libs: -L${libdir} -llapack@INDEXING@
+Libs.private: -L${libdir} -llapack@INDEXING@ -lgfortran -lpthread -lm
 Cflags: -I${includedir}

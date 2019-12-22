@@ -3,7 +3,6 @@ include /usr/share/dpkg/buildflags.mk
 include /usr/share/dpkg/pkg-info.mk
 SOVER := 0
 SRCS := $(filter-out debian $(FLAVORS), $(wildcard ./*))
-GENERATED_DEBIAN_FILES := $(patsubst %.in,%,$(wildcard debian/*.pc.in))
 
 MAKE_OPTIONS := NO_LAPACKE=1 NO_AFFINITY=1 NO_WARMUP=1 CFLAGS="$(CPPFLAGS) $(CFLAGS)" FFLAGS="$(FFLAGS)"
 
@@ -77,12 +76,8 @@ UAPRI_S = 90
 %:
 	dh $@
 
-override_dh_auto_configure: $(addprefix config_, $(FLAVORS)) $(GENERATED_DEBIAN_FILES)
+override_dh_auto_configure: $(addprefix config_, $(FLAVORS))
 	:
-
-$(GENERATED_DEBIAN_FILES): %: %.in
-	sed -e "s/@DEB_VERSION_UPSTREAM@/$(DEB_VERSION_UPSTREAM)/g" \
-		-e "s/@DEB_HOST_MULTIARCH@/$(DEB_HOST_MULTIARCH)/g" < $< > $@
 
 config_%:
 	# shared object packages
@@ -106,7 +101,7 @@ config_%:
 		fi; \
 	done;
 	# devel packages
-	for i in install links postinst prerm; do \
+	for i in install links postinst prerm dirs; do \
 		if test -z "$$(echo $* | grep 64)"; then \
 			cp debian/libopenblas-XXX-dev.$$i debian/libopenblas$(subst $(SOVER)-,-,$(subst -$(SOVER)-,-,$*))-dev.$$i; \
 		else \
@@ -176,14 +171,25 @@ override_dh_auto_install:
 	for target in $(addprefix install_, $(FLAVORS)); do \
 		$(MAKE) -f debian/rules $$target; done
 	# change the inclusion for the 64-bit variant
-	find debian -type f -path '*openblas64*' -exec sed -i -e 's/openblas_config.h/openblas64_config.h/g' '{}' \;
+	find debian/tmp -type f -path '*openblas64*' -exec sed -i -e 's/openblas_config.h/openblas64_config.h/g' '{}' \;
 
 install_%:
 	$(MAKE) -C $* install $(MAKE_OPTIONS) $(FLAGS_$*) \
 		DESTDIR=../debian/tmp/ PREFIX=/usr \
 		OPENBLAS_INCLUDE_DIR=/usr/include/$(DEB_HOST_MULTIARCH)/openblas$(subst $(SOVER)-,-,$(subst -$(SOVER)-,-,$*))/ \
 		OPENBLAS_LIBRARY_DIR=/usr/lib/$(DEB_HOST_MULTIARCH)/openblas$(subst $(SOVER)-,-,$(subst -$(SOVER)-,-,$*))/
-
-override_dh_clean:
-	dh_clean
-	rm -f $(GENERATED_DEBIAN_FILES)
+	# Fix the content of openblas.pc for 64-bit indexing
+	if test -n "$$(echo $* | grep 64)"; then \
+		sed -i -e "s/-lopenblas/-lopenblas64/" \
+			-e "s/Name: openblas$$/Name: openblas64/" \
+			debian/tmp/usr/lib/$(DEB_HOST_MULTIARCH)/openblas$(subst $(SOVER)-,-,$(subst -$(SOVER)-,-,$*))/pkgconfig/openblas.pc; \
+	fi
+	# Add blas-openblas.pc and lapack-openblas.pc
+	for f in blas-openblas lapack-openblas; do \
+		sed -e "s/@DEB_VERSION_UPSTREAM@/$(DEB_VERSION_UPSTREAM)/g" \
+			-e "s/@DEB_HOST_MULTIARCH@/$(DEB_HOST_MULTIARCH)/g" \
+			-e "s/@SUBDIR@/openblas$(subst $(SOVER)-,-,$(subst -$(SOVER)-,-,$*))/g" \
+			-e "s/@INDEXING@/$$(echo $* | grep -o 64)/g" \
+			< debian/$${f}.pc.in \
+			> debian/tmp/usr/lib/$(DEB_HOST_MULTIARCH)/openblas$(subst $(SOVER)-,-,$(subst -$(SOVER)-,-,$*))/pkgconfig/$${f}.pc; \
+	done

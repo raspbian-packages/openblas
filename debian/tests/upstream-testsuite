@@ -9,6 +9,9 @@ then
 	exit 1
 fi
 
+# Tell us which flavor is being used
+update-alternatives --get-selections | grep '^libopenblas.so'
+
 # Work from $AUTOPKGTEST_TMP as we need to treat the original source as read-only
 cp -a test Makefile* ?_check cpuid* ctest* getarch* param.h "$AUTOPKGTEST_TMP"/
 cd "$AUTOPKGTEST_TMP"/test

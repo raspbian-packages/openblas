@@ -254,6 +254,8 @@ Description: Optimized BLAS (linear algebra) library (shared lib, 64bit, meta)
  .
  For more information on how to rebuild locally OpenBLAS, see the section:
  "Building Optimized OpenBLAS Packages on your ARCH" in README.Debian
+ .
+ This metapackage provides a 64-bit indexing version.
 
 Package: libopenblas64-0-pthread
 Architecture: amd64 arm64 kfreebsd-amd64 ppc64 ppc64el mips64el sparc64 s390x
@@ -336,6 +338,8 @@ Description: Optimized BLAS (linear algebra) library (dev, 64bit, meta)
  .
  This package includes the static libraries and symbolic links
  needed for program development.
+ .
+ This metapackage provides a 64-bit indexing version.
 
 Package: libopenblas64-pthread-dev
 Architecture: amd64 arm64 kfreebsd-amd64 ppc64 ppc64el mips64el sparc64 s390x

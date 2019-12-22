@@ -13,7 +13,7 @@ update-alternatives --install /usr/lib/@DEB_HOST_MULTIARCH@/libblas64.so \
                     /usr/include/@DEB_HOST_MULTIARCH@/@SUBDIR@/cblas.h \
                     --slave /usr/lib/@DEB_HOST_MULTIARCH@/pkgconfig/blas64.pc \
                     blas64.pc-@DEB_HOST_MULTIARCH@ \
-                    /usr/lib/@DEB_HOST_MULTIARCH@/pkgconfig/blas-openblas.pc
+                    /usr/lib/@DEB_HOST_MULTIARCH@/@SUBDIR@/pkgconfig/blas-openblas.pc
 
 update-alternatives --install /usr/lib/@DEB_HOST_MULTIARCH@/liblapack64.so \
                     liblapack64.so-@DEB_HOST_MULTIARCH@ \
@@ -24,7 +24,7 @@ update-alternatives --install /usr/lib/@DEB_HOST_MULTIARCH@/liblapack64.so \
                     /usr/lib/@DEB_HOST_MULTIARCH@/@SUBDIR@/liblapack64.a \
                     --slave /usr/lib/@DEB_HOST_MULTIARCH@/pkgconfig/lapack64.pc \
                     lapack64.pc-@DEB_HOST_MULTIARCH@ \
-                    /usr/lib/@DEB_HOST_MULTIARCH@/pkgconfig/lapack-openblas.pc
+                    /usr/lib/@DEB_HOST_MULTIARCH@/@SUBDIR@/pkgconfig/lapack-openblas.pc
 
 update-alternatives --install /usr/lib/@DEB_HOST_MULTIARCH@/libopenblas64.so \
                     libopenblas64.so-@DEB_HOST_MULTIARCH@ \
@@ -41,7 +41,10 @@ update-alternatives --install /usr/lib/@DEB_HOST_MULTIARCH@/libopenblas64.so \
                     /usr/include/@DEB_HOST_MULTIARCH@/@SUBDIR@/f77blas.h \
                     --slave /usr/include/@DEB_HOST_MULTIARCH@/openblas64_config.h \
                     openblas64_config.h-@DEB_HOST_MULTIARCH@ \
-                    /usr/include/@DEB_HOST_MULTIARCH@/@SUBDIR@/openblas64_config.h
+                    /usr/include/@DEB_HOST_MULTIARCH@/@SUBDIR@/openblas_config.h \
+                    --slave /usr/lib/@DEB_HOST_MULTIARCH@/pkgconfig/openblas64.pc \
+                    openblas64.pc-@DEB_HOST_MULTIARCH@ \
+                    /usr/lib/@DEB_HOST_MULTIARCH@/@SUBDIR@/pkgconfig/openblas.pc
 
 #DEBHELPER#
 
