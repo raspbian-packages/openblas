@@ -1,0 +1,7 @@
+arm-gcc-flags.patch
+kfreebsd.patch
+remove-openmp-warning.patch
+no-embedded-lapack.patch
+shared-blas-lapack.patch
+matgen-symbols-not-included.patch
+link-tests-openmp.patch
