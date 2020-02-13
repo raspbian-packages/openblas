@@ -108,6 +108,8 @@ ifeq ($(USE_OPENMP), 1)
 ifeq ($(F_COMPILER), GFORTRAN)
 ifeq ($(C_COMPILER), CLANG)
 CEXTRALIB = -lomp
+else
+CEXTRALIB = -lgomp
 endif
 endif
 endif
