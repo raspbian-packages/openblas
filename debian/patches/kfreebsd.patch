@@ -29,7 +29,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  
 --- a/Makefile.install
 +++ b/Makefile.install
-@@ -67,14 +67,14 @@ endif
+@@ -68,14 +68,14 @@ endif
  #for install shared library
  ifneq ($(NO_SHARED),1)
  	@echo Copying the shared library to $(DESTDIR)$(OPENBLAS_LIBRARY_DIR)
@@ -48,7 +48,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  	ln -fs $(LIBSONAME) $(LIBPREFIX).so
 --- a/Makefile.system
 +++ b/Makefile.system
-@@ -292,7 +292,7 @@ ifeq ($(OSNAME), NetBSD)
+@@ -296,7 +296,7 @@ ifeq ($(OSNAME), NetBSD)
  MD5SUM = md5 -n
  endif
  

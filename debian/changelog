@@ -1,10 +1,30 @@
-openblas (0.3.7+ds-7+rpi1) bullseye-staging; urgency=medium
+openblas (0.3.8+ds-1+rpi1) bullseye-staging; urgency=medium
 
   [changes brought forward from 0.2.15-1+rpi1 by Peter Michael Green <plugwash@raspbian.org> at Fri, 11 Mar 2016 23:39:32 +0000]
   * Disable arm-gcc-flags.patch which was enforcing gcc flags that are wrong
     for raspbian.
 
- -- Raspbian forward porter <root@raspbian.org>  Sun, 22 Dec 2019 01:37:14 +0000
+ -- Raspbian forward porter <root@raspbian.org>  Mon, 17 Feb 2020 20:13:15 +0000
+
+openblas (0.3.8+ds-1) unstable; urgency=medium
+
+  * New upstream version 0.3.8+ds
+    + unfortunately we cannot enable dynamic arch for s390x, because it will
+      not work correctly on pre-Z13 systems (there is no fallbak on
+      ZARCH_GENERIC, see driver/other/dynamic_zarch.c)
+  * d/copyright: reflect upstream changes
+  * dgemm-test-without-lapacke.patch: drop patch, applied upstream
+  * Remove spurious TARGET setting for ppc64el, which has dynamic arch
+  * Bump S-V to 4.5.0
+  * d/rules: do not run testsuite in override_dh_auto_build.
+    It is already run in override_dh_auto_test.
+    Also honour DEB_BUILD_OPTIONS=nocheck.
+  * d/rules: ensure that whole build fails if build/test/install fails for one
+    flavour
+  * Remove unused override for libopenblas-dev
+  * link-tests-openmp.patch: new patch, fixes build failure in OpenMP variants
+
+ -- Sébastien Villemot <sebastien@debian.org>  Thu, 13 Feb 2020 18:52:52 +0100
 
 openblas (0.3.7+ds-7) unstable; urgency=medium
 

@@ -1,0 +1,28 @@
+Description: Fix build failure in tests for OpenMP variants
+Author: Sébastien Villemot <sebastien@debian.org>
+Bug: https://github.com/xianyi/OpenBLAS/issues/2416
+Last-Update: 2020-02-13
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/test/Makefile
++++ b/test/Makefile
+@@ -126,6 +126,8 @@ ifeq ($(USE_OPENMP), 1)
+ ifeq ($(F_COMPILER), GFORTRAN)
+ ifeq ($(C_COMPILER), CLANG)
+ CEXTRALIB = -lomp
++else
++CEXTRALIB = -lgomp
+ endif
+ endif
+ endif
+--- a/ctest/Makefile
++++ b/ctest/Makefile
+@@ -108,6 +108,8 @@ ifeq ($(USE_OPENMP), 1)
+ ifeq ($(F_COMPILER), GFORTRAN)
+ ifeq ($(C_COMPILER), CLANG)
+ CEXTRALIB = -lomp
++else
++CEXTRALIB = -lgomp
+ endif
+ endif
+ endif

@@ -187,6 +187,7 @@ Files: benchmark/cholesky.c
  interface/lapack/potri.c
  interface/lapack/trti2.c
  interface/lapack/trtri.c
+ interface/lapack/trtrs.c
  interface/lapack/zgetf2.c
  interface/lapack/zgetrf.c
  interface/lapack/zgetrs.c
@@ -198,6 +199,7 @@ Files: benchmark/cholesky.c
  interface/lapack/zpotri.c
  interface/lapack/ztrti2.c
  interface/lapack/ztrtri.c
+ interface/lapack/ztrtrs.c
  interface/max.c
  interface/nrm2.c
  interface/rot.c
@@ -499,6 +501,10 @@ Files: benchmark/cholesky.c
  lapack/trti2/ztrti2_U.c
  lapack/trtri/trtri_L_parallel.c
  lapack/trtri/trtri_U_parallel.c
+ lapack/trtrs/trtrs_parallel.c
+ lapack/trtrs/trtrs_single.c
+ lapack/trtrs/ztrtrs_parallel.c
+ lapack/trtrs/ztrtrs_single.c
  symcopy.h
  driver/level3/gemm3m_level3.c
  driver/level3/hemm3m_k.c
@@ -563,7 +569,7 @@ License: Apache-2.0
 
 Files: debian/*
 Copyright: 2011-2012 Sylvestre Ledru <sylvestre@debian.org>
-           2012-2018 Sébastien Villemot <sebastien@debian.org>
+           2012-2020 Sébastien Villemot <sebastien@debian.org>
 License: BSD-2-clause
    1. Redistributions of source code must retain the above
       copyright notice, this list of conditions and the following

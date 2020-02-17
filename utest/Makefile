@@ -4,9 +4,6 @@ TOPDIR	= ..
 override TARGET_ARCH=
 override TARGET_MACH=
 
-override TARGET_ARCH=
-override TARGET_MACH=
-
 UTESTBIN=openblas_utest
 
 .PHONY : all
@@ -32,6 +29,10 @@ ifndef USE_OPENMP
 ifeq ($(OSNAME), $(filter $(OSNAME),Linux CYGWIN_NT))
 OBJS += test_fork.o
 endif
+endif
+
+ifeq ($(C_COMPILER), PGI)
+OBJS = utest_main2.o
 endif
 
 all : run_test

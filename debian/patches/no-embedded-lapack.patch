@@ -8,7 +8,7 @@ Last-Update: 2017-07-27
 This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 --- a/Makefile
 +++ b/Makefile
-@@ -220,75 +220,22 @@
+@@ -220,75 +220,21 @@ hpl_p :
  	fi; \
  	done
  
@@ -28,16 +28,16 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 -endif
 -ifndef NO_LAPACKE
 -	@$(MAKE) -C $(NETLIB_LAPACK_DIR) lapackelib
--endif
 +	mkdir lapack64-netlib
 +	cd lapack64-netlib && ar -x /usr/lib/$$(dpkg-architecture -q DEB_HOST_MULTIARCH)/liblapack64_pic.a
 +	make -C interface delete-duplicate-lapack-objects
 +	ar -ru $(LIBNAME) `LC_ALL=C ls lapack64-netlib/*`
  endif
- 
+-endif
+-
 -ifeq ($(NO_LAPACK), 1)
 -re_lapack :
- 
+-
 -else
 -re_lapack :
 -	@$(MAKE) -C relapack
@@ -45,24 +45,24 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 -
 -prof_lapack : lapack_prebuild
 -	@$(MAKE) -C $(NETLIB_LAPACK_DIR) lapack_prof
--
+ 
 -lapack_prebuild :
 -ifeq ($(NOFORTRAN), $(filter 0,$(NOFORTRAN)))
--	-@echo "FORTRAN     = $(FC)" > $(NETLIB_LAPACK_DIR)/make.inc
--	-@echo "OPTS        = $(LAPACK_FFLAGS)" >> $(NETLIB_LAPACK_DIR)/make.inc
+-	-@echo "FC          = $(FC)" > $(NETLIB_LAPACK_DIR)/make.inc
+-	-@echo "FFLAGS      = $(LAPACK_FFLAGS)" >> $(NETLIB_LAPACK_DIR)/make.inc
 -	-@echo "POPTS       = $(LAPACK_FPFLAGS)" >> $(NETLIB_LAPACK_DIR)/make.inc
--	-@echo "NOOPT       = -O0 $(LAPACK_NOOPT)" >> $(NETLIB_LAPACK_DIR)/make.inc
+-	-@echo "FFLAGS_NOOPT       = -O0 $(LAPACK_NOOPT)" >> $(NETLIB_LAPACK_DIR)/make.inc
 -	-@echo "PNOOPT      = $(LAPACK_FPFLAGS) -O0" >> $(NETLIB_LAPACK_DIR)/make.inc
--	-@echo "LOADOPTS    = $(FFLAGS) $(EXTRALIB)" >> $(NETLIB_LAPACK_DIR)/make.inc
+-	-@echo "LDFLAGS     = $(FFLAGS) $(EXTRALIB)" >> $(NETLIB_LAPACK_DIR)/make.inc
 -	-@echo "CC          = $(CC)" >> $(NETLIB_LAPACK_DIR)/make.inc
 -	-@echo "override CFLAGS      = $(LAPACK_CFLAGS)" >> $(NETLIB_LAPACK_DIR)/make.inc
--	-@echo "override ARCH        = $(AR)" >> $(NETLIB_LAPACK_DIR)/make.inc
--	-@echo "ARCHFLAGS   = $(ARFLAGS) -ru" >> $(NETLIB_LAPACK_DIR)/make.inc
+-	-@echo "AR          = $(AR)" >> $(NETLIB_LAPACK_DIR)/make.inc
+-	-@echo "ARFLAGS     = $(ARFLAGS) -ru" >> $(NETLIB_LAPACK_DIR)/make.inc
 -	-@echo "RANLIB      = $(RANLIB)" >> $(NETLIB_LAPACK_DIR)/make.inc
--	-@echo "LAPACKLIB   = ../$(LIBNAME)" >> $(NETLIB_LAPACK_DIR)/make.inc
--	-@echo "TMGLIB      = ../$(LIBNAME)" >> $(NETLIB_LAPACK_DIR)/make.inc
+-	-@echo "LAPACKLIB   = ../../$(LIBNAME)" >> $(NETLIB_LAPACK_DIR)/make.inc
+-	-@echo "TMGLIB      = ../../../$(LIBNAME)" >> $(NETLIB_LAPACK_DIR)/make.inc
 -	-@echo "BLASLIB     = ../../../$(LIBNAME)" >> $(NETLIB_LAPACK_DIR)/make.inc
--	-@echo "LAPACKELIB  = ../$(LIBNAME)" >> $(NETLIB_LAPACK_DIR)/make.inc
+-	-@echo "LAPACKELIB  = ../../../$(LIBNAME)" >> $(NETLIB_LAPACK_DIR)/make.inc
 -	-@echo "LAPACKLIB_P = ../$(LIBNAME_P)" >> $(NETLIB_LAPACK_DIR)/make.inc
 -	-@echo "SUFFIX      = $(SUFFIX)" >> $(NETLIB_LAPACK_DIR)/make.inc
 -	-@echo "PSUFFIX     = $(PSUFFIX)" >> $(NETLIB_LAPACK_DIR)/make.inc
@@ -95,7 +95,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  
  large.tgz :
  ifeq ($(NOFORTRAN), $(filter 0,$(NOFORTRAN)))
-@@ -354,10 +301,5 @@
+@@ -354,10 +300,5 @@ ifeq ($(OSNAME), Darwin)
  	@rm -rf getarch.dSYM getarch_2nd.dSYM
  endif
  	@rm -f Makefile.conf config.h Makefile_kernel.conf config_kernel.h st* *.dylib
@@ -108,8 +108,8 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  	@echo Done.
 --- a/Makefile.system
 +++ b/Makefile.system
-@@ -25,8 +25,6 @@
- override ARCH=arm64
+@@ -29,8 +29,6 @@ else ifeq ($(ARCH), zarch)
+ override ARCH=zarch
  endif
  
 -NETLIB_LAPACK_DIR = $(TOPDIR)/lapack-netlib
@@ -119,7 +119,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  # - CC is an implicit variable so neither '?=' or 'ifndef' can be used.
 --- a/interface/Makefile
 +++ b/interface/Makefile
-@@ -2198,3 +2198,12 @@
+@@ -2217,3 +2217,12 @@ cblas_zgeadd.$(SUFFIX) cblas_zgeadd.$(PS
  
  cblas_xerbla.$(SUFFIX) cblas_xerbla.$(PSUFFIX) : xerbla.c
  	$(CC) -c $(CFLAGS) -DCBLAS $< -o $(@F)
@@ -134,12 +134,13 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 +		&& rm $(SLAPACKOBJS) $(DLAPACKOBJS) $(CLAPACKOBJS) $(ZLAPACKOBJS) lsame.o xerbla.o; fi
 --- a/Makefile.install
 +++ b/Makefile.install
-@@ -49,14 +49,6 @@
+@@ -49,15 +49,6 @@ ifndef NO_CBLAS
  endif
  
  ifneq ($(OSNAME), AIX)
 -ifndef NO_LAPACKE
 -	@echo Copying LAPACKE header files to $(DESTDIR)$(OPENBLAS_INCLUDE_DIR)
+-	@-install -pm644 $(NETLIB_LAPACK_DIR)/LAPACKE/include/lapack.h "$(DESTDIR)$(OPENBLAS_INCLUDE_DIR)/lapack.h"
 -	@-install -pm644 $(NETLIB_LAPACK_DIR)/LAPACKE/include/lapacke.h "$(DESTDIR)$(OPENBLAS_INCLUDE_DIR)/lapacke.h"
 -	@-install -pm644 $(NETLIB_LAPACK_DIR)/LAPACKE/include/lapacke_config.h "$(DESTDIR)$(OPENBLAS_INCLUDE_DIR)/lapacke_config.h"
 -	@-install -pm644 $(NETLIB_LAPACK_DIR)/LAPACKE/include/lapacke_mangling_with_flags.h.in "$(DESTDIR)$(OPENBLAS_INCLUDE_DIR)/lapacke_mangling.h"
