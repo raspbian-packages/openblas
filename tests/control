@@ -1,0 +1,23 @@
+Tests: upstream-testsuite
+Restrictions: allow-stderr
+Depends: libopenblas-pthread-dev, gfortran
+
+Tests: upstream-testsuite
+Restrictions: allow-stderr
+Depends: libopenblas-openmp-dev, gfortran
+
+Tests: upstream-testsuite
+Restrictions: allow-stderr
+Depends: libopenblas-serial-dev, gfortran
+
+Tests: upstream-testsuite64
+Restrictions: allow-stderr, skippable
+Depends: libopenblas64-pthread-dev [!armhf !i386 !armel !mipsel !hurd-i386 !kfreebsd-i386 !m68k !powerpc !sh4 !x32], gfortran, dpkg-dev
+
+Tests: upstream-testsuite64
+Restrictions: allow-stderr, skippable
+Depends: libopenblas64-openmp-dev [!armhf !i386 !armel !mipsel !hurd-i386 !kfreebsd-i386 !m68k !powerpc !sh4 !x32], gfortran, dpkg-dev
+
+Tests: upstream-testsuite64
+Restrictions: allow-stderr, skippable
+Depends: libopenblas64-serial-dev [!armhf !i386 !armel !mipsel !hurd-i386 !kfreebsd-i386 !m68k !powerpc !sh4 !x32], gfortran, dpkg-dev
