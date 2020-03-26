@@ -59,10 +59,10 @@ else
 endif
 # FLAVORS =  # XXX: Define your target configurations here if you are going to build customized packages
 FLAGS_0-pthread    := USE_THREAD=1 USE_OPENMP=0 INTERFACE64=0 LIBPREFIX=libopenblas   FCOMMON_OPT=-frecursive
-FLAGS_0-openmp     := USE_THREAD=1 USE_OPENMP=1 INTERFACE64=0 LIBPREFIX=libopenblas   FCOMMON_OPT=-frecursive
+FLAGS_0-openmp     := USE_THREAD=1 USE_OPENMP=1 INTERFACE64=0 LIBPREFIX=libopenblas   FCOMMON_OPT='-frecursive -fopenmp'
 FLAGS_0-serial     := USE_THREAD=0 USE_OPENMP=0 INTERFACE64=0 LIBPREFIX=libopenblas   FCOMMON_OPT=-frecursive
 FLAGS_64-0-pthread := USE_THREAD=1 USE_OPENMP=0 INTERFACE64=1 LIBPREFIX=libopenblas64 FCOMMON_OPT='-frecursive -fdefault-integer-8'
-FLAGS_64-0-openmp  := USE_THREAD=1 USE_OPENMP=1 INTERFACE64=1 LIBPREFIX=libopenblas64 FCOMMON_OPT='-frecursive -fdefault-integer-8'
+FLAGS_64-0-openmp  := USE_THREAD=1 USE_OPENMP=1 INTERFACE64=1 LIBPREFIX=libopenblas64 FCOMMON_OPT='-frecursive -fopenmp -fdefault-integer-8'
 FLAGS_64-0-serial  := USE_THREAD=0 USE_OPENMP=0 INTERFACE64=1 LIBPREFIX=libopenblas64 FCOMMON_OPT='-frecursive -fdefault-integer-8'
 
 # Priority values in the Update-Alternatives mechanism.
