@@ -1,18 +1,17 @@
 Source: openblas
 Maintainer: Debian Science Team <debian-science-maintainers@lists.alioth.debian.org>
 Uploaders: Sébastien Villemot <sebastien@debian.org>,
-           Mo Zhou <cdluminate@gmail.com>
+           Mo Zhou <lumin@debian.org>
 Section: devel
 Priority: optional
-Build-Depends: debhelper-compat (= 12),
-               dh-exec,
+Build-Depends: debhelper-compat (= 13),
                gfortran,
                liblapack-dev (>= 3.8.0-5~),
                liblapack64-dev (>= 3.8.0-5~) [amd64 arm64 ppc64el ppc64 kfreebsd-amd64 mips64el sparc64 s390x],
 Standards-Version: 4.5.0
 Vcs-Browser: https://salsa.debian.org/science-team/openblas
 Vcs-Git: https://salsa.debian.org/science-team/openblas.git
-Homepage: https://github.com/xianyi/OpenBLAS
+Homepage: https://www.openblas.net/
 Rules-Requires-Root: no
 
 # 32-bit indexing version
@@ -406,3 +405,25 @@ Description: Optimized BLAS (linear algebra) library (dev, 64bit, serial)
  needed for program development.
  .
  Configuration: USE_THREAD=0 USE_OPENMP=0 INTERFACE64=1
+
+# Another 64-bit version for Julia with custom symbol mangling.
+Package: libjulia-openblas64
+Architecture: amd64 arm64 ppc64el
+Multi-Arch: same
+Section: libs
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Conflicts: libjulia1 (<< 1.4.1+dfsg-2)
+Replaces: libjulia1 (<< 1.4.1+dfsg-2)
+Description: Optimized BLAS (linear algebra) library (julia version)
+ OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version.
+ .
+ Unlike Atlas, OpenBLAS provides a multiple architecture library.
+ .
+ All kernel will be included in the library and dynamically switched to the
+ best architecture at run time (only on amd64, arm64, i386 and ppc64el).
+ .
+ For more information on how to rebuild locally OpenBLAS, see the section:
+ "Building Optimized OpenBLAS Packages on your ARCH" in README.Debian
+ .
+ Configuration: USE_THREAD=1 USE_OPENMP=0 INTERFACE64=1
+                LIBPREFIX=libopenblas64_ SYMBOLSUFFIX=64_

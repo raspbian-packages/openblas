@@ -1,4 +1,8 @@
 #!/usr/bin/make -f
+
+# For Ubuntu, see #961725
+export DEB_LDFLAGS_MAINT_STRIP := "-Wl,-Bsymbolic-functions"
+
 include /usr/share/dpkg/buildflags.mk
 include /usr/share/dpkg/pkg-info.mk
 SOVER := 0
@@ -64,6 +68,8 @@ FLAGS_0-serial     := USE_THREAD=0 USE_OPENMP=0 INTERFACE64=0 LIBPREFIX=libopenb
 FLAGS_64-0-pthread := USE_THREAD=1 USE_OPENMP=0 INTERFACE64=1 LIBPREFIX=libopenblas64 FCOMMON_OPT='-frecursive -fdefault-integer-8'
 FLAGS_64-0-openmp  := USE_THREAD=1 USE_OPENMP=1 INTERFACE64=1 LIBPREFIX=libopenblas64 FCOMMON_OPT='-frecursive -fopenmp -fdefault-integer-8'
 FLAGS_64-0-serial  := USE_THREAD=0 USE_OPENMP=0 INTERFACE64=1 LIBPREFIX=libopenblas64 FCOMMON_OPT='-frecursive -fdefault-integer-8'
+FLAGS_julia        := USE_THREAD=1 USE_OPENMP=0 INTERFACE64=1 LIBPREFIX=libopenblas64_ FCOMMON_OPT='-frecursive -fdefault-integer-8' \
+	SYMBOLSUFFIX=64_ GEMM_MULTITHREADING_THRESHOLD=50 NO_AFFINITY=1
 
 # Priority values in the Update-Alternatives mechanism.
 # O,P,S stands for openmp, pthread, serial respectively
@@ -76,6 +82,12 @@ UAPRI_S = 90
 	dh $@
 
 override_dh_auto_configure: $(addprefix config_, $(FLAVORS))
+ifneq (,$(filter $(DEB_HOST_ARCH), amd64 arm64 ppc64el))
+ifeq (,$(filter custom,$(DEB_BUILD_OPTIONS)))
+	# shared object package for Julia's custom use
+	mkdir julia; cp -r $(SRCS) julia/;
+endif
+endif
 	:
 
 config_%:
@@ -119,9 +131,15 @@ config_%:
 		fi; \
 	done;
 
-override_dh_auto_build: 
+override_dh_auto_build:
 	for target in $(addprefix build_, $(FLAVORS)); do \
 		$(MAKE) -f debian/rules $$target || exit 1; done
+ifneq (,$(filter $(DEB_HOST_ARCH), amd64 arm64 ppc64el))
+ifeq (,$(filter custom,$(DEB_BUILD_OPTIONS)))
+	# shared object package for Julia's custom use
+	$(MAKE) -C julia libs netlib shared $(MAKE_OPTIONS) $(FLAGS_julia)
+endif
+endif
 
 build_0-pthread:
 	$(MAKE) -C 0-pthread libs netlib shared $(MAKE_OPTIONS) $(FLAGS_0-pthread)
@@ -150,6 +168,12 @@ override_dh_auto_test:
 ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
 	for target in $(addprefix test_, $(FLAVORS)); do \
 		$(MAKE) -f debian/rules $$target || exit 1; done
+ifneq (,$(filter $(DEB_HOST_ARCH), amd64 arm64 ppc64el))
+ifeq (,$(filter custom,$(DEB_BUILD_OPTIONS)))
+	# shared object package for Julia's custom use
+	$(MAKE) -C julia tests $(MAKE_OPTIONS) $(FLAGS_julia)
+endif
+endif
 endif
 
 test_0-pthread:
@@ -173,6 +197,13 @@ override_dh_auto_install:
 		$(MAKE) -f debian/rules $$target || exit 1; done
 	# change the inclusion for the 64-bit variant
 	find debian/tmp -type f -path '*openblas64*' -exec sed -i -e 's/openblas_config.h/openblas64_config.h/g' '{}' \;
+ifneq (,$(filter $(DEB_HOST_ARCH), amd64 arm64 ppc64el))
+ifeq (,$(filter custom,$(DEB_BUILD_OPTIONS)))
+	# shared object package for Julia's custom use
+	mkdir -p debian/libjulia-openblas64/usr/lib/$(DEB_HOST_MULTIARCH)/julia/
+	cp -dv julia/libopenblas64_*so* debian/libjulia-openblas64/usr/lib/$(DEB_HOST_MULTIARCH)/julia/
+endif
+endif
 
 install_%:
 	$(MAKE) -C $* install $(MAKE_OPTIONS) $(FLAGS_$*) \

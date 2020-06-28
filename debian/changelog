@@ -1,10 +1,32 @@
-openblas (0.3.9+ds-1+rpi1) bullseye-staging; urgency=medium
+openblas (0.3.9+ds-3+rpi1) bullseye-staging; urgency=medium
 
   [changes brought forward from 0.2.15-1+rpi1 by Peter Michael Green <plugwash@raspbian.org> at Fri, 11 Mar 2016 23:39:32 +0000]
   * Disable arm-gcc-flags.patch which was enforcing gcc flags that are wrong
     for raspbian.
 
- -- Raspbian forward porter <root@raspbian.org>  Thu, 26 Mar 2020 03:48:16 +0000
+ -- Raspbian forward porter <root@raspbian.org>  Sun, 28 Jun 2020 17:05:14 +0000
+
+openblas (0.3.9+ds-3) unstable; urgency=medium
+
+  [ Sébastien Villemot ]
+  * Remove B-D on dh-exec, no longer needed since debhelper 13
+  * On Ubuntu, strip -Wl,-Bsymbolic-functions from LDFLAGS (Closes: #961725)
+  * Update Homepage to https://www.openblas.net
+
+  [ Mo Zhou ]
+  * Let libopenblas64-julia Conflict & Replace libjulia1 (<< 1.4.1+dfsg-1)
+    (Closes: #963223)
+  * Upload to unstable.
+
+ -- Mo Zhou <lumin@debian.org>  Thu, 25 Jun 2020 17:39:59 +0800
+
+openblas (0.3.9+ds-2) experimental; urgency=medium
+
+  * Build the custom version of OpenBLAS for Julia.
+  * Update my mail address in Uploaders.
+  * Bump debhelper compat level to 13 (no change).
+
+ -- Mo Zhou <lumin@debian.org>  Thu, 14 May 2020 19:06:33 +0800
 
 openblas (0.3.9+ds-1) unstable; urgency=medium
 
