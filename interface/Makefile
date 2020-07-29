@@ -2245,3 +2245,28 @@ delete-duplicate-lapack-objects:
 		&& rm $(SLAPACKOBJS) $(DLAPACKOBJS) $(CLAPACKOBJS) $(ZLAPACKOBJS) lsame.o xerbla.o; fi
 	if test -d ../lapack64-netlib; then cd ../lapack64-netlib \
 		&& rm $(SLAPACKOBJS) $(DLAPACKOBJS) $(CLAPACKOBJS) $(ZLAPACKOBJS) lsame.o xerbla.o; fi
+
+shared-blas-lapack: libblas.so.3 liblapack.so.3
+shared-blas64-lapack64: libblas64.so.3 liblapack64.so.3
+ifneq (0,$(USE_OPENMP))
+SH_BLAS_LAPACK_OMP=-fopenmp -lgomp
+endif
+
+# The list of prerequisite is created by comparing with NETLIB BLAS public API.
+# The symbol cblas_xerbla is missing here, but it does not seem to be provided
+# by libopenblas.so.0 either.
+libblas.so.3: $(SBLAS1OBJS) $(SBLAS2OBJS) $(SBLAS3OBJS) $(DBLAS1OBJS) $(DBLAS2OBJS) $(DBLAS3OBJS) $(CBLAS1OBJS) $(CBLAS2OBJS) $(CBLAS3OBJS) $(ZBLAS1OBJS) $(ZBLAS2OBJS) $(ZBLAS3OBJS) ../kernel/lsame.o ../kernel/scabs1.o ../kernel/dcabs1.o ../driver/others/xerbla.o
+	$(CC) $(LDFLAGS) -shared -o $@ $^ -Wl,-soname,libblas.so.3 -L.. -lopenblas $(EXTRALIB) $(SH_BLAS_LAPACK_OMP)
+
+libblas64.so.3: $(SBLAS1OBJS) $(SBLAS2OBJS) $(SBLAS3OBJS) $(DBLAS1OBJS) $(DBLAS2OBJS) $(DBLAS3OBJS) $(CBLAS1OBJS) $(CBLAS2OBJS) $(CBLAS3OBJS) $(ZBLAS1OBJS) $(ZBLAS2OBJS) $(ZBLAS3OBJS) ../kernel/lsame.o ../kernel/scabs1.o ../kernel/dcabs1.o ../driver/others/xerbla.o
+	$(CC) $(LDFLAGS) -shared -o $@ $^ -Wl,-soname,libblas64.so.3 -L.. -lopenblas64 $(EXTRALIB) $(SH_BLAS_LAPACK_OMP)
+
+# The prerequisites must match the symbols deleted in target delete-duplicate-lapack-objects
+liblapack.so.3: $(SLAPACKOBJS) $(DLAPACKOBJS) $(CLAPACKOBJS) $(ZLAPACKOBJS) ../kernel/lsame.o ../driver/others/xerbla.o
+	$(CC) $(LDFLAGS) -shared -o $@ $^ `LC_ALL=C ls ../lapack-netlib/*` -Wl,-soname,liblapack.so.3 -L.. -lopenblas $(EXTRALIB) $(SH_BLAS_LAPACK_OMP)
+
+liblapack64.so.3: $(SLAPACKOBJS) $(DLAPACKOBJS) $(CLAPACKOBJS) $(ZLAPACKOBJS) ../kernel/lsame.o ../driver/others/xerbla.o
+	$(CC) $(LDFLAGS) -shared -o $@ $^ `LC_ALL=C ls ../lapack64-netlib/*` -Wl,-soname,liblapack64.so.3 -L.. -lopenblas64 $(EXTRALIB) $(SH_BLAS_LAPACK_OMP)
+
+clean::
+	rm -f libblas.so.3 liblapack.so.3
