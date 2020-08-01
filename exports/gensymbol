@@ -3382,6 +3382,7 @@
 use File::Spec;
 use File::Basename;
 my $dirname = File::Spec->catfile(dirname(dirname(File::Spec->rel2abs(__FILE__))), "lapack-netlib");
+my $dirname2 = File::Spec->catfile(dirname(dirname(File::Spec->rel2abs(__FILE__))), "lapack64-netlib");
 
 if ($ARGV[12] == 1) {
 	@blasobjs = (@blasobjs, @halfblasobjs);
@@ -3393,7 +3394,7 @@ if ($ARGV[8] == 1) {
 } elsif ($ARGV[5] == 1) {
     #NO_LAPACK=1
     @underscore_objs = (@blasobjs, @misc_underscore_objs);
-} elsif (-d $dirname) {
+} elsif (-d $dirname || -d $dirname2) {
     if ($ARGV[7] == 0) {
         # NEED2UNDERSCORES=0
         # Don't need 2 underscores
