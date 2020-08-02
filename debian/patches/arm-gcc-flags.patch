@@ -9,7 +9,7 @@ Last-Update: 2015-04-29
 This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 --- a/Makefile.arm
 +++ b/Makefile.arm
-@@ -9,6 +9,6 @@ endif
+@@ -9,6 +9,6 @@
  endif
  
  ifeq ($(CORE), ARMV6)

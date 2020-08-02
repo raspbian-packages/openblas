@@ -1,10 +1,32 @@
-openblas (0.3.9+ds-3+rpi1) bullseye-staging; urgency=medium
+openblas (0.3.10+ds-2+rpi1) bullseye-staging; urgency=medium
 
   [changes brought forward from 0.2.15-1+rpi1 by Peter Michael Green <plugwash@raspbian.org> at Fri, 11 Mar 2016 23:39:32 +0000]
   * Disable arm-gcc-flags.patch which was enforcing gcc flags that are wrong
     for raspbian.
 
- -- Raspbian forward porter <root@raspbian.org>  Sun, 28 Jun 2020 17:05:14 +0000
+ -- Raspbian forward porter <root@raspbian.org>  Sun, 02 Aug 2020 13:36:51 +0000
+
+openblas (0.3.10+ds-2) unstable; urgency=medium
+
+  * lib{blas,lapack}.so.3 are again dynamically linked against libopenblas.so.0.
+    This restores the pre-multi-flavour behaviour.
+    Incidentally, this brings back the possibility of checking at runtime for
+    the presence of openblas_get_config symbol. (Closes: #960728)
+  * fix-dynamic-arch-gemm-crashes.patch: new patch (Closes: #966175)
+  * Add debian/upstream/metadata
+
+ -- Sébastien Villemot <sebastien@debian.org>  Wed, 29 Jul 2020 14:51:22 +0200
+
+openblas (0.3.10+ds-1) unstable; urgency=medium
+
+  [ Mo Zhou ]
+  * New upstream version 0.3.10+ds
+  * Refresh existing patches.
+
+  [ Sébastien Villemot ]
+  * d/copyright: reflect upstream changes
+
+ -- Mo Zhou <lumin@debian.org>  Tue, 07 Jul 2020 19:50:08 +0800
 
 openblas (0.3.9+ds-3) unstable; urgency=medium
 

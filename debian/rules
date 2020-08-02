@@ -225,3 +225,13 @@ install_%:
 			< debian/$${f}.pc.in \
 			> debian/tmp/usr/lib/$(DEB_HOST_MULTIARCH)/openblas$(subst $(SOVER)-,-,$(subst -$(SOVER)-,-,$*))/pkgconfig/$${f}.pc; \
 	done
+
+# Needed for handling the dynamic linking of lib{blas,lapack}.so.3 to libopenblas.so.0
+override_dh_shlibdeps:
+	dh_shlibdeps -plibopenblas0-pthread -l $$(pwd)/debian/libopenblas0-pthread/usr/lib/$(DEB_HOST_MULTIARCH)/openblas-pthread/
+	dh_shlibdeps -plibopenblas0-openmp -l $$(pwd)/debian/libopenblas0-openmp/usr/lib/$(DEB_HOST_MULTIARCH)/openblas-openmp/
+	dh_shlibdeps -plibopenblas0-serial -l $$(pwd)/debian/libopenblas0-serial/usr/lib/$(DEB_HOST_MULTIARCH)/openblas-serial/
+	dh_shlibdeps -plibopenblas64-0-pthread -l $$(pwd)/debian/libopenblas64-0-pthread/usr/lib/$(DEB_HOST_MULTIARCH)/openblas64-pthread/
+	dh_shlibdeps -plibopenblas64-0-openmp -l $$(pwd)/debian/libopenblas64-0-openmp/usr/lib/$(DEB_HOST_MULTIARCH)/openblas64-openmp/
+	dh_shlibdeps -plibopenblas64-0-serial -l $$(pwd)/debian/libopenblas64-0-serial/usr/lib/$(DEB_HOST_MULTIARCH)/openblas64-serial/
+	dh_shlibdeps --remaining-packages -a
