@@ -6,8 +6,8 @@ Section: devel
 Priority: optional
 Build-Depends: debhelper-compat (= 13),
                gfortran,
-               liblapack-dev (>= 3.8.0-5~),
-               liblapack64-dev (>= 3.8.0-5~) [amd64 arm64 ppc64el ppc64 kfreebsd-amd64 mips64el sparc64 s390x],
+               liblapack-dev (>= 3.9.0-3~),
+               liblapack64-dev (>= 3.9.0-3~) [amd64 arm64 ppc64el ppc64 kfreebsd-amd64 mips64el sparc64 s390x],
 Standards-Version: 4.5.0
 Vcs-Browser: https://salsa.debian.org/science-team/openblas
 Vcs-Git: https://salsa.debian.org/science-team/openblas.git
@@ -20,8 +20,7 @@ Package: libopenblas0
 Architecture: amd64 arm64 armhf i386 powerpc ppc64el ppc64 kfreebsd-i386 kfreebsd-amd64 mips64el sparc64 s390x
 Multi-Arch: same
 Section: metapackages
-Depends: ${shlibs:Depends},
-         ${misc:Depends},
+Depends: ${misc:Depends},
          libopenblas0-pthread | libopenblas0-openmp | libopenblas0-serial,
 Breaks: libblas3 (<< 3.7.1-2~),
         liblapack3 (<< 3.7.1-2~),
@@ -117,8 +116,7 @@ Package: libopenblas-base
 Architecture: amd64 arm64 armhf i386 powerpc ppc64el ppc64 kfreebsd-i386 kfreebsd-amd64 mips64el sparc64 s390x
 Multi-Arch: same
 Section: oldlibs
-Depends: ${shlibs:Depends},
-         ${misc:Depends},
+Depends: ${misc:Depends},
          libopenblas0,
 Breaks: libblas3 (<< 3.7.1-2~),
         liblapack3 (<< 3.7.1-2~),
@@ -142,7 +140,6 @@ Architecture: amd64 arm64 armhf i386 powerpc ppc64el ppc64 kfreebsd-i386 kfreebs
 Multi-Arch: same
 Section: metapackages
 Depends: libopenblas0 (= ${binary:Version}),
-         ${shlibs:Depends},
          ${misc:Depends},
          libopenblas-pthread-dev | libopenblas-openmp-dev | libopenblas-serial-dev,
 Breaks: libblas-dev (<< 3.7.1-2~),
@@ -164,7 +161,6 @@ Architecture: amd64 arm64 armhf i386 powerpc ppc64el ppc64 kfreebsd-i386 kfreebs
 Multi-Arch: same
 Section: libdevel
 Depends: libopenblas0-pthread (= ${binary:Version}),
-         ${shlibs:Depends},
          ${misc:Depends}
 Breaks: libblas-dev (<< 3.7.1-2~),
         liblapack-dev (<< 3.7.1-2~),
@@ -189,7 +185,6 @@ Architecture: amd64 arm64 armhf i386 powerpc ppc64el ppc64 kfreebsd-i386 kfreebs
 Multi-Arch: same
 Section: libdevel
 Depends: libopenblas0-openmp (= ${binary:Version}),
-         ${shlibs:Depends},
          ${misc:Depends}
 Breaks: libblas-dev (<< 3.7.1-2~),
         liblapack-dev (<< 3.7.1-2~),
@@ -214,7 +209,6 @@ Architecture: amd64 arm64 armhf i386 powerpc ppc64el ppc64 kfreebsd-i386 kfreebs
 Multi-Arch: same
 Section: libdevel
 Depends: libopenblas0-serial (= ${binary:Version}),
-         ${shlibs:Depends},
          ${misc:Depends}
 Breaks: libblas-dev (<< 3.7.1-2~),
         liblapack-dev (<< 3.7.1-2~),
@@ -240,8 +234,7 @@ Package: libopenblas64-0
 Architecture: amd64 arm64 kfreebsd-amd64 ppc64 ppc64el mips64el sparc64 s390x
 Multi-Arch: same
 Section: metapackages
-Depends: ${shlibs:Depends},
-         ${misc:Depends},
+Depends: ${misc:Depends},
          libopenblas64-0-pthread | libopenblas64-0-openmp | libopenblas64-0-serial,
 Description: Optimized BLAS (linear algebra) library (shared lib, 64bit, meta)
  OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version.
@@ -324,7 +317,6 @@ Architecture: amd64 arm64 kfreebsd-amd64 ppc64 ppc64el mips64el sparc64 s390x
 Multi-Arch: same
 Section: metapackages
 Depends: libopenblas64-0 (= ${binary:Version}),
-         ${shlibs:Depends},
          ${misc:Depends},
          libopenblas64-pthread-dev | libopenblas64-openmp-dev | libopenblas64-serial-dev,
 Description: Optimized BLAS (linear algebra) library (dev, 64bit, meta)
@@ -345,7 +337,6 @@ Architecture: amd64 arm64 kfreebsd-amd64 ppc64 ppc64el mips64el sparc64 s390x
 Multi-Arch: same
 Section: libdevel
 Depends: libopenblas64-0-pthread (= ${binary:Version}),
-         ${shlibs:Depends},
          ${misc:Depends}
 Provides: libblas64.so,
           liblapack64.so
@@ -367,7 +358,6 @@ Architecture: amd64 arm64 kfreebsd-amd64 ppc64 ppc64el mips64el sparc64 s390x
 Multi-Arch: same
 Section: libdevel
 Depends: libopenblas64-0-openmp (= ${binary:Version}),
-         ${shlibs:Depends},
          ${misc:Depends}
 Provides: libblas64.so,
           liblapack64.so
@@ -389,7 +379,6 @@ Architecture: amd64 arm64 kfreebsd-amd64 ppc64 ppc64el mips64el sparc64 s390x
 Multi-Arch: same
 Section: libdevel
 Depends: libopenblas64-0-serial (= ${binary:Version}),
-         ${shlibs:Depends},
          ${misc:Depends}
 Provides: libblas64.so,
           liblapack64.so

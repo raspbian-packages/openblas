@@ -1,10 +1,35 @@
-openblas (0.3.10+ds-2+rpi1) bullseye-staging; urgency=medium
+openblas (0.3.10+ds-3+rpi1) bullseye-staging; urgency=medium
 
   [changes brought forward from 0.2.15-1+rpi1 by Peter Michael Green <plugwash@raspbian.org> at Fri, 11 Mar 2016 23:39:32 +0000]
   * Disable arm-gcc-flags.patch which was enforcing gcc flags that are wrong
     for raspbian.
 
- -- Raspbian forward porter <root@raspbian.org>  Sun, 02 Aug 2020 13:36:51 +0000
+ -- Raspbian forward porter <root@raspbian.org>  Thu, 13 Aug 2020 15:46:55 +0000
+
+openblas (0.3.10+ds-3) unstable; urgency=medium
+
+  [ Mo Zhou ]
+  * Fix confusion bug in the libblas.so.3->libopenblas.so.0 linkage.
+    We added -Wl,-rpath,'$ORIGIN' in the RPATH attribute of the libblas.so.3
+    shared objects. Without this fix, `ldd openblas-serial/libblas.so.3`
+    will resolve the libopenblas.so.0 dependency to the symbol link
+    controlled by the alternatives mechanism, e.g. libopenblas.so.0 ->
+    openblas-pthread/libopenblas.so.0, which breaks the literal meaning
+    of the user's libblas.so.3 <--provies-- openblas-serial configuration.
+  * Remove the unnecessary dh_shlibdeps overrides.
+  * Remove ${shlibs:Depends} dependency from -dev and -meta packages.
+  * Fix symbol mangling for libjulia-openblas64.
+  * B-D on lapack (>= 3.9.0-3) for BLAS64 version of deprecated routines.
+
+  [ Sébastien Villemot ]
+  * d/rules: ensure that shared-library flavoured packages do not depend on
+    libopenblas{64-,}0 metapackages. A circular dependency:
+     libopenblas0 → libopenblas0-{pthread,openmp,serial} → libopenblas0
+    was introduced in 0.3.10+ds-2, since lib{blas,lapack}.so.3 is (again)
+    dynamically linked against libopenblas0. We break the loop manually at the
+    dpkg-shlibdeps level. (Closes: #966607)
+
+ -- Mo Zhou <lumin@debian.org>  Sat, 01 Aug 2020 23:25:44 +0800
 
 openblas (0.3.10+ds-2) unstable; urgency=medium
 

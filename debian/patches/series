@@ -4,4 +4,5 @@ no-embedded-lapack.patch
 shared-blas-lapack.patch
 matgen-symbols-not-included.patch
 fix-dynamic-arch-gemm-crashes.patch
+gensymbols-fix-detect-netlib.patch
 auto-0.3.7+ds-1+rpi1-e5cdb5bc2fdbe4ed5849a311d639ae1e43ddffb5-1566623053
