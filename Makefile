@@ -141,7 +141,7 @@ ifndef NO_FBLAS
 	$(MAKE) -C test all
 endif
 	$(MAKE) -C utest all
-ifndef NO_CBLAS
+ifneq ($(NO_CBLAS), 1)
 	$(MAKE) -C ctest all
 ifeq ($(CPP_THREAD_SAFETY_TEST), 1)
 	$(MAKE) -C cpp_thread_test all
@@ -311,10 +311,11 @@ clean ::
 	@$(MAKE) -C kernel clean
 #endif
 	@$(MAKE) -C reference clean
-	@rm -f *.$(LIBSUFFIX) *.so *~ *.exe getarch getarch_2nd *.dll *.lib *.$(SUFFIX) *.dwf $(LIBPREFIX).$(LIBSUFFIX) $(LIBPREFIX)_p.$(LIBSUFFIX) $(LIBPREFIX).so.$(MAJOR_VERSION) *.lnk myconfig.h
+	@rm -f *.$(LIBSUFFIX) *.so *~ *.exe getarch getarch_2nd *.dll *.lib *.$(SUFFIX) *.dwf $(LIBPREFIX).$(LIBSUFFIX) $(LIBPREFIX)_p.$(LIBSUFFIX) $(LIBPREFIX).so.$(MAJOR_VERSION) *.lnk myconfig.h *.so.renamed *.a.renamed *.so.0
 ifeq ($(OSNAME), Darwin)
 	@rm -rf getarch.dSYM getarch_2nd.dSYM
 endif
 	@rm -f Makefile.conf config.h Makefile_kernel.conf config_kernel.h st* *.dylib
+	@rm -f cblas.tmp cblas.tmp2
 	@rm -f *.grd Makefile.conf_last config_last.h
 	@echo Done.

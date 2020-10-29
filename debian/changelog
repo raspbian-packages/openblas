@@ -1,10 +1,17 @@
-openblas (0.3.10+ds-3+rpi1) bullseye-staging; urgency=medium
+openblas (0.3.12+ds-1+rpi1) bullseye-staging; urgency=medium
 
   [changes brought forward from 0.2.15-1+rpi1 by Peter Michael Green <plugwash@raspbian.org> at Fri, 11 Mar 2016 23:39:32 +0000]
   * Disable arm-gcc-flags.patch which was enforcing gcc flags that are wrong
     for raspbian.
 
- -- Raspbian forward porter <root@raspbian.org>  Thu, 13 Aug 2020 15:46:55 +0000
+ -- Raspbian forward porter <root@raspbian.org>  Thu, 29 Oct 2020 16:18:44 +0000
+
+openblas (0.3.12+ds-1) unstable; urgency=medium
+
+  * New upstream version 0.3.12+ds
+  * fix-dynamic-arch-gemm-crashes.patch: drop patch, applied upstream
+
+ -- Sébastien Villemot <sebastien@debian.org>  Mon, 26 Oct 2020 17:52:08 +0100
 
 openblas (0.3.10+ds-3) unstable; urgency=medium
 

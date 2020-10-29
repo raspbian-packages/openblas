@@ -9,7 +9,7 @@ Last-Update: 2014-08-05
 This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 --- a/Makefile.system
 +++ b/Makefile.system
-@@ -307,7 +307,7 @@
+@@ -342,7 +342,7 @@ ifeq ($(OSNAME), NetBSD)
  MD5SUM = md5 -n
  endif
  

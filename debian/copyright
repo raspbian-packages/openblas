@@ -435,6 +435,10 @@ Files: benchmark/cholesky.c
  kernel/generic/ztrsm_utcopy_4.c
  kernel/generic/ztrsm_utcopy_8.c
  kernel/power/lock.c
+ kernel/power/sbgemm_ncopy_16_power10.c
+ kernel/power/sbgemm_ncopy_8_power10.c
+ kernel/power/sbgemm_tcopy_16_power10.c
+ kernel/power/sbgemm_tcopy_8_power10.c
  kernel/setparam-ref.c
  kernel/x86_64/dger.c
  kernel/x86_64/sger.c
@@ -465,7 +469,6 @@ Files: benchmark/cholesky.c
  lapack/getrf/getrf_parallel.c
  lapack/getrf/getrf_parallel_omp.c
  lapack/getrf/getrf_single.c
- lapack/getrf/potrf_parallel.c
  lapack/getrs/getrs_parallel.c
  lapack/getrs/getrs_single.c
  lapack/getrs/zgetrs_parallel.c

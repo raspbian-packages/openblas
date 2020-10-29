@@ -8,7 +8,7 @@ Last-Update: 2017-07-27
 This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 --- a/Makefile
 +++ b/Makefile
-@@ -235,76 +235,22 @@
+@@ -235,88 +235,22 @@ hpl_p :
  	fi; \
  	done
  
@@ -21,7 +21,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 -	@$(MAKE) -C $(NETLIB_LAPACK_DIR) lapacklib
 -	@$(MAKE) -C $(NETLIB_LAPACK_DIR) tmglib
 -endif
--ifndef NO_LAPACKE
+-ifneq ($(NO_LAPACKE), 1)
 -	@$(MAKE) -C $(NETLIB_LAPACK_DIR) lapackelib
 -endif
 -endif
@@ -89,6 +89,18 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 -ifeq ($(BUILD_LAPACK_DEPRECATED), 1)
 -	-@echo "BUILD_DEPRECATED      = 1" >> $(NETLIB_LAPACK_DIR)/make.inc
 -endif
+-ifeq ($(BUILD_SINGLE), 1)
+-	-@echo "BUILD_SINGLE      = 1" >> $(NETLIB_LAPACK_DIR)/make.inc
+-endif
+-ifeq ($(BUILD_DOUBLE), 1)
+-	-@echo "BUILD_DOUBLE      = 1" >> $(NETLIB_LAPACK_DIR)/make.inc
+-endif
+-ifeq ($(BUILD_COMPLEX), 1)
+-	-@echo "BUILD_COMPLEX      = 1" >> $(NETLIB_LAPACK_DIR)/make.inc
+-endif
+-ifeq ($(BUILD_COMPLEX16), 1)
+-	-@echo "BUILD_COMPLEX16      = 1" >> $(NETLIB_LAPACK_DIR)/make.inc
+-endif
 -	-@echo "LAPACKE_WITH_TMG      = 1" >> $(NETLIB_LAPACK_DIR)/make.inc
 -	-@cat  make.inc >> $(NETLIB_LAPACK_DIR)/make.inc
 -endif
@@ -97,10 +109,10 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  
  large.tgz :
  ifeq ($(NOFORTRAN), $(filter 0,$(NOFORTRAN)))
-@@ -370,10 +316,5 @@
- 	@rm -rf getarch.dSYM getarch_2nd.dSYM
+@@ -383,10 +317,5 @@ ifeq ($(OSNAME), Darwin)
  endif
  	@rm -f Makefile.conf config.h Makefile_kernel.conf config_kernel.h st* *.dylib
+ 	@rm -f cblas.tmp cblas.tmp2
 -	@touch $(NETLIB_LAPACK_DIR)/make.inc
 -	@$(MAKE) -C $(NETLIB_LAPACK_DIR) clean
 -	@rm -f $(NETLIB_LAPACK_DIR)/make.inc $(NETLIB_LAPACK_DIR)/lapacke/include/lapacke_mangling.h
@@ -110,7 +122,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  	@echo Done.
 --- a/Makefile.system
 +++ b/Makefile.system
-@@ -31,8 +31,6 @@
+@@ -35,8 +35,6 @@ else ifeq ($(ARCH), zarch)
  override ARCH=zarch
  endif
  
@@ -121,11 +133,10 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  # - CC is an implicit variable so neither '?=' or 'ifndef' can be used.
 --- a/interface/Makefile
 +++ b/interface/Makefile
-@@ -2236,3 +2236,12 @@
- 
+@@ -2310,3 +2310,11 @@ cblas_zgeadd.$(SUFFIX) cblas_zgeadd.$(PS
  cblas_xerbla.$(SUFFIX) cblas_xerbla.$(PSUFFIX) : xerbla.c
  	$(CC) -c $(CFLAGS) -DCBLAS $< -o $(@F)
-+
+ 
 +# The list of symbols to be removed can be seen in the diff between LAPACK's
 +# original SRC/Makefile and the version of that same file that is included in
 +# OpenBLAS (unfiltered) tarball
@@ -136,7 +147,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 +		&& rm $(SLAPACKOBJS) $(DLAPACKOBJS) $(CLAPACKOBJS) $(ZLAPACKOBJS) lsame.o xerbla.o; fi
 --- a/Makefile.install
 +++ b/Makefile.install
-@@ -49,15 +49,6 @@
+@@ -72,15 +72,6 @@ endif
  endif
  
  ifneq ($(OSNAME), AIX)

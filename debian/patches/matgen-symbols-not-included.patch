@@ -8,7 +8,7 @@ Last-Update: 2016-03-24
 This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 --- a/exports/gensymbol
 +++ b/exports/gensymbol
-@@ -498,24 +498,6 @@
+@@ -580,24 +580,6 @@ zpotri,
      cggsvp3,
      cgsvj0,
      cgsvj1,
@@ -33,7 +33,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
      cpotrf2,
      csbmv,
      cspr2,
-@@ -530,25 +512,6 @@
+@@ -614,25 +596,6 @@ zpotri,
      dggsvd3,
      dggsvp3,
      dladiv2,
@@ -59,7 +59,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
      dorm22,
      dpotrf2,
      dsecnd,
-@@ -562,25 +525,6 @@
+@@ -648,25 +611,6 @@ zpotri,
      sggsvd3,
      sggsvp3,
      sladiv2,
@@ -84,8 +84,8 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 -    slatmt,
      sorm22,
      spotrf2,
-     zgejsv,
-@@ -594,24 +538,6 @@
+     );
+@@ -682,24 +626,6 @@ zpotri,
      zggsvp3,
      zgsvj0,
      zgsvj1,
