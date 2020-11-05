@@ -1,10 +1,16 @@
-openblas (0.3.12+ds-1+rpi1) bullseye-staging; urgency=medium
+openblas (0.3.12+ds-2+rpi1) bullseye-staging; urgency=medium
 
   [changes brought forward from 0.2.15-1+rpi1 by Peter Michael Green <plugwash@raspbian.org> at Fri, 11 Mar 2016 23:39:32 +0000]
   * Disable arm-gcc-flags.patch which was enforcing gcc flags that are wrong
     for raspbian.
 
- -- Raspbian forward porter <root@raspbian.org>  Thu, 29 Oct 2020 16:18:44 +0000
+ -- Raspbian forward porter <root@raspbian.org>  Thu, 05 Nov 2020 19:05:47 +0000
+
+openblas (0.3.12+ds-2) unstable; urgency=medium
+
+  * reunify-arm64-buffersize.patch: new patch from upstream (Closes: #970558)
+
+ -- Sébastien Villemot <sebastien@debian.org>  Sun, 01 Nov 2020 10:47:26 +0100
 
 openblas (0.3.12+ds-1) unstable; urgency=medium
 
