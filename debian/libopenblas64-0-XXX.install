@@ -1,0 +1,4 @@
+usr/lib/*/@SUBDIR@/libopenblas64*-r0.*.so
+usr/lib/*/@SUBDIR@/libopenblas64.so.0
+@FLAVOR@/interface/libblas64.so.3 usr/lib/${DEB_HOST_MULTIARCH}/@SUBDIR@/
+@FLAVOR@/interface/liblapack64.so.3 usr/lib/${DEB_HOST_MULTIARCH}/@SUBDIR@/
