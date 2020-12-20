@@ -27,9 +27,11 @@ Date:   Tue Aug 20 16:52:34 2019 +0100
     Gbp-Pq: Name dgemm-test-without-lapacke.patch
 ---
 
---- openblas-0.3.7+ds.orig/Makefile.arm
-+++ openblas-0.3.7+ds/Makefile.arm
-@@ -9,6 +9,6 @@ endif
+Index: tempdefuzz/Makefile.arm
+===================================================================
+--- tempdefuzz.orig/Makefile.arm
++++ tempdefuzz/Makefile.arm
+@@ -9,8 +9,8 @@ endif
  endif
  
  ifeq ($(CORE), ARMV6)
@@ -38,3 +40,5 @@ Date:   Tue Aug 20 16:52:34 2019 +0100
 +CCOMMON_OPT += -mfpu=vfp -march=armv6
 +FCOMMON_OPT += -mfpu=vfp -march=armv6
  endif
+ 
+ ifdef HAVE_NEON
