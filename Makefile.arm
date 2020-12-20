@@ -12,3 +12,8 @@ ifeq ($(CORE), ARMV6)
 CCOMMON_OPT += -mfpu=vfp -march=armv6
 FCOMMON_OPT += -mfpu=vfp -march=armv6
 endif
+
+ifdef HAVE_NEON
+CCOMMON_OPT += -mfpu=neon
+FCOMMON_OPT += -mfpu=neon
+endif

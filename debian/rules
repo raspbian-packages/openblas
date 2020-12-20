@@ -36,6 +36,8 @@ TARGET_OPTION_armhf     = TARGET=ARMV6
 # We do not use DYNAMIC_ARCH selection on powerpc because it only works for
 # POWER6 and above
 TARGET_OPTION_powerpc   = TARGET=PPCG4
+# We do not use DYNAMIC_ARCH selection on mips64el because it only works for
+# Loongson3R3/3R4
 TARGET_OPTION_mips64el  = TARGET=SICORTEX
 # We do not use DYNAMIC_ARCH selection on ppc64 because it fails to build.
 # See https://buildd.debian.org/status/fetch.php?pkg=openblas&arch=ppc64&ver=0.3.6%2Bds-1&stamp=1562602383&raw=0

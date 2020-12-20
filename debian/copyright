@@ -70,6 +70,7 @@ Files: benchmark/cholesky.c
  driver/level2/gbmv_thread.c
  driver/level2/gemv_thread.c
  driver/level2/ger_thread.c
+ driver/level2/sbgemv_thread.c
  driver/level2/sbmv_k.c
  driver/level2/sbmv_thread.c
  driver/level2/spmv_k.c
@@ -125,11 +126,16 @@ Files: benchmark/cholesky.c
  driver/level2/ztrsv_U.c
  driver/level3/gemm.c
  driver/level3/gemm3m.c
+ driver/level3/gemm3m_level3.c
  driver/level3/gemm_thread_m.c
  driver/level3/gemm_thread_mn.c
  driver/level3/gemm_thread_n.c
  driver/level3/gemm_thread_variable.c
+ driver/level3/hemm3m_k.c
+ driver/level3/level3.c
  driver/level3/level3_gemm3m_thread.c
+ driver/level3/level3_syrk.c
+ driver/level3/level3_syr2k.c
  driver/level3/level3_syrk_threaded.c
  driver/level3/level3_thread.c
  driver/level3/symm_k.c
@@ -149,6 +155,7 @@ Files: benchmark/cholesky.c
  driver/level3/zherk_k.c
  driver/level3/zherk_kernel.c
  driver/level3/zsyrk_beta.c
+ driver/level3/symm3m_k.c
  driver/mapper/mapper.c
  driver/others/abs.c
  driver/others/blas_l1_thread.c
@@ -204,6 +211,7 @@ Files: benchmark/cholesky.c
  interface/max.c
  interface/nrm2.c
  interface/rot.c
+ interface/sbgemv.c
  interface/sbmv.c
  interface/scal.c
  interface/sdsdot.c
@@ -435,10 +443,15 @@ Files: benchmark/cholesky.c
  kernel/generic/ztrsm_utcopy_4.c
  kernel/generic/ztrsm_utcopy_8.c
  kernel/power/lock.c
+ kernel/power/dgemm_ncopy_8_power10.c
  kernel/power/sbgemm_ncopy_16_power10.c
  kernel/power/sbgemm_ncopy_8_power10.c
  kernel/power/sbgemm_tcopy_16_power10.c
  kernel/power/sbgemm_tcopy_8_power10.c
+ kernel/power/trsm_kernel_LN_power10.c
+ kernel/power/trsm_kernel_LT_power10.c
+ kernel/power/trsm_kernel_RN_power10.c
+ kernel/power/trsm_kernel_RT_power10.c
  kernel/setparam-ref.c
  kernel/x86_64/dger.c
  kernel/x86_64/sger.c
@@ -510,12 +523,6 @@ Files: benchmark/cholesky.c
  lapack/trtrs/ztrtrs_parallel.c
  lapack/trtrs/ztrtrs_single.c
  symcopy.h
- driver/level3/gemm3m_level3.c
- driver/level3/hemm3m_k.c
- driver/level3/symm3m_k.c
- driver/level3/level3.c
- driver/level3/level3_syrk.c
- driver/level3/level3_syr2k.c
 Copyright: 2009-2010 The University of Texas at Austin
 License: BSD-2-clause-texas
    1. Redistributions of source code must retain the above

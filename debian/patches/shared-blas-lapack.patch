@@ -21,7 +21,7 @@ Last-Update: 2020-07-31
 This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 --- a/interface/Makefile
 +++ b/interface/Makefile
-@@ -2318,3 +2318,28 @@ delete-duplicate-lapack-objects:
+@@ -2331,3 +2331,28 @@ delete-duplicate-lapack-objects:
  		&& rm $(SLAPACKOBJS) $(DLAPACKOBJS) $(CLAPACKOBJS) $(ZLAPACKOBJS) lsame.o xerbla.o; fi
  	if test -d ../lapack64-netlib; then cd ../lapack64-netlib \
  		&& rm $(SLAPACKOBJS) $(DLAPACKOBJS) $(CLAPACKOBJS) $(ZLAPACKOBJS) lsame.o xerbla.o; fi

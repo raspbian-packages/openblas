@@ -235,7 +235,6 @@ hpl_p :
 	fi; \
 	done
 
-
 netlib :
 ifeq (,$(findstring 64,$(LIBNAME)))
 	mkdir lapack-netlib
