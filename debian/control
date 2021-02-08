@@ -7,7 +7,7 @@ Priority: optional
 Build-Depends: debhelper-compat (= 13),
                gfortran,
                liblapack-dev (>= 3.9.0-3~),
-               liblapack64-dev (>= 3.9.0-3~) [amd64 arm64 ppc64el ppc64 kfreebsd-amd64 mips64el sparc64 s390x],
+               liblapack64-dev (>= 3.9.0-3~) [amd64 arm64 ppc64el ppc64 kfreebsd-amd64 mips64el riscv64 sparc64 s390x],
 Standards-Version: 4.5.1
 Vcs-Browser: https://salsa.debian.org/science-team/openblas
 Vcs-Git: https://salsa.debian.org/science-team/openblas.git
@@ -17,7 +17,7 @@ Rules-Requires-Root: no
 # 32-bit indexing version
 
 Package: libopenblas0
-Architecture: amd64 arm64 armhf i386 powerpc ppc64el ppc64 kfreebsd-i386 kfreebsd-amd64 mips64el sparc64 s390x
+Architecture: amd64 arm64 armhf i386 powerpc ppc64el ppc64 kfreebsd-i386 kfreebsd-amd64 mips64el riscv64 sparc64 s390x
 Multi-Arch: same
 Section: metapackages
 Depends: ${misc:Depends},
@@ -32,13 +32,13 @@ Description: Optimized BLAS (linear algebra) library (meta)
  Unlike Atlas, OpenBLAS provides a multiple architecture library.
  .
  All kernel will be included in the library and dynamically switched to the
- best architecture at run time (only on amd64, arm64, i386 and ppc64el).
+ best architecture at run time (only on amd64, arm64, i386, ppc64el and s390x).
  .
  For more information on how to rebuild locally OpenBLAS, see the section:
  "Building Optimized OpenBLAS Packages on your ARCH" in README.Debian
 
 Package: libopenblas0-pthread
-Architecture: amd64 arm64 armhf i386 powerpc ppc64el ppc64 kfreebsd-i386 kfreebsd-amd64 mips64el sparc64 s390x
+Architecture: amd64 arm64 armhf i386 powerpc ppc64el ppc64 kfreebsd-i386 kfreebsd-amd64 mips64el riscv64 sparc64 s390x
 Multi-Arch: same
 Section: libs
 Depends: ${shlibs:Depends},
@@ -55,7 +55,7 @@ Description: Optimized BLAS (linear algebra) library (shared lib, pthread)
  Unlike Atlas, OpenBLAS provides a multiple architecture library.
  .
  All kernel will be included in the library and dynamically switched to the
- best architecture at run time (only on amd64, arm64, i386 and ppc64el).
+ best architecture at run time (only on amd64, arm64, i386, ppc64el and s390x).
  .
  For more information on how to rebuild locally OpenBLAS, see the section:
  "Building Optimized OpenBLAS Packages on your ARCH" in README.Debian
@@ -63,7 +63,7 @@ Description: Optimized BLAS (linear algebra) library (shared lib, pthread)
  Configuration: USE_THREAD=1 USE_OPENMP=0 INTERFACE64=0
 
 Package: libopenblas0-openmp
-Architecture: amd64 arm64 armhf i386 powerpc ppc64el ppc64 kfreebsd-i386 kfreebsd-amd64 mips64el sparc64 s390x
+Architecture: amd64 arm64 armhf i386 powerpc ppc64el ppc64 kfreebsd-i386 kfreebsd-amd64 mips64el riscv64 sparc64 s390x
 Multi-Arch: same
 Section: libs
 Depends: ${shlibs:Depends},
@@ -80,7 +80,7 @@ Description: Optimized BLAS (linear algebra) library (shared lib, openmp)
  Unlike Atlas, OpenBLAS provides a multiple architecture library.
  .
  All kernel will be included in the library and dynamically switched to the
- best architecture at run time (only on amd64, arm64, i386 and ppc64el).
+ best architecture at run time (only on amd64, arm64, i386, ppc64el and s390x).
  .
  For more information on how to rebuild locally OpenBLAS, see the section:
  "Building Optimized OpenBLAS Packages on your ARCH" in README.Debian
@@ -88,7 +88,7 @@ Description: Optimized BLAS (linear algebra) library (shared lib, openmp)
  Configuration: USE_THREAD=1 USE_OPENMP=1 INTERFACE64=0
 
 Package: libopenblas0-serial
-Architecture: amd64 arm64 armhf i386 powerpc ppc64el ppc64 kfreebsd-i386 kfreebsd-amd64 mips64el sparc64 s390x
+Architecture: amd64 arm64 armhf i386 powerpc ppc64el ppc64 kfreebsd-i386 kfreebsd-amd64 mips64el riscv64 sparc64 s390x
 Multi-Arch: same
 Section: libs
 Depends: ${shlibs:Depends},
@@ -105,7 +105,7 @@ Description: Optimized BLAS (linear algebra) library (shared lib, serial)
  Unlike Atlas, OpenBLAS provides a multiple architecture library.
  .
  All kernel will be included in the library and dynamically switched to the
- best architecture at run time (only on amd64, arm64, i386 and ppc64el).
+ best architecture at run time (only on amd64, arm64, i386, ppc64el and s390x).
  .
  For more information on how to rebuild locally OpenBLAS, see the section:
  "Building Optimized OpenBLAS Packages on your ARCH" in README.Debian
@@ -113,7 +113,7 @@ Description: Optimized BLAS (linear algebra) library (shared lib, serial)
  Configuration: USE_THREAD=0 USE_OPENMP=0 INTERFACE64=0
 
 Package: libopenblas-base
-Architecture: amd64 arm64 armhf i386 powerpc ppc64el ppc64 kfreebsd-i386 kfreebsd-amd64 mips64el sparc64 s390x
+Architecture: amd64 arm64 armhf i386 powerpc ppc64el ppc64 kfreebsd-i386 kfreebsd-amd64 mips64el riscv64 sparc64 s390x
 Multi-Arch: same
 Section: oldlibs
 Depends: ${misc:Depends},
@@ -128,7 +128,7 @@ Description: Optimized BLAS (linear algebra) library (transitional)
  Unlike Atlas, OpenBLAS provides a multiple architecture library.
  .
  All kernel will be included in the library and dynamically switched to the
- best architecture at run time (only on amd64, arm64, i386 and ppc64el).
+ best architecture at run time (only on amd64, arm64, i386, ppc64el and s390x).
  .
  For more information on how to rebuild locally OpenBLAS, see the section:
  "Building Optimized OpenBLAS Packages on your ARCH" in README.Debian
@@ -136,7 +136,7 @@ Description: Optimized BLAS (linear algebra) library (transitional)
  This is a transitional dummy package, which can be safely removed.
 
 Package: libopenblas-dev
-Architecture: amd64 arm64 armhf i386 powerpc ppc64el ppc64 kfreebsd-i386 kfreebsd-amd64 mips64el sparc64 s390x
+Architecture: amd64 arm64 armhf i386 powerpc ppc64el ppc64 kfreebsd-i386 kfreebsd-amd64 mips64el riscv64 sparc64 s390x
 Multi-Arch: same
 Section: metapackages
 Depends: libopenblas0 (= ${binary:Version}),
@@ -151,13 +151,13 @@ Description: Optimized BLAS (linear algebra) library (dev, meta)
  Unlike Atlas, OpenBLAS provides a multiple architecture library.
  .
  All kernel will be included in the library and dynamically switched to the
- best architecture at run time (only on amd64, arm64, i386 and ppc64el).
+ best architecture at run time (only on amd64, arm64, i386, ppc64el and s390x).
  .
  This package includes the static libraries and symbolic links
  needed for program development.
 
 Package: libopenblas-pthread-dev
-Architecture: amd64 arm64 armhf i386 powerpc ppc64el ppc64 kfreebsd-i386 kfreebsd-amd64 mips64el sparc64 s390x
+Architecture: amd64 arm64 armhf i386 powerpc ppc64el ppc64 kfreebsd-i386 kfreebsd-amd64 mips64el riscv64 sparc64 s390x
 Multi-Arch: same
 Section: libdevel
 Depends: libopenblas0-pthread (= ${binary:Version}),
@@ -173,7 +173,7 @@ Description: Optimized BLAS (linear algebra) library (dev, pthread)
  Unlike Atlas, OpenBLAS provides a multiple architecture library.
  .
  All kernel will be included in the library and dynamically switched to the
- best architecture at run time (only on amd64, arm64, i386 and ppc64el).
+ best architecture at run time (only on amd64, arm64, i386, ppc64el and s390x).
  .
  This package includes the static libraries and symbolic links
  needed for program development.
@@ -181,7 +181,7 @@ Description: Optimized BLAS (linear algebra) library (dev, pthread)
  Configuration: USE_THREAD=1 USE_OPENMP=0 INTERFACE64=0
 
 Package: libopenblas-openmp-dev
-Architecture: amd64 arm64 armhf i386 powerpc ppc64el ppc64 kfreebsd-i386 kfreebsd-amd64 mips64el sparc64 s390x
+Architecture: amd64 arm64 armhf i386 powerpc ppc64el ppc64 kfreebsd-i386 kfreebsd-amd64 mips64el riscv64 sparc64 s390x
 Multi-Arch: same
 Section: libdevel
 Depends: libopenblas0-openmp (= ${binary:Version}),
@@ -197,7 +197,7 @@ Description: Optimized BLAS (linear algebra) library (dev, openmp)
  Unlike Atlas, OpenBLAS provides a multiple architecture library.
  .
  All kernel will be included in the library and dynamically switched to the
- best architecture at run time (only on amd64, arm64, i386 and ppc64el).
+ best architecture at run time (only on amd64, arm64, i386, ppc64el and s390x).
  .
  This package includes the static libraries and symbolic links
  needed for program development.
@@ -205,7 +205,7 @@ Description: Optimized BLAS (linear algebra) library (dev, openmp)
  Configuration: USE_THREAD=1 USE_OPENMP=1 INTERFACE64=0
 
 Package: libopenblas-serial-dev
-Architecture: amd64 arm64 armhf i386 powerpc ppc64el ppc64 kfreebsd-i386 kfreebsd-amd64 mips64el sparc64 s390x
+Architecture: amd64 arm64 armhf i386 powerpc ppc64el ppc64 kfreebsd-i386 kfreebsd-amd64 mips64el riscv64 sparc64 s390x
 Multi-Arch: same
 Section: libdevel
 Depends: libopenblas0-serial (= ${binary:Version}),
@@ -221,7 +221,7 @@ Description: Optimized BLAS (linear algebra) library (dev, serial)
  Unlike Atlas, OpenBLAS provides a multiple architecture library.
  .
  All kernel will be included in the library and dynamically switched to the
- best architecture at run time (only on amd64, arm64, i386 and ppc64el).
+ best architecture at run time (only on amd64, arm64, i386, ppc64el and s390x).
  .
  This package includes the static libraries and symbolic links
  needed for program development.
@@ -231,7 +231,7 @@ Description: Optimized BLAS (linear algebra) library (dev, serial)
 # 64-bit indexing version
 
 Package: libopenblas64-0
-Architecture: amd64 arm64 kfreebsd-amd64 ppc64 ppc64el mips64el sparc64 s390x
+Architecture: amd64 arm64 kfreebsd-amd64 ppc64 ppc64el mips64el riscv64 sparc64 s390x
 Multi-Arch: same
 Section: metapackages
 Depends: ${misc:Depends},
@@ -242,7 +242,7 @@ Description: Optimized BLAS (linear algebra) library (shared lib, 64bit, meta)
  Unlike Atlas, OpenBLAS provides a multiple architecture library.
  .
  All kernel will be included in the library and dynamically switched to the
- best architecture at run time (only on amd64, arm64, i386 and ppc64el).
+ best architecture at run time (only on amd64, arm64, i386, ppc64el and s390x).
  .
  For more information on how to rebuild locally OpenBLAS, see the section:
  "Building Optimized OpenBLAS Packages on your ARCH" in README.Debian
@@ -250,7 +250,7 @@ Description: Optimized BLAS (linear algebra) library (shared lib, 64bit, meta)
  This metapackage provides a 64-bit indexing version.
 
 Package: libopenblas64-0-pthread
-Architecture: amd64 arm64 kfreebsd-amd64 ppc64 ppc64el mips64el sparc64 s390x
+Architecture: amd64 arm64 kfreebsd-amd64 ppc64 ppc64el mips64el riscv64 sparc64 s390x
 Multi-Arch: same
 Section: libs
 Depends: ${shlibs:Depends},
@@ -263,7 +263,7 @@ Description: Optimized BLAS (linear algebra) library (shared lib, 64bit, pthread
  Unlike Atlas, OpenBLAS provides a multiple architecture library.
  .
  All kernel will be included in the library and dynamically switched to the
- best architecture at run time (only on amd64, arm64, i386 and ppc64el).
+ best architecture at run time (only on amd64, arm64, i386, ppc64el and s390x).
  .
  For more information on how to rebuild locally OpenBLAS, see the section:
  "Building Optimized OpenBLAS Packages on your ARCH" in README.Debian
@@ -271,7 +271,7 @@ Description: Optimized BLAS (linear algebra) library (shared lib, 64bit, pthread
  Configuration: USE_THREAD=1 USE_OPENMP=0 INTERFACE64=1
 
 Package: libopenblas64-0-openmp
-Architecture: amd64 arm64 kfreebsd-amd64 ppc64 ppc64el mips64el sparc64 s390x
+Architecture: amd64 arm64 kfreebsd-amd64 ppc64 ppc64el mips64el riscv64 sparc64 s390x
 Multi-Arch: same
 Section: libs
 Depends: ${shlibs:Depends},
@@ -284,7 +284,7 @@ Description: Optimized BLAS (linear algebra) library (shared lib, 64bit, openmp)
  Unlike Atlas, OpenBLAS provides a multiple architecture library.
  .
  All kernel will be included in the library and dynamically switched to the
- best architecture at run time (only on amd64, arm64, i386 and ppc64el).
+ best architecture at run time (only on amd64, arm64, i386, ppc64el and s390x).
  .
  For more information on how to rebuild locally OpenBLAS, see the section:
  "Building Optimized OpenBLAS Packages on your ARCH" in README.Debian
@@ -292,7 +292,7 @@ Description: Optimized BLAS (linear algebra) library (shared lib, 64bit, openmp)
  Configuration: USE_THREAD=1 USE_OPENMP=1 INTERFACE64=1
 
 Package: libopenblas64-0-serial
-Architecture: amd64 arm64 kfreebsd-amd64 ppc64 ppc64el mips64el sparc64 s390x
+Architecture: amd64 arm64 kfreebsd-amd64 ppc64 ppc64el mips64el riscv64 sparc64 s390x
 Multi-Arch: same
 Section: libs
 Depends: ${shlibs:Depends},
@@ -305,7 +305,7 @@ Description: Optimized BLAS (linear algebra) library (shared lib, 64bit, serial)
  Unlike Atlas, OpenBLAS provides a multiple architecture library.
  .
  All kernel will be included in the library and dynamically switched to the
- best architecture at run time (only on amd64, arm64, i386 and ppc64el).
+ best architecture at run time (only on amd64, arm64, i386, ppc64el and s390x).
  .
  For more information on how to rebuild locally OpenBLAS, see the section:
  "Building Optimized OpenBLAS Packages on your ARCH" in README.Debian
@@ -313,7 +313,7 @@ Description: Optimized BLAS (linear algebra) library (shared lib, 64bit, serial)
  Configuration: USE_THREAD=0 USE_OPENMP=0 INTERFACE64=1
 
 Package: libopenblas64-dev
-Architecture: amd64 arm64 kfreebsd-amd64 ppc64 ppc64el mips64el sparc64 s390x
+Architecture: amd64 arm64 kfreebsd-amd64 ppc64 ppc64el mips64el riscv64 sparc64 s390x
 Multi-Arch: same
 Section: metapackages
 Depends: libopenblas64-0 (= ${binary:Version}),
@@ -325,7 +325,7 @@ Description: Optimized BLAS (linear algebra) library (dev, 64bit, meta)
  Unlike Atlas, OpenBLAS provides a multiple architecture library.
  .
  All kernel will be included in the library and dynamically switched to the
- best architecture at run time (only on amd64, arm64, i386 and ppc64el).
+ best architecture at run time (only on amd64, arm64, i386, ppc64el and s390x).
  .
  This package includes the static libraries and symbolic links
  needed for program development.
@@ -333,7 +333,7 @@ Description: Optimized BLAS (linear algebra) library (dev, 64bit, meta)
  This metapackage provides a 64-bit indexing version.
 
 Package: libopenblas64-pthread-dev
-Architecture: amd64 arm64 kfreebsd-amd64 ppc64 ppc64el mips64el sparc64 s390x
+Architecture: amd64 arm64 kfreebsd-amd64 ppc64 ppc64el mips64el riscv64 sparc64 s390x
 Multi-Arch: same
 Section: libdevel
 Depends: libopenblas64-0-pthread (= ${binary:Version}),
@@ -346,7 +346,7 @@ Description: Optimized BLAS (linear algebra) library (dev, 64bit, pthread)
  Unlike Atlas, OpenBLAS provides a multiple architecture library.
  .
  All kernel will be included in the library and dynamically switched to the
- best architecture at run time (only on amd64, arm64, i386 and ppc64el).
+ best architecture at run time (only on amd64, arm64, i386, ppc64el and s390x).
  .
  This package includes the static libraries and symbolic links
  needed for program development.
@@ -354,7 +354,7 @@ Description: Optimized BLAS (linear algebra) library (dev, 64bit, pthread)
  Configuration: USE_THREAD=1 USE_OPENMP=0 INTERFACE64=1
 
 Package: libopenblas64-openmp-dev
-Architecture: amd64 arm64 kfreebsd-amd64 ppc64 ppc64el mips64el sparc64 s390x
+Architecture: amd64 arm64 kfreebsd-amd64 ppc64 ppc64el mips64el riscv64 sparc64 s390x
 Multi-Arch: same
 Section: libdevel
 Depends: libopenblas64-0-openmp (= ${binary:Version}),
@@ -367,7 +367,7 @@ Description: Optimized BLAS (linear algebra) library (dev, 64bit, openmp)
  Unlike Atlas, OpenBLAS provides a multiple architecture library.
  .
  All kernel will be included in the library and dynamically switched to the
- best architecture at run time (only on amd64, arm64, i386 and ppc64el).
+ best architecture at run time (only on amd64, arm64, i386, ppc64el and s390x).
  .
  This package includes the static libraries and symbolic links
  needed for program development.
@@ -375,7 +375,7 @@ Description: Optimized BLAS (linear algebra) library (dev, 64bit, openmp)
  Configuration: USE_THREAD=1 USE_OPENMP=1 INTERFACE64=1
 
 Package: libopenblas64-serial-dev
-Architecture: amd64 arm64 kfreebsd-amd64 ppc64 ppc64el mips64el sparc64 s390x
+Architecture: amd64 arm64 kfreebsd-amd64 ppc64 ppc64el mips64el riscv64 sparc64 s390x
 Multi-Arch: same
 Section: libdevel
 Depends: libopenblas64-0-serial (= ${binary:Version}),
@@ -388,7 +388,7 @@ Description: Optimized BLAS (linear algebra) library (dev, 64bit, serial)
  Unlike Atlas, OpenBLAS provides a multiple architecture library.
  .
  All kernel will be included in the library and dynamically switched to the
- best architecture at run time (only on amd64, arm64, i386 and ppc64el).
+ best architecture at run time (only on amd64, arm64, i386, ppc64el and s390x).
  .
  This package includes the static libraries and symbolic links
  needed for program development.
@@ -409,7 +409,7 @@ Description: Optimized BLAS (linear algebra) library (julia version)
  Unlike Atlas, OpenBLAS provides a multiple architecture library.
  .
  All kernel will be included in the library and dynamically switched to the
- best architecture at run time (only on amd64, arm64, i386 and ppc64el).
+ best architecture at run time (only on amd64, arm64, i386, ppc64el and s390x).
  .
  For more information on how to rebuild locally OpenBLAS, see the section:
  "Building Optimized OpenBLAS Packages on your ARCH" in README.Debian

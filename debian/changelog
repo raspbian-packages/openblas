@@ -1,10 +1,21 @@
-openblas (0.3.13+ds-1+rpi1) bullseye-staging; urgency=medium
+openblas (0.3.13+ds-2+rpi1) bullseye-staging; urgency=medium
 
   [changes brought forward from 0.2.15-1+rpi1 by Peter Michael Green <plugwash@raspbian.org> at Fri, 11 Mar 2016 23:39:32 +0000]
   * Disable arm-gcc-flags.patch which was enforcing gcc flags that are wrong
     for raspbian.
 
- -- Raspbian forward porter <root@raspbian.org>  Sun, 20 Dec 2020 07:09:15 +0000
+ -- Raspbian forward porter <root@raspbian.org>  Mon, 08 Feb 2021 02:22:31 +0000
+
+openblas (0.3.13+ds-2) unstable; urgency=medium
+
+  [ Gianfranco Costamagna ]
+  * Enable dynamic arch support on s390x. (LP: #1893653) (Closes: #981048)
+    + Also change control file references, thanks Marius Hillenbrand (mhillen)
+
+  [ Aurelien Jarno ]
+  * Enable support for riscv64 (Closes: #978633)
+
+ -- Mo Zhou <lumin@debian.org>  Wed, 27 Jan 2021 13:56:54 +0800
 
 openblas (0.3.13+ds-1) unstable; urgency=medium
 
