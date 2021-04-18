@@ -1,0 +1,2 @@
+libopenblas0-openmp: shlibs-declares-dependency-on-other-package
+libopenblas0-openmp: package-has-unnecessary-activation-of-ldconfig-trigger

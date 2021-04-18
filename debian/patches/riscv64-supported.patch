@@ -1,0 +1,10 @@
+--- openblas-0.3.13+ds.orig/getarch.c
++++ openblas-0.3.13+ds/getarch.c
+@@ -1375,6 +1375,7 @@ USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ 
+ #ifdef __riscv
+ #include "cpuid_riscv64.c"
++#define OPENBLAS_SUPPORTED
+ #endif
+ 
+ #ifdef __arm__
