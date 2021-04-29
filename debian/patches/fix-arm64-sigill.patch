@@ -1,0 +1,26 @@
+Description: Fix SIGILL on arm64 when HWCAP_CPUID is not set
+ This is a crashing bug (SIGILL) that also affects numpy on arm64. One 
+ line of processors affected are NVIDIA Tegra (Jetson devices).
+ .
+ On ARM64, openblas uses feature registers to detect the detailed 
+ processor arch. It queries HWCAP_CPUID to check if the feature registers 
+ are used. But due to a missing volatile declaration, gcc seems to break 
+ this guarding in optimization.
+Origin: upstream, https://github.com/xianyi/OpenBLAS/commit/6fe0f1fab9d6a7f46d71d37ebb210fbf56924fbc
+Bug-Debian: https://bugs.debian.org/986996
+Last-Update: 2021-04-18
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+diff --git a/driver/others/dynamic_arm64.c b/driver/others/dynamic_arm64.c
+index 4f1b12f2..37c0694b 100644
+--- a/driver/others/dynamic_arm64.c
++++ b/driver/others/dynamic_arm64.c
+@@ -68,7 +68,7 @@ extern void openblas_warning(int verbose, const char * msg);
+ #endif
+ 
+ #define get_cpu_ftr(id, var) ({					\
+-		__asm__("mrs %0, "#id : "=r" (var));		\
++		__asm__ __volatile__("mrs %0, "#id : "=r" (var));		\
+ 	})
+ 
+ static char *corename[] = {

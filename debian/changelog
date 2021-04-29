@@ -1,10 +1,17 @@
-openblas (0.3.13+ds-2+rpi1) bullseye-staging; urgency=medium
+openblas (0.3.13+ds-3+rpi1) bullseye-staging; urgency=medium
 
   [changes brought forward from 0.2.15-1+rpi1 by Peter Michael Green <plugwash@raspbian.org> at Fri, 11 Mar 2016 23:39:32 +0000]
   * Disable arm-gcc-flags.patch which was enforcing gcc flags that are wrong
     for raspbian.
 
- -- Raspbian forward porter <root@raspbian.org>  Mon, 08 Feb 2021 02:22:31 +0000
+ -- Raspbian forward porter <root@raspbian.org>  Thu, 29 Apr 2021 21:08:00 +0000
+
+openblas (0.3.13+ds-3) unstable; urgency=medium
+
+  * fix-arm64-sigill.patch: new patch, fixes SIGILL on arm64 with numpy.
+    Thanks to Thomas Viehmann <tv@beamnet.de> (Closes: #986996)
+
+ -- Sébastien Villemot <sebastien@debian.org>  Sun, 18 Apr 2021 10:36:29 +0200
 
 openblas (0.3.13+ds-2) unstable; urgency=medium
 
