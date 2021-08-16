@@ -1,0 +1,27 @@
+Description: Remove warning about OpenMP
+ This warning is annoying when the library is built with pthreads.
+ See #684344
+Author: Sébastien Villemot <sebastien@debian.org>
+Forwarded: no
+Last-Update: 2014-02-17
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/driver/others/blas_server.c
++++ b/driver/others/blas_server.c
+@@ -853,16 +853,6 @@ int exec_blas(BLASLONG num, blas_queue_t
+   fprintf(STDERR, "Exec_blas is called. Number of executing threads : %ld\n", num);
+ #endif
+ 
+-#ifdef __ELF__
+-  if (omp_in_parallel && (num > 1)) {
+-    if (omp_in_parallel() > 0) {
+-      fprintf(stderr,
+-	      "OpenBLAS Warning : Detect OpenMP Loop and this application may hang. "
+-	      "Please rebuild the library with USE_OPENMP=1 option.\n");
+-    }
+-  }
+-#endif
+-
+   if ((num > 1) && queue -> next) exec_blas_async(1, queue -> next);
+ 
+ #ifdef TIMING_DEBUG
