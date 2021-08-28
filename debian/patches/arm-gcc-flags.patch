@@ -1,0 +1,22 @@
+Description: Use flags suitable for armhf port when TARGET=ARMV6
+ See debian/rules for an explanation of why we can't use TARGET=ARMV7 on armhf.
+ Also, if we don't explicitly set the -march and -mfpu flags, the resulting
+ static libraries crash with SIGILL (reason not yet elucidated).
+Author: Sébastien Villemot <sebastien@debian.org>
+Forwarded: not-needed
+Last-Update: 2015-04-29
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/Makefile.arm
++++ b/Makefile.arm
+@@ -9,8 +9,8 @@ endif
+ endif
+ 
+ ifeq ($(CORE), ARMV6)
+-CCOMMON_OPT += -mfpu=vfp
+-FCOMMON_OPT += -mfpu=vfp
++CCOMMON_OPT += -mfpu=vfpv3-d16 -march=armv7-a
++FCOMMON_OPT += -mfpu=vfpv3-d16 -march=armv7-a
+ endif
+ 
+ ifdef HAVE_NEON
