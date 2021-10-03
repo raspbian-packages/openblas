@@ -1,0 +1,29 @@
+Description: Fix symbol mangling for libjulia-openblas64
+ when building libjulia-openblas64, we place the lapack shared objects under
+ lapack64-netlib/ directory. But if exports/gensymbol cannot detect the
+ existence of the lapack-netlib directory, it will skip the lapack symbol which
+ results in incomplete symbol mangling (SYMBOLSUFFIX=64_) through objcopy.
+Author: Mo Zhou <lumin@debian.org>
+Forwarded: not-needed
+Last-Update: 2020-08-01
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/exports/gensymbol
++++ b/exports/gensymbol
+@@ -3533,6 +3533,7 @@ zpotri,
+ use File::Spec;
+ use File::Basename;
+ my $dirname = File::Spec->catfile(dirname(dirname(File::Spec->rel2abs(__FILE__))), "lapack-netlib");
++my $dirname2 = File::Spec->catfile(dirname(dirname(File::Spec->rel2abs(__FILE__))), "lapack64-netlib");
+ 
+ if ($ARGV[12] == 1) {
+ 	@blasobjs = (@blasobjs, @bfblasobjs);
+@@ -3602,7 +3603,7 @@ if ($ARGV[8] == 1) {
+ } elsif ($ARGV[5] == 1) {
+     #NO_LAPACK=1
+     @underscore_objs = (@blasobjs, @misc_underscore_objs);
+-} elsif (-d $dirname) {
++} elsif (-d $dirname || -d $dirname2) {
+     if ($ARGV[7] == 0) {
+         # NEED2UNDERSCORES=0
+         # Don't need 2 underscores
