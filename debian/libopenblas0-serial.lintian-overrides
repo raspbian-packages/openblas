@@ -1,0 +1,2 @@
+libopenblas0-serial: shlibs-declares-dependency-on-other-package
+libopenblas0-serial: package-has-unnecessary-activation-of-ldconfig-trigger
