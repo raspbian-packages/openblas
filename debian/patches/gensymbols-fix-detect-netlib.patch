@@ -1,11 +1,13 @@
-Description: when building libjulia-openblas64, we place the lapack shared
- objects under lapack64-netlib/ directory. But if exports/gensymbol cannot
- detect the existence of the lapack-netlib directory, it will skip the lapack
- symbol which results in incomplete symbol mangling (SYMBOLSUFFIX=64_) through
- objcopy.
-Author: Mo Zhou
-Date: 2020-08-01
-Forwarded: no need. Debian specific.
+Description: Fix symbol mangling for libjulia-openblas64
+ when building libjulia-openblas64, we place the lapack shared objects under
+ lapack64-netlib/ directory. But if exports/gensymbol cannot detect the
+ existence of the lapack-netlib directory, it will skip the lapack symbol which
+ results in incomplete symbol mangling (SYMBOLSUFFIX=64_) through objcopy.
+Author: Mo Zhou <lumin@debian.org>
+Forwarded: not-needed
+Last-Update: 2020-08-01
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 --- a/exports/gensymbol
 +++ b/exports/gensymbol
 @@ -3533,6 +3533,7 @@ zpotri,
