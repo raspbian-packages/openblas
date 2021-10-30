@@ -1,0 +1,20 @@
+Description: Various fixes for kFreeBSD shared library
+ Under kFreeBSD, give a SONAME to the shared library and install it. Also link
+ it against libm.
+ Simply use the same code as Linux for all these operations.
+Author: Sébastien Villemot <sebastien@debian.org>
+Forwarded: not-needed
+Last-Update: 2014-08-05
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/Makefile.system
++++ b/Makefile.system
+@@ -380,7 +380,7 @@ ifeq ($(OSNAME), NetBSD)
+ MD5SUM = md5 -n
+ endif
+ 
+-ifeq ($(OSNAME), Linux)
++ifeq ($(OSNAME), $(filter $(OSNAME),Linux FreeBSD))
+ EXTRALIB	+= -lm
+ NO_EXPRECISION = 1
+ endif

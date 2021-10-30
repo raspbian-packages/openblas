@@ -1,0 +1,28 @@
+From 4b3769823ac865e66eafe7724f95873cca236751 Mon Sep 17 00:00:00 2001
+Discussion: https://github.com/xianyi/OpenBLAS/issues/3421
+From: Martin Kroeker <martin@ruby.chemie.uni-freiburg.de>
+Date: Sun, 24 Oct 2021 23:57:06 +0200
+Origin: https://github.com/xianyi/OpenBLAS/pull/3422
+Subject: [PATCH] Revert #3252
+
+---
+ interface/trsv.c | 6 ------
+ 1 file changed, 6 deletions(-)
+
+Index: openblas/interface/trsv.c
+===================================================================
+--- openblas.orig/interface/trsv.c
++++ openblas/interface/trsv.c
+@@ -188,12 +188,6 @@ void CNAME(enum CBLAS_ORDER order, enum
+ 
+   if (n == 0) return;
+ 
+-  if (incx == 1 && trans == 0 && n < 50) {
+-    buffer = NULL;
+-    (trsv[(trans<<2) | (uplo<<1) | unit])(n, a, lda, x, incx, buffer);
+-    return;  
+-  }
+-
+   IDEBUG_START;
+ 
+   FUNCTION_PROFILE_START();
