@@ -1,10 +1,17 @@
-openblas (0.3.18+ds-1+rpi1) bookworm-staging; urgency=medium
+openblas (0.3.18+ds-2+rpi1) bookworm-staging; urgency=medium
 
   [changes brought forward from 0.2.15-1+rpi1 by Peter Michael Green <plugwash@raspbian.org> at Fri, 11 Mar 2016 23:39:32 +0000]
   * Disable arm-gcc-flags.patch which was enforcing gcc flags that are wrong
     for raspbian.
 
- -- Raspbian forward porter <root@raspbian.org>  Mon, 11 Oct 2021 14:56:34 +0000
+ -- Raspbian forward porter <root@raspbian.org>  Wed, 03 Nov 2021 00:27:51 +0000
+
+openblas (0.3.18+ds-2) unstable; urgency=medium
+
+  * Team upload.
+  * Revert invalid trsv shortcut. Fixes crash in yade-package.
+
+ -- Anton Gladky <gladk@debian.org>  Sat, 30 Oct 2021 02:01:09 +0200
 
 openblas (0.3.18+ds-1) unstable; urgency=medium
 
