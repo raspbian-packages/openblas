@@ -4,5 +4,6 @@ no-embedded-lapack.patch
 shared-blas-lapack.patch
 matgen-symbols-not-included.patch
 gensymbols-fix-detect-netlib.patch
-3422.patch
+mips64el.patch
+avx512-dgemm.patch
 auto-0.3.7+ds-1+rpi1-e5cdb5bc2fdbe4ed5849a311d639ae1e43ddffb5-1566623053

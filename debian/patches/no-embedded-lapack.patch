@@ -126,7 +126,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  	@echo Done.
 --- a/Makefile.system
 +++ b/Makefile.system
-@@ -41,8 +41,6 @@ else ifeq ($(ARCH), zarch)
+@@ -40,8 +40,6 @@ else ifeq ($(ARCH), zarch)
  override ARCH=zarch
  endif
  

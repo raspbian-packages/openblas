@@ -1,0 +1,64 @@
+Description: Fix compilation on mips64el
+Origin: upstream, https://github.com/xianyi/OpenBLAS/commit/2db0b2e4453b0a502cf336f6288688c23246d202
+Applied-Upstream: 0.3.20
+Last-Update: 2022-01-10
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/cpuid_mips.c
++++ b/cpuid_mips.c
+@@ -165,7 +165,7 @@ void get_cpuconfig(void){
+   }else{
+     printf("#define UNKNOWN\n");
+   }
+-  if (!get_feature(msa)) printf("#define NO_MSA\n");
++  if (!get_feature("msa")) printf("#define NO_MSA\n");
+ }
+ 
+ void get_libname(void){
+@@ -193,7 +193,7 @@ int get_feature(char *search)
+         while (fgets(buffer, sizeof(buffer), infile))
+         {
+ 
+-                if (!strncmp("Features", buffer, 8))
++                if (!strncmp("Features", buffer, 8) || !strncmp("ASEs implemented", buffer, 16))
+                 {
+                         p = strchr(buffer, ':') + 2;
+                         break;
+@@ -207,7 +207,7 @@ int get_feature(char *search)
+         t = strtok(p," ");
+         while( t = strtok(NULL," "))
+         {
+-                if (!strcmp(t, search))   { return(1); }
++                if (strstr(t, search))   { return(1); }
+         }
+ 
+ #endif
+--- a/cpuid_mips64.c
++++ b/cpuid_mips64.c
+@@ -201,7 +201,7 @@ void get_cpuconfig(void){
+     printf("#define DTB_SIZE 4096\n");
+     printf("#define L2_ASSOCIATIVE 8\n");
+   }
+-  if (!get_feature(msa)) printf("#define NO_MSA\n");
++  if (!get_feature("msa")) printf("#define NO_MSA\n");
+ }
+ 
+ void get_libname(void){
+@@ -233,7 +233,7 @@ int get_feature(char *search)
+         while (fgets(buffer, sizeof(buffer), infile))
+         {
+ 
+-                if (!strncmp("Features", buffer, 8))
++                if (!strncmp("Features", buffer, 8) || !strncmp("ASEs implemented", buffer, 16))
+                 {
+                         p = strchr(buffer, ':') + 2;
+                         break;
+@@ -247,7 +247,7 @@ int get_feature(char *search)
+         t = strtok(p," ");
+         while( t = strtok(NULL," "))
+         {
+-                if (!strcmp(t, search))   { return(1); }
++                if (strstr(t, search))   { return(1); }
+         }
+ 
+ #endif

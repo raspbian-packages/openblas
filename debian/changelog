@@ -1,10 +1,34 @@
-openblas (0.3.18+ds-2+rpi1) bookworm-staging; urgency=medium
+openblas (0.3.19+ds-3+rpi1) bookworm-staging; urgency=medium
 
   [changes brought forward from 0.2.15-1+rpi1 by Peter Michael Green <plugwash@raspbian.org> at Fri, 11 Mar 2016 23:39:32 +0000]
   * Disable arm-gcc-flags.patch which was enforcing gcc flags that are wrong
     for raspbian.
 
- -- Raspbian forward porter <root@raspbian.org>  Wed, 03 Nov 2021 00:27:51 +0000
+ -- Raspbian forward porter <root@raspbian.org>  Wed, 26 Jan 2022 06:05:06 +0000
+
+openblas (0.3.19+ds-3) unstable; urgency=medium
+
+  * avx512-dgemm.patch: new patch, fixes DGEMM regression on AVX-512 CPUs
+
+ -- Sébastien Villemot <sebastien@debian.org>  Fri, 14 Jan 2022 15:21:00 +0100
+
+openblas (0.3.19+ds-2) unstable; urgency=medium
+
+  * mips64el.patch: new patch, should fix FTBFS on mips64el
+
+ -- Sébastien Villemot <sebastien@debian.org>  Mon, 10 Jan 2022 12:26:34 +0100
+
+openblas (0.3.19+ds-1) unstable; urgency=medium
+
+  * New upstream version 0.3.19+ds
+    + fixes segfault of pthread flavour when running out of memory
+      (Closes: #995450)
+  * d/copyright: reflect upstream changes
+  * 3422.patch (trsv shortcut revert): drop patch, applied upstream
+  * Tighten Build-Depends on liblapack{,64}-dev to >= 3.10.0-2~
+    This ensures that the fix for CVE-2021-4048 is incorporated.
+
+ -- Sébastien Villemot <sebastien@debian.org>  Mon, 20 Dec 2021 13:27:29 +0100
 
 openblas (0.3.18+ds-2) unstable; urgency=medium
 

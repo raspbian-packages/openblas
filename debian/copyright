@@ -261,6 +261,16 @@ Files: benchmark/cholesky.c
  interface/ztpsv.c
  interface/ztrmv.c
  interface/ztrsv.c
+ kernel/arm64/dgemm_ncopy_sve_v1.c
+ kernel/arm64/dgemm_tcopy_sve_v1.c
+ kernel/arm64/sgemm_ncopy_sve_v1.c
+ kernel/arm64/sgemm_tcopy_sve_v1.c
+ kernel/arm64/symm_lcopy_sve.c
+ kernel/arm64/symm_ucopy_sve.c
+ kernel/arm64/trmm_lncopy_sve_v1.c
+ kernel/arm64/trmm_ltcopy_sve_v1.c
+ kernel/arm64/trmm_uncopy_sve_v1.c
+ kernel/arm64/trmm_utcopy_sve_v1.c
  kernel/generic/cabs.c
  kernel/generic/gemm_beta.c
  kernel/generic/gemm_ncopy_1.c
