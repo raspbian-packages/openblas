@@ -1,0 +1,946 @@
+openblas (0.3.20+ds-1) unstable; urgency=medium
+
+  * New upstream version 0.3.20+ds
+  * d/copyright: reflect upstream changes
+  * mips64el.patch, avx512-dgemm.patch: drop patches, applied upstream
+
+ -- Sébastien Villemot <sebastien@debian.org>  Mon, 21 Feb 2022 11:14:52 +0100
+
+openblas (0.3.19+ds-3) unstable; urgency=medium
+
+  * avx512-dgemm.patch: new patch, fixes DGEMM regression on AVX-512 CPUs
+
+ -- Sébastien Villemot <sebastien@debian.org>  Fri, 14 Jan 2022 15:21:00 +0100
+
+openblas (0.3.19+ds-2) unstable; urgency=medium
+
+  * mips64el.patch: new patch, should fix FTBFS on mips64el
+
+ -- Sébastien Villemot <sebastien@debian.org>  Mon, 10 Jan 2022 12:26:34 +0100
+
+openblas (0.3.19+ds-1) unstable; urgency=medium
+
+  * New upstream version 0.3.19+ds
+    + fixes segfault of pthread flavour when running out of memory
+      (Closes: #995450)
+  * d/copyright: reflect upstream changes
+  * 3422.patch (trsv shortcut revert): drop patch, applied upstream
+  * Tighten Build-Depends on liblapack{,64}-dev to >= 3.10.0-2~
+    This ensures that the fix for CVE-2021-4048 is incorporated.
+
+ -- Sébastien Villemot <sebastien@debian.org>  Mon, 20 Dec 2021 13:27:29 +0100
+
+openblas (0.3.18+ds-2) unstable; urgency=medium
+
+  * Team upload.
+  * Revert invalid trsv shortcut. Fixes crash in yade-package.
+
+ -- Anton Gladky <gladk@debian.org>  Sat, 30 Oct 2021 02:01:09 +0200
+
+openblas (0.3.18+ds-1) unstable; urgency=medium
+
+  * New upstream version 0.3.18+ds
+  * d/copyright: reflect upstream changes
+
+ -- Sébastien Villemot <sebastien@debian.org>  Sun, 03 Oct 2021 10:51:28 +0200
+
+openblas (0.3.17+ds-3) unstable; urgency=medium
+
+  * Rebuild against lapack 3.10.0
+  * Bump S-V to 4.6.0
+
+ -- Sébastien Villemot <sebastien@debian.org>  Mon, 20 Sep 2021 17:41:09 +0200
+
+openblas (0.3.17+ds-2) unstable; urgency=medium
+
+  * Upload to unstable
+
+ -- Sébastien Villemot <sebastien@debian.org>  Mon, 16 Aug 2021 19:45:15 +0200
+
+openblas (0.3.17+ds-1) experimental; urgency=medium
+
+  * New upstream version 0.3.17+ds
+
+ -- Sébastien Villemot <sebastien@debian.org>  Tue, 20 Jul 2021 22:19:53 +0200
+
+openblas (0.3.16+ds-1) experimental; urgency=medium
+
+  * New upstream version 0.3.16+ds
+  * Really disable DYNAMIC_ARCH on ppc64
+  * Downgrade to TARGET=POWER4 on ppc64.
+    This seems closer to the baseline for this architecture.
+  * Improve package description w.r.t. dynamic arch vs local recompilation
+  * Add missing files in clean rule
+
+ -- Sébastien Villemot <sebastien@debian.org>  Tue, 13 Jul 2021 12:32:31 +0200
+
+openblas (0.3.15+ds-1) experimental; urgency=medium
+
+  * New upstream version 0.3.15+ds
+  * fix-arm64-sigill.patch: drop patch, applied upstream
+
+ -- Sébastien Villemot <sebastien@debian.org>  Tue, 04 May 2021 17:31:41 +0200
+
+openblas (0.3.14+ds-2) experimental; urgency=medium
+
+  * fix-arm64-sigill.patch: new patch, fixes SIGILL on arm64 with numpy.
+    Thanks to Thomas Viehmann <tv@beamnet.de> (Closes: #986996)
+
+ -- Sébastien Villemot <sebastien@debian.org>  Sun, 18 Apr 2021 11:08:29 +0200
+
+openblas (0.3.14+ds-1) experimental; urgency=medium
+
+  * New upstream version 0.3.14+ds
+  * riscv64-supported.patch: drop patch, applied upstream
+  * d/watch: update following GitHub URL renaming
+
+ -- Sébastien Villemot <sebastien@debian.org>  Sun, 04 Apr 2021 18:34:37 +0200
+
+openblas (0.3.13+ds-2) unstable; urgency=medium
+
+  [ Gianfranco Costamagna ]
+  * Enable dynamic arch support on s390x. (LP: #1893653) (Closes: #981048)
+    + Also change control file references, thanks Marius Hillenbrand (mhillen)
+
+  [ Aurelien Jarno ]
+  * Enable support for riscv64 (Closes: #978633)
+
+ -- Mo Zhou <lumin@debian.org>  Wed, 27 Jan 2021 13:56:54 +0800
+
+openblas (0.3.13+ds-1) unstable; urgency=medium
+
+  * New upstream version 0.3.13+ds
+  * d/copyright: reflect upstream changes
+  * reunify-arm64-buffersize.patch: drop patch, applied upstream
+  * Bump S-V to 4.5.1
+
+ -- Sébastien Villemot <sebastien@debian.org>  Thu, 17 Dec 2020 13:53:00 +0100
+
+openblas (0.3.12+ds-2) unstable; urgency=medium
+
+  * reunify-arm64-buffersize.patch: new patch from upstream (Closes: #970558)
+
+ -- Sébastien Villemot <sebastien@debian.org>  Sun, 01 Nov 2020 10:47:26 +0100
+
+openblas (0.3.12+ds-1) unstable; urgency=medium
+
+  * New upstream version 0.3.12+ds
+  * fix-dynamic-arch-gemm-crashes.patch: drop patch, applied upstream
+
+ -- Sébastien Villemot <sebastien@debian.org>  Mon, 26 Oct 2020 17:52:08 +0100
+
+openblas (0.3.10+ds-3) unstable; urgency=medium
+
+  [ Mo Zhou ]
+  * Fix confusion bug in the libblas.so.3->libopenblas.so.0 linkage.
+    We added -Wl,-rpath,'$ORIGIN' in the RPATH attribute of the libblas.so.3
+    shared objects. Without this fix, `ldd openblas-serial/libblas.so.3`
+    will resolve the libopenblas.so.0 dependency to the symbol link
+    controlled by the alternatives mechanism, e.g. libopenblas.so.0 ->
+    openblas-pthread/libopenblas.so.0, which breaks the literal meaning
+    of the user's libblas.so.3 <--provies-- openblas-serial configuration.
+  * Remove the unnecessary dh_shlibdeps overrides.
+  * Remove ${shlibs:Depends} dependency from -dev and -meta packages.
+  * Fix symbol mangling for libjulia-openblas64.
+  * B-D on lapack (>= 3.9.0-3) for BLAS64 version of deprecated routines.
+
+  [ Sébastien Villemot ]
+  * d/rules: ensure that shared-library flavoured packages do not depend on
+    libopenblas{64-,}0 metapackages. A circular dependency:
+     libopenblas0 → libopenblas0-{pthread,openmp,serial} → libopenblas0
+    was introduced in 0.3.10+ds-2, since lib{blas,lapack}.so.3 is (again)
+    dynamically linked against libopenblas0. We break the loop manually at the
+    dpkg-shlibdeps level. (Closes: #966607)
+
+ -- Mo Zhou <lumin@debian.org>  Sat, 01 Aug 2020 23:25:44 +0800
+
+openblas (0.3.10+ds-2) unstable; urgency=medium
+
+  * lib{blas,lapack}.so.3 are again dynamically linked against libopenblas.so.0.
+    This restores the pre-multi-flavour behaviour.
+    Incidentally, this brings back the possibility of checking at runtime for
+    the presence of openblas_get_config symbol. (Closes: #960728)
+  * fix-dynamic-arch-gemm-crashes.patch: new patch (Closes: #966175)
+  * Add debian/upstream/metadata
+
+ -- Sébastien Villemot <sebastien@debian.org>  Wed, 29 Jul 2020 14:51:22 +0200
+
+openblas (0.3.10+ds-1) unstable; urgency=medium
+
+  [ Mo Zhou ]
+  * New upstream version 0.3.10+ds
+  * Refresh existing patches.
+
+  [ Sébastien Villemot ]
+  * d/copyright: reflect upstream changes
+
+ -- Mo Zhou <lumin@debian.org>  Tue, 07 Jul 2020 19:50:08 +0800
+
+openblas (0.3.9+ds-3) unstable; urgency=medium
+
+  [ Sébastien Villemot ]
+  * Remove B-D on dh-exec, no longer needed since debhelper 13
+  * On Ubuntu, strip -Wl,-Bsymbolic-functions from LDFLAGS (Closes: #961725)
+  * Update Homepage to https://www.openblas.net
+
+  [ Mo Zhou ]
+  * Let libopenblas64-julia Conflict & Replace libjulia1 (<< 1.4.1+dfsg-1)
+    (Closes: #963223)
+  * Upload to unstable.
+
+ -- Mo Zhou <lumin@debian.org>  Thu, 25 Jun 2020 17:39:59 +0800
+
+openblas (0.3.9+ds-2) experimental; urgency=medium
+
+  * Build the custom version of OpenBLAS for Julia.
+  * Update my mail address in Uploaders.
+  * Bump debhelper compat level to 13 (no change).
+
+ -- Mo Zhou <lumin@debian.org>  Thu, 14 May 2020 19:06:33 +0800
+
+openblas (0.3.9+ds-1) unstable; urgency=medium
+
+  * New upstream version 0.3.9+ds
+  * d/copyright: reflect upstream changes
+  * Drop link-tests-openmp.patch.
+    Replace it by adding -fopenmp to FCOMMON_OPT at the relevant places in
+    debian/rules.
+
+ -- Sébastien Villemot <sebastien@debian.org>  Fri, 20 Mar 2020 14:40:43 +0100
+
+openblas (0.3.8+ds-1) unstable; urgency=medium
+
+  * New upstream version 0.3.8+ds
+    + unfortunately we cannot enable dynamic arch for s390x, because it will
+      not work correctly on pre-Z13 systems (there is no fallbak on
+      ZARCH_GENERIC, see driver/other/dynamic_zarch.c)
+  * d/copyright: reflect upstream changes
+  * dgemm-test-without-lapacke.patch: drop patch, applied upstream
+  * Remove spurious TARGET setting for ppc64el, which has dynamic arch
+  * Bump S-V to 4.5.0
+  * d/rules: do not run testsuite in override_dh_auto_build.
+    It is already run in override_dh_auto_test.
+    Also honour DEB_BUILD_OPTIONS=nocheck.
+  * d/rules: ensure that whole build fails if build/test/install fails for one
+    flavour
+  * Remove unused override for libopenblas-dev
+  * link-tests-openmp.patch: new patch, fixes build failure in OpenMP variants
+
+ -- Sébastien Villemot <sebastien@debian.org>  Thu, 13 Feb 2020 18:52:52 +0100
+
+openblas (0.3.7+ds-7) unstable; urgency=medium
+
+  * Fix (piuparts) install failure due to missing dir. (Closes: #946828)
+  * Autopkgtest: print libopenblas{,64} selection before the test.
+
+ -- Mo Zhou <cdluminate@gmail.com>  Wed, 18 Dec 2019 23:38:15 +0800
+
+openblas (0.3.7+ds-6) unstable; urgency=medium
+
+  * Restore pkgconfig’s openblas.pc (for 32-bit indexing)
+    This file is now managed by the alternatives system, since there are several
+    variants of it. (Closes: #946698)
+    By the way, add openblas64.pc (for 64-bit indexing).
+  * Fix alternatives symlink for openblas64_config.h (64-bit indexing variants)
+  * Drop empty postrm script for libopenblas-dev
+  * Make long description of libopenblas0 different from that of
+    libopenblas64-0.
+    Similar change for libopenblas-dev vs. libopenblas64-dev.
+  * Fix the blas{,64}.pc and lapack{,64}.pc alternatives.
+    For 32-bit indexing, the files pointed to an inexistent $libdir.
+    The 64-bit indexing variants were pointing to 32-bit libraries.
+
+ -- Sébastien Villemot <sebastien@debian.org>  Sun, 15 Dec 2019 22:02:19 +0100
+
+openblas (0.3.7+ds-5) unstable; urgency=medium
+
+  * Link the OMP variant of shared blas/lapack against gomp. (Closes: #945791)
+
+ -- Mo Zhou <cdluminate@gmail.com>  Mon, 02 Dec 2019 13:33:33 +0800
+
+openblas (0.3.7+ds-4) unstable; urgency=medium
+
+  * Don’t run the 64-bit autopkgtests on 32-bit architectures.
+    Thanks to Matthias Klose (Closes: #944474)
+  * Bump S-V to 4.4.1
+
+ -- Sébastien Villemot <sebastien@debian.org>  Wed, 27 Nov 2019 17:49:02 +0100
+
+openblas (0.3.7+ds-3) unstable; urgency=medium
+
+  * Upload to unstable. (no change).
+
+ -- Mo Zhou <cdluminate@gmail.com>  Thu, 31 Oct 2019 20:46:13 +0800
+
+openblas (0.3.7+ds-2) experimental; urgency=medium
+
+  [ Multi-Flavour Update of OpenBLAS (Closes: #878121, #684344) ]
+  * (32-bit, 64-bit)-index * (pthread, openmp, serial)-threadding = 6 Variants.
+    Each one assigned with different priority values in alternatives system:
+    + libopenblas0-{pthread,openmp,serial}    (priority = 100,95,90)
+      * Provides: libopenblas.so.0, libblas.so.3, liblapack.so.3
+    + libopenblas64-0-{pthread,openmp,serial} (priority = 100,95,90)
+      * Provides: libopenblas64.so.0, libblas64.so.3, liblapack64.so.3
+      - 64-bit-indexing versions are only available on 64-bit archs.
+  * Let libopenblas0 and libopenblas64-0 be meta packages. They pull one of the
+    three threadding variants. On resolving shlib dependencies, these meta
+    packages, instead of specific variants used for building, should be used as
+    the dependencies.
+  * Turn libopenblas-base into a transitional dummy package.
+  * Update/Create control files and maintscripts for all these variants.
+  * Autopkgtest: test all the 6 variants.
+
+  [ Mo Zhou ]
+  * Append myself to Uploaders.
+  * Simplify architecture detection part of rules.
+  * Bump B-D lapack to >= 3.8.0-5 (for liblapack64-dev).
+  * rules: Deparallelize build targets to avoid messy buildlog
+  * Update existing patches accordingly for the new feature.
+  * Merge order-files.patch into shared-blas-lapack.patch
+  * Create template postrm for libopenblas-dev to avoid leftover.
+  * Remove the unnecessary overrides from rules.
+  * Upload to experimental.
+
+ -- Mo Zhou <cdluminate@gmail.com>  Fri, 25 Oct 2019 21:03:40 +0800
+
+openblas (0.3.7+ds-1) unstable; urgency=medium
+
+  * Revert dynamic arch selection on ppc64, it FTBFS
+  * New upstream version 0.3.7+ds
+  * dgemm-test-without-lapacke.patch: new patch taken from upstream.
+    Required to avoid FTBFS.
+
+ -- Sébastien Villemot <sebastien@debian.org>  Tue, 20 Aug 2019 17:52:34 +0200
+
+openblas (0.3.6+ds-1) unstable; urgency=medium
+
+  * New upstream version 0.3.6+ds
+  * Remove patches applied upstream
+    + skylakex-dgemm.patch
+    + target-generic.patch
+  * Enable dynamic arch selection on ppc64el and ppc64
+  * Bump S-V to 4.4.0
+  * Bump debhelper compat level to 12
+
+ -- Sébastien Villemot <sebastien@debian.org>  Mon, 08 Jul 2019 14:24:15 +0200
+
+openblas (0.3.5+ds-3) unstable; urgency=medium
+
+  * Fix FTBFS when CPU of the build machine is not detected (amd64, arm64, i386)
+    - pass TARGET=GENERIC when building with DYNAMIC_ARCH=1
+    - target-generic.patch: new patch taken from upstream, makes the above
+      possible
+    (Closes: #923607)
+
+ -- Sébastien Villemot <sebastien@debian.org>  Mon, 11 Mar 2019 10:18:39 +0100
+
+openblas (0.3.5+ds-2) unstable; urgency=medium
+
+  * skylakex-dgemm.patch: new patch, fixes DGEMM regression on SkylakeX.
+    Thanks to Mo Zhou (Closes: #921698)
+
+ -- Sébastien Villemot <sebastien@debian.org>  Sat, 09 Feb 2019 10:38:22 +0100
+
+openblas (0.3.5+ds-1) unstable; urgency=medium
+
+  * New upstream version 0.3.5+ds
+  * Bump S-V to 4.3.0
+
+ -- Sébastien Villemot <sebastien@debian.org>  Fri, 04 Jan 2019 10:28:31 +0100
+
+openblas (0.3.4+ds-1) unstable; urgency=medium
+
+  * New upstream version 0.3.4+ds
+  * d/copyright: reflect upstream changes
+  * Dynamic kernel selection is now implemented on arm64
+  * Switch to new way of specifying debhelper compat level
+  * Increase priority in alternatives system to 100 (Closes: #911131)
+
+ -- Sébastien Villemot <sebastien@debian.org>  Fri, 07 Dec 2018 15:49:27 +0100
+
+openblas (0.3.3+ds-1) unstable; urgency=medium
+
+  * New upstream version 0.3.3+ds
+  * Bump Standards-Version to 4.2.1
+
+ -- Sébastien Villemot <sebastien@debian.org>  Fri, 07 Sep 2018 16:32:43 +0200
+
+openblas (0.3.2+ds-1) unstable; urgency=medium
+
+  * New upstream version 0.3.2+ds
+    + fixes regression that induced incorrect SVD computation
+      (Closes: #903659)
+  * Bump to debhelper compat level 11
+  * Add Rules-Requires-Root: no
+  * Bump S-V to 4.1.5
+
+ -- Sébastien Villemot <sebastien@debian.org>  Tue, 31 Jul 2018 18:28:12 +0200
+
+openblas (0.3.1+ds-1) unstable; urgency=medium
+
+  * New upstream version 0.3.1
+    + cblas_* now take a void* for complex arrays (Closes: #877883)
+  * d/copyright: reflect upstream changes
+  * force-zarch.patch: remove patch, applied upstream
+  * Compile with DYNAMIC_OLDER=1, for better support of old amd64 CPUs
+  * Remove Built-Using field.
+    Since both LAPACK and ATLAS are under BSD-3-clause, there is no reason to
+    use this field (which is now restricted to license compliance issues).
+  * d/rules: remove get-orig-source target.
+  * Bump to S-V 4.1.4
+  * Replace ADTTMP by AUTOPKGTEST_TMP in tests.
+  * Ship *.md files in libopenblas-dev
+  * Update Vcs-* fields for move to salsa
+
+ -- Sébastien Villemot <sebastien@debian.org>  Wed, 04 Jul 2018 10:53:01 +0200
+
+openblas (0.2.20+ds-4) unstable; urgency=medium
+
+  * Add support for s390x.
+    New patch force-zarch.patch introduced to force the generic build.
+    (Closes: #875618)
+  * Enforce TARGET=POWER6 on ppc64, to avoid FTBFS on some buildds.
+  * Drop obsolete code for -dbgsym migration.
+
+ -- Sébastien Villemot <sebastien@debian.org>  Tue, 19 Sep 2017 14:51:23 +0200
+
+openblas (0.2.20+ds-3) unstable; urgency=low
+
+  * Multi-archify the package.
+    Incidentally, remove the dependency of libopenblas-dev on libblas-dev, since
+    cblas.h is now managed by the alternative.
+  * Ship openblas.pc in libopenblas-dev.
+  * Improve README.Debian for building a custom package
+  * Bump Standards-Version to 4.1.0.
+
+ -- Sébastien Villemot <sebastien@debian.org>  Sat, 09 Sep 2017 10:29:44 +0200
+
+openblas (0.2.20+ds-2) unstable; urgency=medium
+
+  * d/rules: explicitly disable OpenMP, with USE_OPENMP=0.
+    Otherwise it gets enabled on powerpc and ppc64*, leading to FTBFS.
+
+ -- Sébastien Villemot <sebastien@debian.org>  Thu, 27 Jul 2017 20:06:14 +0200
+
+openblas (0.2.20+ds-1) unstable; urgency=medium
+
+  * New upstream version 0.2.20+ds
+  * d/watch: add +ds suffix to orig tarball, since we're repacking it.
+  * Drop patches applied upstream:
+    + mips-implement-mb-and-wmb.patch
+    + mips-remove-incorrect-blas_lock-implementation.patch
+  * d/copyright:
+    + reflect upstream changes, filter out relapack.
+    + use secure URL for format.
+  * Add support for sparc64.
+    Thanks to James Clarke for the patch (Closes: #866509)
+  * d/rules: Re-enable testsuite on powerpc.
+    Treating powerpc differently is not warranted, especially since it is no
+    longer a release architecture.
+  * Use DEB_BUILD_OPTIONS=custom as new interface for building custom package.
+    By the way, no longer automatically append a changelog entry.
+    (Closes: #854784)
+  * d/control:
+    + bump Standards-Version to 4.0.0.
+    + tighten versioned build-dependency on liblapack-pic to ≥ 3.7.0.
+    + use canonical URL for Vcs-Browser.
+
+ -- Sébastien Villemot <sebastien@debian.org>  Thu, 27 Jul 2017 18:17:19 +0200
+
+openblas (0.2.19-3) unstable; urgency=medium
+
+  * New patches that fix threading issue on mips64el.
+    + d/p/mips-implement-mb-and-wmb.patch
+    + d/p/mips-remove-incorrect-blas_lock-implementation.patch
+    Thanks to James Cowgill (Closes: #861486)
+
+ -- Sébastien Villemot <sebastien@debian.org>  Sat, 06 May 2017 15:22:06 +0200
+
+openblas (0.2.19-2) unstable; urgency=medium
+
+  * Also build libopenblas-dev on mips64el. (Closes: #852283)
+  * Bump debhelper compat level to 10.
+  * d/watch: bump to format version 4.
+  * Add "-march=native -mtune=native" to CFLAGS when building custom package.
+    (Closes: #844509)
+
+ -- Sébastien Villemot <sebastien@debian.org>  Mon, 23 Jan 2017 15:06:15 +0100
+
+openblas (0.2.19-1) unstable; urgency=medium
+
+  * Imported Upstream version 0.2.19
+  * d/p/always-run-testsuite.patch: drop patch, no longer needed.
+  * Add support for mips64el.
+  * d/p/order-files.patch: new patch, makes build reproducible.
+    Thanks to Alexis Bienvenüe (Closes: #824639)
+  * d/README.Debian: explain that recompilation is useful on non-x86 archs.
+
+ -- Sébastien Villemot <sebastien@debian.org>  Tue, 06 Sep 2016 20:24:32 +0200
+
+openblas (0.2.18-1) unstable; urgency=medium
+
+  * Imported Upstream version 0.2.18
+  * d/control: bump Standards-Version to 3.9.8, no changes needed.
+
+ -- Sébastien Villemot <sebastien@debian.org>  Sun, 17 Apr 2016 18:40:31 +0200
+
+openblas (0.2.17-1) unstable; urgency=medium
+
+  * Imported Upstream version 0.2.17
+  * d/copyright: reflect upstream changes.
+  * d/p/power-arch-detection.patch: drop patch, applied upstream.
+  * d/p/matgen-symbols-not-included.patch: new patch.
+    Needed because MATGEN symbols are not included in the Debian binary.
+  * d/control:
+    + bump Standards-Version to 3.9.7, no changes needed.
+    + use secure URLs in Vcs-* fields.
+  * Drop libopenblas-dbg, now rely on automatic debug package.
+
+ -- Sébastien Villemot <sebastien@debian.org>  Thu, 24 Mar 2016 15:11:45 +0100
+
+openblas (0.2.15-1) unstable; urgency=medium
+
+  * Imported Upstream version 0.2.15
+  * debian/copyright: reflect upstream changes.
+  * Remove patches applied upstream:
+    + debian/patches/arm-arch-detection.patch
+    + debian/patches/arm64.patch
+    + debian/patches/disable-gemm3m-tests.patch
+  * Build on ppc64el arch, which is now supported by upstream.
+  * d/p/power-arch-detection.patch: new patch.
+    Ensures that the testsuite is run on ppc64el and ppc64.
+    However, don't enable it on powerpc, because it crashes…
+  * Tighten B-D on lapack to >= 3.5.0-5~, in order to get latest patches.
+  * Remove obsolete Conflicts/Replaces against lib{blas,lapack}3gf.
+
+ -- Sébastien Villemot <sebastien@debian.org>  Tue, 10 Nov 2015 23:24:12 +0100
+
+openblas (0.2.14-1) unstable; urgency=low
+
+  * Imported Upstream version 0.2.14
+  * debian/copyright: reflect upstream changes.
+  * debian/rules: remove TARGET=GENERIC flag when building dynamic arch binary.
+    This flag creates a compilation failure and seems no longer needed.
+  * Add a debug package. (Closes: #783639)
+  * debian/control: improve short description of packages.
+  * Add autopkgtest support, relying on upstream testsuite.
+    + debian/tests/upstream-testsuite: script to run the testsuite.
+    + debian/tests/control: add the new test.
+    Thanks to Christian Kastner for crafting the patch. (Closes: #781996)
+  * Enable build on arm64 architecture.
+    + d/control: add arm64 to Architecture fields.
+    + d/rules: use TARGET=ARMV8 for arm64 arch.
+    + d/p/arm64.patch: new patch from upstream, to fix a build failure.
+  * Fix crash with illegal instruction on armhf with static libraries.
+    + d/p/arm-gcc-flags.patch: enforce -march=armv7-a and -mfpu=vfpv3-d16 flags.
+  * Add -lgfortran and -lpthread in .pc files for static linking.
+  * Ensure that the testsuite is run on arm* arches at build time.
+    + d/p/arm-arch-detection.patch: new patch, avoids false detection of
+      cross-compilation.
+    + d/p/disable-gemm3m-tests.patch: new patch, avoid compilation failure of
+      the testsuite.
+    + d/p/test-custom-package.patch renamed to d/p/always-run-testsuite.patch,
+      to clearly show that it is needed even for vanilla arm* packages.
+
+ -- Sébastien Villemot <sebastien@debian.org>  Wed, 29 Apr 2015 18:46:11 +0200
+
+openblas (0.2.12-1) unstable; urgency=medium
+
+  * Imported Upstream version 0.2.12. (Closes: #765795)
+
+ -- Sébastien Villemot <sebastien@debian.org>  Sun, 26 Oct 2014 10:42:29 +0100
+
+openblas (0.2.11-3) unstable; urgency=medium
+
+  [ Alastair McKinstry ]
+  * Add {blas,lapack}-openblas.pc files and symlinks via
+    update-alternatives. (Closes: #764491)
+
+ -- Sébastien Villemot <sebastien@debian.org>  Wed, 15 Oct 2014 21:54:50 +0200
+
+openblas (0.2.11-2) unstable; urgency=medium
+
+  * libopenblas-base: add dependency on libblas-common.
+    The goal is to make BLAS implementations multi-arch safe by preventing the
+    co-installability of, say, libblas3:amd64 and libatlas3-base:i386. See
+  * Bump Standards-Version to 3.9.6, no changes needed.
+
+ -- Sébastien Villemot <sebastien@debian.org>  Sat, 27 Sep 2014 20:25:40 +0200
+
+openblas (0.2.11-1) unstable; urgency=medium
+
+  * Imported Upstream version 0.2.11
+  * debian/copyright: reflect upstream changes.
+
+ -- Sébastien Villemot <sebastien@debian.org>  Sat, 30 Aug 2014 14:20:55 +0200
+
+openblas (0.2.10-2) unstable; urgency=medium
+
+  * libopenblas-{base,dev}.prerm: fix removal of liblapack.so.3 alternative.
+  * debian/rules: pass the same make options to all make invocations.
+    Fixes FTBFS on armhf.
+  * Tighten build-dep on liblapack-pic.
+    Ensures that the LAPACK version used to compile OpenBLAS is as recent as
+    upstream embedded copy (including unreleased patches).
+
+ -- Sébastien Villemot <sebastien@debian.org>  Fri, 08 Aug 2014 14:25:37 +0200
+
+openblas (0.2.10-1) unstable; urgency=medium
+
+  * Imported Upstream version 0.2.10
+  * Ship the optimized LAPACK as a new alternative.
+     + Use the binary from liblapack-pic for routines not overridden by
+       OpenBLAS.
+       As a consequence, add a Built-Using field to libopenblas-{base,dev}.
+     + libblas3-soname.patch: dropped patch.
+     + shared-blas-lapack.patch: new patch.
+  * Ship headers in /usr/include/openblas.
+  * Remove Sylvestre Ledru from Uploaders. Thanks Sylvestre for your work!
+  * debian/copyright: rewrite using machine-readable format.
+  * Use Files-Excluded from d/copyright to remove embedded LAPACK copy.
+  * no-embedded-lapack.patch: new patch.
+    Adapts build system for the absence of lapack-netlib/ directory.
+  * kfreebsd.patch: install shared library and link it against libm.
+    This patch also incorporates the former content of kfreebsd-soname.patch.
+  * Rewrite using debhelper and upstream's 'make install' rule.
+  * Update README.Debian.
+
+ -- Sébastien Villemot <sebastien@debian.org>  Tue, 05 Aug 2014 20:05:26 +0200
+
+openblas (0.2.9-1) unstable; urgency=medium
+
+  * Imported Upstream version 0.2.9
+  * Remove patches applied upstream:
+     - dgemv-crash.patch
+     - fork-handler.patch
+     - qemu-athlon.patch
+     - wrong-parameter-for-zherk-zher2.patch
+  * Add armhf support.
+     - Use ARMv6 target. We cannot currently use the ARMv7 target, because it
+       requires VFPv3-D32 (and armhf only guarantees VFPv3-D16).
+     - arm-gcc-flags.patch: Remove arch-specific GCC flags.
+  * PowerPC: enforce a generic-enough target (PPCG4) for the generic package.
+    Previously, the target was (erroneously) selected based on the buildd
+    hardware.
+  * Update debian/orig-tar.sh: now keeps a quasi-empty lapack-netlib/TESTING
+    dir.
+
+ -- Sébastien Villemot <sebastien@debian.org>  Sun, 15 Jun 2014 15:17:05 +0200
+
+openblas (0.2.8-6) unstable; urgency=medium
+
+  * Team upload.
+  * backport two fixes from upstream git:
+    - dgemv-crash.patch: fixes core2/barcelona dgemv kernel
+    - wrong-parameter-for-zherk-zher2.patch
+
+ -- Julian Taylor <jtaylor.debian@googlemail.com>  Thu, 13 Mar 2014 20:03:07 +0100
+
+openblas (0.2.8-5) unstable; urgency=medium
+
+  * kfreebsd-soname.patch: give a SONAME to the shared library under kfreebsd,
+    by using the same stanza to create the shared object than under Linux.
+    Incidentally, this fixes the FTBFS on kfreebsd-* archs.
+  * Remove ia64, powerpcspe, hurd-i386 and sparc from the list of
+    supported architectures (the package never compiled on those).
+  * fork-handler.patch: improved version backported from upstream.
+
+ -- Sébastien Villemot <sebastien@debian.org>  Fri, 21 Feb 2014 18:07:32 +0100
+
+openblas (0.2.8-4) unstable; urgency=medium
+
+  * Revert to pthreads parallelism instead of OpenMP (Closes: #737675)
+  * remove-openmp-warning.patch: new patch, removes annoying warning when
+    OpenBLAS is called from an OpenMP application.
+  * fork-handler.patch: fixes hangs of OpenBLAS when called from a program
+    using OpenMP (Closes: #739331)
+  * Drop obsolete code in maintainer scripts to deal with the transition
+    libblas.so.3gf => libblas.so.3.
+  * Ship an additional libopenblas.so.0 in /usr/lib, to allow direct
+    linking to OpenBLAS, without using the alternatives system for BLAS
+    implementations. Thanks to Martin Koehler for his help in crafting a
+    proper solution. (Closes: #725673)
+
+ -- Sébastien Villemot <sebastien@debian.org>  Wed, 19 Feb 2014 17:20:03 +0100
+
+openblas (0.2.8-3) unstable; urgency=medium
+
+  * Use OpenMP parallelism instead of pthreads (Closes: #684344).
+  * Bump Standards-Version to 3.9.5, no changes needed.
+  * Bump to debhelper compat level 9.
+
+ -- Sébastien Villemot <sebastien@debian.org>  Wed, 15 Jan 2014 14:07:39 +0100
+
+openblas (0.2.8-2) unstable; urgency=low
+
+  * qemu-athlon.patch: new patch, should fix FTBFS on babin.debian.org
+    (which is a weird qemu guest declaring an Athlon CPU but without
+    3dnow! extensions)
+
+ -- Sébastien Villemot <sebastien@debian.org>  Tue, 27 Aug 2013 18:04:04 +0200
+
+openblas (0.2.8-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Sébastien Villemot <sebastien@debian.org>  Sat, 03 Aug 2013 23:25:41 +0200
+
+openblas (0.2.7-1) unstable; urgency=low
+
+  * New upstream release
+  * power7.patch: remove patch, applied upstream
+  * Repackage upstream tarball without embedded LAPACK copy
+  * Package descriptions: mention that multiple arch is only for x86; fix typo
+  * Use canonical URLs for packaging VCS
+  * Add dependency of libopenblas-dev on libblas-dev, so that CBLAS headers are
+    installed. (Closes: #685890)
+  * Disable memory address range benchmarking (NO_WARMUP=1), for better
+    startup performance. (Closes: #709224)
+  * test-custom-package.patch: new package, ensures that testsuite is run even
+    when building a custom package. (Closes: #677866)
+
+ -- Sébastien Villemot <sebastien@debian.org>  Fri, 26 Jul 2013 18:37:41 +0200
+
+openblas (0.2.6-2) unstable; urgency=low
+
+  * power7.patch: new patch, should fix FTBFS on powerpc buildd with Power7 arch
+  * libblas3-soname.patch: new patch, sets the SONAME of the dynamic library to
+    libblas.so.3. (Closes: #687349)
+  * Put "libblas3 | libblas.so.3" in the shlibs of libopenblas-base.
+    Packages compiled with libopenblas-dev installed will now have a BLAS
+    dependency satisfiable by all BLAS flavours.
+  * Switch to git as VCS for packaging
+
+ -- Sébastien Villemot <sebastien@debian.org>  Mon, 20 May 2013 18:40:07 +0200
+
+openblas (0.2.6-1) unstable; urgency=low
+
+  * Upload to unstable
+  * Update Standards-Version to 3.9.4
+  * Increase the maximum number of threads to 64 when building the generic
+    package. At runtime, OpenBLAS will not use more threads than there are
+    available cores. (LP: #817212)
+
+ -- Sébastien Villemot <sebastien@debian.org>  Sat, 02 Mar 2013 17:46:01 +0100
+
+openblas (0.2.6-1~exp1) experimental; urgency=low
+
+  * New upstream release
+    + Fixes use of uninitialized values in vectorized sgemv on i386.
+      (Closes: #696000)
+    + Fixes the overflowing buffer bug of gemv. (Closes: #697231)
+    + Fixes the the overflowing buffer bug of multithreading hbmv and sbmv.
+      (Closes: #697232)
+    + Fixes crash on 32-bit Athlon CPUs. (Closes: #697233)
+    + Better handling of unknown amd64 CPUs (e.g. within qemu).
+      (Closes: #697235)
+  * Disable processor affinity. (Closes: #684338)
+  * Force the maximum number of threads to 2 when building the generic package
+    (as we do for ATLAS). Otherwise, it is the number of cores on the build
+    machine which is chosen instead.
+  * README.Debian: improve instructions for building the custom package
+
+ -- Sébastien Villemot <sebastien@debian.org>  Sat, 02 Mar 2013 15:09:09 +0100
+
+openblas (0.2.5-1~exp1) experimental; urgency=low
+
+  [ Sébastien Villemot ]
+  * Update debian/watch
+  * Use my @debian.org email address
+  * Remove obsolete DM-Upload-Allowed flag
+
+  [ Sylvestre Ledru ]
+  * New upstream release
+  * generic_profile.diff removed (applied upstream)
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Sat, 08 Dec 2012 16:24:30 +0100
+
+openblas (0.2.4-1~exp1) experimental; urgency=low
+
+  * New upstream release
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Mon, 15 Oct 2012 20:15:49 +0200
+
+openblas (0.2.3-1~exp1) experimental; urgency=low
+
+  * New upstream release
+    + Kills threads when unloading the library (Closes: #673061)
+
+ -- Sébastien Villemot <sebastien.villemot@ens.fr>  Mon, 20 Aug 2012 12:18:07 +0000
+
+openblas (0.2.2-1~exp1) experimental; urgency=low
+
+  * New upstream release
+  * hurd.diff, hurd_gettid.diff, kfreebsd.diff, sparc.diff: remove patches,
+    applied upstream
+  * debian/rules: implement support for DEB_BUILD_OPTIONS=noopt
+
+ -- Sébastien Villemot <sebastien.villemot@ens.fr>  Wed, 11 Jul 2012 16:32:27 +0000
+
+openblas (0.2.1-1~exp1) experimental; urgency=low
+
+  * New upstream release
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Mon, 02 Jul 2012 02:24:00 +0200
+
+openblas (0.1.1-5) unstable; urgency=low
+
+  * libopenblas-base.prerm: avoid crash if libblas.so.3gf already deleted
+  * Add myself to Uploaders
+  * Set DM-Upload-Allowed to yes
+
+ -- Sébastien Villemot <sebastien.villemot@ens.fr>  Sun, 24 Jun 2012 16:15:11 +0000
+
+openblas (0.1.1-4) unstable; urgency=low
+
+  * Fix the FTBFS under KFreebsd. Thanks to Sébastien Villemot (Closes: #677165)
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Wed, 13 Jun 2012 10:29:51 +0200
+
+openblas (0.1.1-3) unstable; urgency=low
+
+  * Upload in unstable
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Sat, 02 Jun 2012 17:33:58 +0200
+
+openblas (0.1.1-3~exp4) experimental; urgency=low
+
+  * Rollback previous upload
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Fri, 01 Jun 2012 11:04:51 +0200
+
+openblas (0.1.1-3~exp3) experimental; urgency=low
+
+  * Fix a bad alternative link to the old library name
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Fri, 01 Jun 2012 10:28:09 +0200
+
+openblas (0.1.1-3~exp2) experimental; urgency=low
+
+  * Fix FTBFS (Closes: #666277)
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Wed, 30 May 2012 14:52:40 +0200
+
+openblas (0.1.1-3~exp1) experimental; urgency=low
+
+  * Replaces and Breaks updated against the right versions of other impacted
+    packages
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Mon, 21 May 2012 13:13:46 +0200
+
+openblas (0.1.1-2) experimental; urgency=low
+
+  * Moved removal from postinst to preinst
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Fri, 18 May 2012 15:58:32 +0200
+
+openblas (0.1.1-1) experimental; urgency=low
+
+  * New upstream release
+  * Remove libblas.so.3gf references before the install
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Mon, 14 May 2012 18:47:53 +0200
+
+openblas (0.1.0-1) experimental; urgency=low
+
+  * New upstream release
+  * Standards-Version updated to 3.9.3
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Wed, 04 Apr 2012 14:31:34 +0200
+
+openblas (0.1alpha2.5-1~exp2) experimental; urgency=low
+
+  * Join modifications with blas, lapack, atlas and openblas.
+    Declare the replacements of all *3gf blas & lapack implementation
+    (See bug #660607)
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Mon, 20 Feb 2012 19:33:41 +0100
+
+openblas (0.1alpha2.5-1~exp1) experimental; urgency=low
+
+  * New upstream release
+  * Fix an upgrade issue (Closes: #659786)
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Sun, 19 Feb 2012 15:50:41 +0100
+
+openblas (0.1alpha2.3-1~exp1) experimental; urgency=low
+
+  * New upstream release
+    Fix FTBFS under KfreeBSD (Closes: #635552)
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Mon, 05 Sep 2011 15:24:24 +0200
+
+openblas (0.1alpha2.2-4~exp1) experimental; urgency=low
+
+  * Rename the reference libblas.so.3gf to libblas.so.3
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Sat, 03 Sep 2011 20:24:39 +0200
+
+openblas (0.1alpha2.2-3) unstable; urgency=low
+
+  * Same player try again: the lib has different names with build with the
+    dynamic arch or not.
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Tue, 26 Jul 2011 18:40:04 +0200
+
+openblas (0.1alpha2.2-2) unstable; urgency=low
+
+  * Disable dynamic arch on non amd64 / i386 archs (Closes: #631887)
+  * Fix a FTBFS under hurd
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Tue, 26 Jul 2011 16:56:27 +0200
+
+openblas (0.1alpha2.2-1) unstable; urgency=low
+
+  * New upstream release (Closes: #631886)
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Mon, 25 Jul 2011 10:46:44 +0200
+
+openblas (0.1alpha2.1-1) unstable; urgency=low
+
+  * New upstream release
+  * gfortran added a build dep
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Wed, 29 Jun 2011 21:18:48 +0200
+
+openblas (0.1alpha2-1) unstable; urgency=low
+
+  * New upstream release
+  * Good news: use DYNAMIC_ARCH=1 in the build option of OpenBLAS/Gotoblas
+    to support multiple architecture. All kernel will be included in the library
+    and dynamically switched the best architecture at run time.
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Thu, 23 Jun 2011 10:44:43 +0200
+
+openblas (0.1alpha1-4) experimental; urgency=low
+
+  * Fix FTBFS under kfreebsd, sparc & hurd.
+  * Limit architectures to amd64 i386 ia64 powerpc powerpcspe ppc64
+    kfreebsd-i386 kfreebsd-amd64 hurd-i386 sparc
+  * cherry-pick from upstream to fail build when the arch is not supported
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Mon, 30 May 2011 17:05:23 +0200
+
+openblas (0.1alpha1-3) experimental; urgency=low
+
+  * clean target now really cleans everything. Thanks to Ryan Lovett
+    (Closes: #624253)
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Wed, 04 May 2011 18:03:10 +0200
+
+openblas (0.1alpha1-2) experimental; urgency=low
+
+  * Update the README.Debian file
+  * watch file removed for now (it was the one from atlas)
+  * Fix a custom build issue (thanks to Ryan Lovett for the bug report)
+  * Fix a FTBFS under sparc
+  * Switch to dpkg-source 3.0 (quilt) format
+  * Standards-Version updated to version 3.9.2
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Sat, 16 Apr 2011 15:23:22 +0200
+
+openblas (0.1alpha1-1) experimental; urgency=low
+
+  * Initial version (Closes: #605456)
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Fri, 04 Feb 2011 18:28:26 +0100
