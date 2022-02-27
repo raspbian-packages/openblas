@@ -261,6 +261,8 @@ Files: benchmark/cholesky.c
  interface/ztpsv.c
  interface/ztrmv.c
  interface/ztrsv.c
+ kernel/arm64/cgemm_ncopy_sve_v1.c
+ kernel/arm64/cgemm_tcopy_sve_v1.c
  kernel/arm64/dgemm_ncopy_sve_v1.c
  kernel/arm64/dgemm_tcopy_sve_v1.c
  kernel/arm64/sgemm_ncopy_sve_v1.c
@@ -271,6 +273,28 @@ Files: benchmark/cholesky.c
  kernel/arm64/trmm_ltcopy_sve_v1.c
  kernel/arm64/trmm_uncopy_sve_v1.c
  kernel/arm64/trmm_utcopy_sve_v1.c
+ kernel/arm64/trsm_kernel_LN_sve.c
+ kernel/arm64/trsm_kernel_LT_sve.c
+ kernel/arm64/trsm_kernel_RN_sve.c
+ kernel/arm64/trsm_kernel_RT_sve.c
+ kernel/arm64/trsm_lncopy_sve.c
+ kernel/arm64/trsm_ltcopy_sve.c
+ kernel/arm64/trsm_uncopy_sve.c
+ kernel/arm64/trsm_utcopy_sve.c
+ kernel/arm64/zgemm_ncopy_sve_v1.c
+ kernel/arm64/zgemm_tcopy_sve_v1.c
+ kernel/arm64/zhemm_ltcopy_sve.c
+ kernel/arm64/zhemm_utcopy_sve.c
+ kernel/arm64/zsymm_lcopy_sve.c
+ kernel/arm64/zsymm_ucopy_sve.c
+ kernel/arm64/ztrmm_lncopy_sve_v1.c
+ kernel/arm64/ztrmm_ltcopy_sve_v1.c
+ kernel/arm64/ztrmm_uncopy_sve_v1.c
+ kernel/arm64/ztrmm_utcopy_sve_v1.c
+ kernel/arm64/ztrsm_lncopy_sve.c
+ kernel/arm64/ztrsm_ltcopy_sve.c
+ kernel/arm64/ztrsm_uncopy_sve.c
+ kernel/arm64/ztrsm_utcopy_sve.c
  kernel/generic/cabs.c
  kernel/generic/gemm_beta.c
  kernel/generic/gemm_ncopy_1.c
@@ -590,7 +614,7 @@ License: Apache-2.0
 
 Files: debian/*
 Copyright: 2011-2012 Sylvestre Ledru <sylvestre@debian.org>
-           2012-2021 Sébastien Villemot <sebastien@debian.org>
+           2012-2022 Sébastien Villemot <sebastien@debian.org>
 License: BSD-2-clause
    1. Redistributions of source code must retain the above
       copyright notice, this list of conditions and the following

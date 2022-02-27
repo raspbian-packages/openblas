@@ -137,7 +137,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  # - CC is an implicit variable so neither '?=' or 'ifndef' can be used.
 --- a/interface/Makefile
 +++ b/interface/Makefile
-@@ -2335,3 +2335,11 @@ cblas_zgeadd.$(SUFFIX) cblas_zgeadd.$(PS
+@@ -2343,3 +2343,11 @@ cblas_zgeadd.$(SUFFIX) cblas_zgeadd.$(PS
  cblas_xerbla.$(SUFFIX) cblas_xerbla.$(PSUFFIX) : xerbla.c
  	$(CC) -c $(CFLAGS) -DCBLAS $< -o $(@F)
  
