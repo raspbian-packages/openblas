@@ -419,25 +419,3 @@ Description: Optimized BLAS (linear algebra) library (dev, 64bit, serial)
  needed for program development.
  .
  Configuration: USE_THREAD=0 USE_OPENMP=0 INTERFACE64=1
-
-# Another 64-bit version for Julia with custom symbol mangling.
-Package: libjulia-openblas64
-Architecture: amd64 arm64 ppc64el
-Multi-Arch: same
-Section: libs
-Depends: ${shlibs:Depends}, ${misc:Depends}
-Conflicts: libjulia1 (<< 1.4.1+dfsg-2)
-Replaces: libjulia1 (<< 1.4.1+dfsg-2)
-Description: Optimized BLAS (linear algebra) library (julia version)
- OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version.
- .
- On amd64, arm64, i386, ppc64el, s390x, kfreebsd-amd64 and kfreebsd-i386,
- all kernels are included in the library and the one matching best your
- processor is selected at runtime.
- .
- On other architectures, for maximum performance, you may want to rebuild
- OpenBLAS locally, see the section: “Building an optimized OpenBLAS package for
- your machine” in README.Debian.
- .
- Configuration: USE_THREAD=1 USE_OPENMP=0 INTERFACE64=1
-                LIBPREFIX=libopenblas64_ SYMBOLSUFFIX=64_

@@ -1,0 +1,22 @@
+Description: Fixes #1011386
+Author: lumin@debian.org
+Forwarded: not yet
+Index: openblas/exports/gensymbol
+===================================================================
+--- openblas.orig/exports/gensymbol
++++ openblas/exports/gensymbol
+@@ -727,12 +727,12 @@ zpotri,
+     cungtsqr
+     );
+ @lapackobjs2d = (@lapackobjs2d,
+-    dcombssq,
++    # dcombssq,  # deprecation in lapack 3.10.1
+     dgesvdq,
+     dorgtsqr,
+     );
+ @lapackobjs2s = (@lapackobjs2s,
+-    scombssq,
++    # scombssq,  # deprecation in lapack 3.10.1
+     sgesvdq,
+     sorgtsqr,
+     );

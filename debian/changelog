@@ -1,10 +1,27 @@
-openblas (0.3.20+ds-1+rpi1) bookworm-staging; urgency=medium
+openblas (0.3.20+ds-2+rpi1) bookworm-staging; urgency=medium
 
   [changes brought forward from 0.2.15-1+rpi1 by Peter Michael Green <plugwash@raspbian.org> at Fri, 11 Mar 2016 23:39:32 +0000]
   * Disable arm-gcc-flags.patch which was enforcing gcc flags that are wrong
     for raspbian.
 
- -- Raspbian forward porter <root@raspbian.org>  Sun, 27 Feb 2022 10:04:20 +0000
+ -- Raspbian forward porter <root@raspbian.org>  Fri, 27 May 2022 14:39:26 +0000
+
+openblas (0.3.20+ds-2) unstable; urgency=medium
+
+  * Remove deprecated xCOMBSSQ lapack routines. (Closes: #1011386)
+  * Remove bin:libjulia-openblas64, which is no longer needed.
+    Exporting libopenblas64_.so with SYMBOLSUFFIX=64_ in Julia private
+    library as an external dependency introduces complication in Julia
+    package compiling process. We currently do not have proposal to
+    put libopenblas64_.so (with symbol suffix) in the public library,
+    because that will eventually lead to NINE variants to build for amd64:
+    (1) LP64 (32-bit indexing), three threading models, default;
+    (2) ILP64 (64-bit indexing), three threading models, no symbol suffix;
+    (3) ILP64 (64-bit indexing), three threading models, symbols suffix 64_.
+    Currently we only provide the (1) and (2) combinations, because BLAS
+    libraries without symbol mangling can still be alternated to e.g. MKL.
+
+ -- Mo Zhou <lumin@debian.org>  Sat, 21 May 2022 16:25:13 -0400
 
 openblas (0.3.20+ds-1) unstable; urgency=medium
 
