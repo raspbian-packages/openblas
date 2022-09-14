@@ -1,0 +1,18 @@
+Description: Fix FTBFS on mips64el
+ The dnrm2_tiny and dnrm2_inf utests were failing.
+Origin: upstream, https://github.com/xianyi/OpenBLAS/commit/365936ae1b1dfa2f50b3e65c68ae95babc6f2af2
+Bug: https://github.com/xianyi/OpenBLAS/issues/3761
+Last-Update: 2022-09-14
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/kernel/mips64/dnrm2.S
++++ b/kernel/mips64/dnrm2.S
+@@ -90,7 +90,7 @@
+ 	//Init INF
+ 	lui     TEMP, 0x7FF0
+ 	dsll    TEMP, TEMP, 32
+-	MTC1    TEMP, INF
++	MTC     TEMP, INF
+ 
+ 	LD	a1,  0 * SIZE(X)
+ 	daddiu	N, N, -1
