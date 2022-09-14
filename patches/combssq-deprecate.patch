@@ -1,0 +1,22 @@
+Description: No longer check for symbols deprecated in LAPACK 3.10.1
+Author: Mo Zhou <lumin@debian.org>
+Bug-Debian: https://bugs.debian.org/1011386
+Forwarded: no
+Last-Update: 2022-08-14
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/exports/gensymbol
++++ b/exports/gensymbol
+@@ -738,12 +738,10 @@ lapackobjs2c="$lapackobjs2c
+     cungtsqr
+     "
+ lapackobjs2d="$lapackobjs2d
+-    dcombssq
+     dgesvdq
+     dorgtsqr
+     "
+ lapackobjs2s="$lapackobjs2s
+-    scombssq
+     sgesvdq
+     sorgtsqr
+     "
