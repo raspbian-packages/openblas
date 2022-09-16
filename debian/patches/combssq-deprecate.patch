@@ -1,22 +1,22 @@
-Description: Fixes #1011386
-Author: lumin@debian.org
-Forwarded: not yet
-Index: openblas/exports/gensymbol
-===================================================================
---- openblas.orig/exports/gensymbol
-+++ openblas/exports/gensymbol
-@@ -727,12 +727,12 @@ zpotri,
+Description: No longer check for symbols deprecated in LAPACK 3.10.1
+Author: Mo Zhou <lumin@debian.org>
+Bug-Debian: https://bugs.debian.org/1011386
+Forwarded: no
+Last-Update: 2022-08-14
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/exports/gensymbol
++++ b/exports/gensymbol
+@@ -738,12 +738,10 @@ lapackobjs2c="$lapackobjs2c
      cungtsqr
-     );
- @lapackobjs2d = (@lapackobjs2d,
--    dcombssq,
-+    # dcombssq,  # deprecation in lapack 3.10.1
-     dgesvdq,
-     dorgtsqr,
-     );
- @lapackobjs2s = (@lapackobjs2s,
--    scombssq,
-+    # scombssq,  # deprecation in lapack 3.10.1
-     sgesvdq,
-     sorgtsqr,
-     );
+     "
+ lapackobjs2d="$lapackobjs2d
+-    dcombssq
+     dgesvdq
+     dorgtsqr
+     "
+ lapackobjs2s="$lapackobjs2s
+-    scombssq
+     sgesvdq
+     sorgtsqr
+     "

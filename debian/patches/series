@@ -4,4 +4,6 @@ no-embedded-lapack.patch
 shared-blas-lapack.patch
 matgen-symbols-not-included.patch
 combssq-deprecate.patch
+pr-3718-ppc64el-segfault.patch
+mips64el-utest-dnrm2.patch
 auto-0.3.7+ds-1+rpi1-e5cdb5bc2fdbe4ed5849a311d639ae1e43ddffb5-1566623053

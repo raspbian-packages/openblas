@@ -8,47 +8,42 @@ Last-Update: 2017-07-27
 This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 --- a/Makefile
 +++ b/Makefile
-@@ -241,92 +241,21 @@ hpl_p :
+@@ -248,87 +248,21 @@ hpl_p :
  	fi; \
  	done
  
--ifeq ($(NO_LAPACK), 1)
- netlib :
--
--else
 -netlib : lapack_prebuild
--ifeq ($(NOFORTRAN), $(filter 0,$(NOFORTRAN)))
+-ifneq ($(NO_LAPACK), 1)
 -	@$(MAKE) -C $(NETLIB_LAPACK_DIR) lapacklib
 -	@$(MAKE) -C $(NETLIB_LAPACK_DIR) tmglib
 -endif
 -ifneq ($(NO_LAPACKE), 1)
 -	@$(MAKE) -C $(NETLIB_LAPACK_DIR) lapackelib
+-endif
+-
+-ifeq ($(NO_LAPACK), 1)
+-re_lapack :
+-
++netlib :
 +ifeq (,$(findstring 64,$(LIBNAME)))
 +	mkdir lapack-netlib
 +	cd lapack-netlib && ar -x /usr/lib/$$(dpkg-architecture -q DEB_HOST_MULTIARCH)/liblapack_pic.a
 +	make -C interface delete-duplicate-lapack-objects
 +	ar -ru $(LIBNAME) `LC_ALL=C ls lapack-netlib/*`
-+else
+ else
+-re_lapack :
+-	@$(MAKE) -C relapack
 +	mkdir lapack64-netlib
 +	cd lapack64-netlib && ar -x /usr/lib/$$(dpkg-architecture -q DEB_HOST_MULTIARCH)/liblapack64_pic.a
 +	make -C interface delete-duplicate-lapack-objects
 +	ar -ru $(LIBNAME) `LC_ALL=C ls lapack64-netlib/*`
  endif
--endif
--
--ifeq ($(NO_LAPACK), 1)
--re_lapack :
  
--else
--re_lapack :
--	@$(MAKE) -C relapack
--endif
--
 -prof_lapack : lapack_prebuild
 -	@$(MAKE) -C $(NETLIB_LAPACK_DIR) lapack_prof
 -
 -lapack_prebuild :
--ifeq ($(NOFORTRAN), $(filter 0,$(NOFORTRAN)))
+-ifeq ($(NO_LAPACK), $(filter 0,$(NO_LAPACK)))
 -	-@echo "FC          = $(FC)" > $(NETLIB_LAPACK_DIR)/make.inc
 -	-@echo "override FFLAGS      = $(LAPACK_FFLAGS)" >> $(NETLIB_LAPACK_DIR)/make.inc
 -	-@echo "FFLAGS_DRV  = $(LAPACK_FFLAGS)" >> $(NETLIB_LAPACK_DIR)/make.inc
@@ -113,7 +108,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  
  large.tgz :
  ifeq ($(NOFORTRAN), $(filter 0,$(NOFORTRAN)))
-@@ -393,10 +322,5 @@ ifeq ($(OSNAME), Darwin)
+@@ -395,10 +329,5 @@ ifeq ($(OSNAME), Darwin)
  endif
  	@rm -f Makefile.conf config.h Makefile_kernel.conf config_kernel.h st* *.dylib
  	@rm -f cblas.tmp cblas.tmp2
@@ -137,7 +132,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  # - CC is an implicit variable so neither '?=' or 'ifndef' can be used.
 --- a/interface/Makefile
 +++ b/interface/Makefile
-@@ -2343,3 +2343,11 @@ cblas_zgeadd.$(SUFFIX) cblas_zgeadd.$(PS
+@@ -2346,3 +2346,11 @@ cblas_zgeadd.$(SUFFIX) cblas_zgeadd.$(PS
  cblas_xerbla.$(SUFFIX) cblas_xerbla.$(PSUFFIX) : xerbla.c
  	$(CC) -c $(CFLAGS) -DCBLAS $< -o $(@F)
  

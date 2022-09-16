@@ -1,10 +1,30 @@
-openblas (0.3.20+ds-2+rpi1) bookworm-staging; urgency=medium
+openblas (0.3.21+ds-2+rpi1) bookworm-staging; urgency=medium
 
   [changes brought forward from 0.2.15-1+rpi1 by Peter Michael Green <plugwash@raspbian.org> at Fri, 11 Mar 2016 23:39:32 +0000]
   * Disable arm-gcc-flags.patch which was enforcing gcc flags that are wrong
     for raspbian.
 
- -- Raspbian forward porter <root@raspbian.org>  Fri, 27 May 2022 14:39:26 +0000
+ -- Raspbian forward porter <root@raspbian.org>  Fri, 16 Sep 2022 11:29:32 +0000
+
+openblas (0.3.21+ds-2) unstable; urgency=medium
+
+  [ Mo Zhou ]
+  * Cherry-pick upstream commit to fix ppc64el FTBFS.
+
+  [ Sébastien Villemot ]
+  * mips64el-utest-dnrm2.patch: new patch from upstream, fixes FTBFS on mips64el
+
+ -- Sébastien Villemot <sebastien@debian.org>  Wed, 14 Sep 2022 13:07:58 +0200
+
+openblas (0.3.21+ds-1) unstable; urgency=medium
+
+  * New upstream version 0.3.21+ds
+  * d/copyright: reflect upstream changes
+  * d/control: drop transitional libopenblas-base package, no longer needed
+  * Bump S-V to 4.6.1
+  * Update renamed lintian tag names in lintian overrides.
+
+ -- Sébastien Villemot <sebastien@debian.org>  Sun, 14 Aug 2022 22:37:14 +0200
 
 openblas (0.3.20+ds-2) unstable; urgency=medium
 

@@ -25,11 +25,14 @@ ifeq ($(NO_FORTRAN), 1)
 define NOFORTRAN
 1
 endef
-define NO_LAPACK
+ifneq ($(NO_LAPACK), 1)
+define C_LAPACK
 1
 endef
+endif
 export NOFORTRAN
 export NO_LAPACK
+export C_LAPACK
 endif
 
 LAPACK_NOOPT := $(filter-out -O0 -O1 -O2 -O3 -Ofast -O -Og -Os,$(LAPACK_FFLAGS))
@@ -146,12 +149,16 @@ ifeq ($(NOFORTRAN), $(filter 0,$(NOFORTRAN)))
 ifndef NO_FBLAS
 	$(MAKE) -C test all
 endif
+endif
+ifneq ($(ONLY_CBLAS), 1)
 	$(MAKE) -C utest all
+endif
 ifneq ($(NO_CBLAS), 1)
+ifneq ($(ONLY_CBLAS), 1)
 	$(MAKE) -C ctest all
+endif
 ifeq ($(CPP_THREAD_SAFETY_TEST), 1)
 	$(MAKE) -C cpp_thread_test all
-endif
 endif
 endif
 
@@ -160,7 +167,7 @@ ifeq ($(CORE), UNKNOWN)
 	$(error OpenBLAS: Detecting CPU failed. Please set TARGET explicitly, e.g. make TARGET=your_cpu_target. Please read README for the detail.)
 endif
 ifeq ($(NOFORTRAN), 1)
-	$(info OpenBLAS: Detecting fortran compiler failed. Cannot compile LAPACK. Only compile BLAS.)
+	$(info OpenBLAS: Detecting fortran compiler failed. Can only compile BLAS and f2c-converted LAPACK.)
 endif
 ifeq ($(NO_STATIC), 1)
 ifeq ($(NO_SHARED), 1)

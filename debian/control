@@ -9,7 +9,7 @@ Build-Depends: debhelper-compat (= 13),
                gfortran,
                liblapack-dev (>= 3.10.0-2~),
                liblapack64-dev (>= 3.10.0-2~) [amd64 arm64 ppc64el ppc64 kfreebsd-amd64 mips64el riscv64 sparc64 s390x],
-Standards-Version: 4.6.0
+Standards-Version: 4.6.1
 Vcs-Browser: https://salsa.debian.org/science-team/openblas
 Vcs-Git: https://salsa.debian.org/science-team/openblas.git
 Homepage: https://www.openblas.net/
@@ -112,29 +112,6 @@ Description: Optimized BLAS (linear algebra) library (shared lib, serial)
  your machine” in README.Debian.
  .
  Configuration: USE_THREAD=0 USE_OPENMP=0 INTERFACE64=0
-
-Package: libopenblas-base
-Architecture: amd64 arm64 armhf i386 powerpc ppc64el ppc64 kfreebsd-i386 kfreebsd-amd64 mips64el riscv64 sparc64 s390x
-Multi-Arch: same
-Section: oldlibs
-Depends: ${misc:Depends},
-         libopenblas0,
-Breaks: libblas3 (<< 3.7.1-2~),
-        liblapack3 (<< 3.7.1-2~),
-        libatlas3-base (<< 3.10.3-4~),
-        libopenblas-dev (<< 0.2.20+ds-3~)
-Description: Optimized BLAS (linear algebra) library (transitional)
- OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version.
- .
- On amd64, arm64, i386, ppc64el, s390x, kfreebsd-amd64 and kfreebsd-i386,
- all kernels are included in the library and the one matching best your
- processor is selected at runtime.
- .
- On other architectures, for maximum performance, you may want to rebuild
- OpenBLAS locally, see the section: “Building an optimized OpenBLAS package for
- your machine” in README.Debian.
- .
- This is a transitional dummy package, which can be safely removed.
 
 Package: libopenblas-dev
 Architecture: amd64 arm64 armhf i386 powerpc ppc64el ppc64 kfreebsd-i386 kfreebsd-amd64 mips64el riscv64 sparc64 s390x

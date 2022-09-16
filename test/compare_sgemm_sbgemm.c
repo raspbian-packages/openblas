@@ -51,9 +51,15 @@ typedef union
   float v;
   struct
   {
+#if __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
+    uint32_t s:1;
+    uint32_t e:8;
+    uint32_t m:23;
+#else
     uint32_t m:23;
     uint32_t e:8;
     uint32_t s:1;
+#endif
   } bits;
 } float32_bits;
 
@@ -70,9 +76,9 @@ float16to32 (bfloat16_bits f16)
 int
 main (int argc, char *argv[])
 {
-  int m, n, k;
+  blasint m, n, k;
   int i, j, l;
-  int x;
+  blasint x;
   int ret = 0;
   int loop = 100;
   char transA = 'N', transB = 'N';
@@ -106,7 +112,6 @@ main (int argc, char *argv[])
 	      &m, BB, &k, &beta, CC, &m);
       for (i = 0; i < n; i++)
 	for (j = 0; j < m; j++)
-	  for (l = 0; l < k; l++)
 	    if (fabs (CC[i * m + j] - C[i * m + j]) > 1.0)
 	      ret++;
       if (transA == 'N' && transB == 'N')
@@ -120,7 +125,6 @@ main (int argc, char *argv[])
 		}
 	  for (i = 0; i < n; i++)
 	    for (j = 0; j < m; j++)
-	      for (l = 0; l < k; l++)
 		if (CC[i * m + j] != DD[i * m + j])
 		  ret++;
 	}
