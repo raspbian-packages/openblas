@@ -738,12 +738,10 @@ lapackobjs2c="$lapackobjs2c
     cungtsqr
     "
 lapackobjs2d="$lapackobjs2d
-    dcombssq
     dgesvdq
     dorgtsqr
     "
 lapackobjs2s="$lapackobjs2s
-    scombssq
     sgesvdq
     sorgtsqr
     "
