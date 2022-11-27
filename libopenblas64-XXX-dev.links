@@ -1,0 +1,4 @@
+usr/lib/${DEB_HOST_MULTIARCH}/@SUBDIR@/libopenblas64.a  usr/lib/${DEB_HOST_MULTIARCH}/@SUBDIR@/libblas64.a
+usr/lib/${DEB_HOST_MULTIARCH}/@SUBDIR@/libopenblas64.a  usr/lib/${DEB_HOST_MULTIARCH}/@SUBDIR@/liblapack64.a
+usr/lib/${DEB_HOST_MULTIARCH}/@SUBDIR@/libblas64.so.3   usr/lib/${DEB_HOST_MULTIARCH}/@SUBDIR@/libblas64.so
+usr/lib/${DEB_HOST_MULTIARCH}/@SUBDIR@/liblapack64.so.3 usr/lib/${DEB_HOST_MULTIARCH}/@SUBDIR@/liblapack64.so
