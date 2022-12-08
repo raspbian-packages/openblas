@@ -249,7 +249,7 @@ hpl_p :
 	done
 
 netlib :
-ifeq (,$(findstring 64,$(LIBNAME)))
+ifeq (,$(filter libopenblas64%,$(LIBNAME)))
 	mkdir lapack-netlib
 	cd lapack-netlib && ar -x /usr/lib/$$(dpkg-architecture -q DEB_HOST_MULTIARCH)/liblapack_pic.a
 	make -C interface delete-duplicate-lapack-objects

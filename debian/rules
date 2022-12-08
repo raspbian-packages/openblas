@@ -185,7 +185,8 @@ install_%:
 	$(MAKE) -C $* install $(MAKE_OPTIONS) $(FLAGS_$*) \
 		DESTDIR=../debian/tmp/ PREFIX=/usr \
 		OPENBLAS_INCLUDE_DIR=/usr/include/$(DEB_HOST_MULTIARCH)/openblas$(subst $(SOVER)-,-,$(subst -$(SOVER)-,-,$*))/ \
-		OPENBLAS_LIBRARY_DIR=/usr/lib/$(DEB_HOST_MULTIARCH)/openblas$(subst $(SOVER)-,-,$(subst -$(SOVER)-,-,$*))/
+		OPENBLAS_LIBRARY_DIR=/usr/lib/$(DEB_HOST_MULTIARCH)/openblas$(subst $(SOVER)-,-,$(subst -$(SOVER)-,-,$*))/ \
+		OPENBLAS_CMAKE_DIR=/usr/lib/$(DEB_HOST_MULTIARCH)/cmake/openblas$(subst $(SOVER)-,-,$(subst -$(SOVER)-,-,$*))/
 	# Fix the content of openblas.pc for 64-bit indexing
 	if test -n "$$(echo $* | grep 64)"; then \
 		sed -i -e "s/-lopenblas/-lopenblas64/" \

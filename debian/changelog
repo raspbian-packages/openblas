@@ -1,10 +1,21 @@
-openblas (0.3.21+ds-2+rpi1) bookworm-staging; urgency=medium
+openblas (0.3.21+ds-3+rpi1) bookworm-staging; urgency=medium
 
   [changes brought forward from 0.2.15-1+rpi1 by Peter Michael Green <plugwash@raspbian.org> at Fri, 11 Mar 2016 23:39:32 +0000]
   * Disable arm-gcc-flags.patch which was enforcing gcc flags that are wrong
     for raspbian.
 
- -- Raspbian forward porter <root@raspbian.org>  Fri, 16 Sep 2022 11:29:32 +0000
+ -- Raspbian forward porter <root@raspbian.org>  Thu, 08 Dec 2022 17:26:30 +0000
+
+openblas (0.3.21+ds-3) unstable; urgency=medium
+
+  * Install CMake files under /usr/lib/$(MULTIARCH)/cmake/openblas$(FLAVOR)/
+    Thanks to Juan Jose Garcia Ripoll for reporting (Closes: #1000332)
+  * no-embedded-lapack.patch: fix logic for detecting build with 64-bit
+    indexing. In particular, this fixes the riscv64 packages whose embedded
+    LAPACK routines were unusable with 32-bit indexing.
+    Thanks to Дмитрий Ермилов (Closes: #1022950)
+
+ -- Sébastien Villemot <sebastien@debian.org>  Sun, 27 Nov 2022 21:22:10 +0100
 
 openblas (0.3.21+ds-2) unstable; urgency=medium
 
