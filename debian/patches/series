@@ -1,0 +1,9 @@
+arm-gcc-flags.patch
+kfreebsd.patch
+remove-openmp-warning.patch
+no-embedded-lapack.patch
+shared-blas-lapack.patch
+matgen-symbols-not-included.patch
+combssq-deprecate.patch
+pr-3718-ppc64el-segfault.patch
+mips64el-utest-dnrm2.patch
