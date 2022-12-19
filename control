@@ -1,0 +1,398 @@
+Source: openblas
+Maintainer: Debian Science Team <debian-science-maintainers@lists.alioth.debian.org>
+Uploaders: Sébastien Villemot <sebastien@debian.org>,
+           Mo Zhou <lumin@debian.org>
+Section: devel
+Priority: optional
+Build-Depends: debhelper-compat (= 13),
+               debhelper (>= 12.8~),
+               gfortran,
+               liblapack-dev (>= 3.10.0-2~),
+               liblapack64-dev (>= 3.10.0-2~) [amd64 arm64 ppc64el ppc64 kfreebsd-amd64 mips64el riscv64 sparc64 s390x],
+Standards-Version: 4.6.2
+Vcs-Browser: https://salsa.debian.org/science-team/openblas
+Vcs-Git: https://salsa.debian.org/science-team/openblas.git
+Homepage: https://www.openblas.net/
+Rules-Requires-Root: no
+
+# 32-bit indexing version
+
+Package: libopenblas0
+Architecture: amd64 arm64 armhf i386 powerpc ppc64el ppc64 kfreebsd-i386 kfreebsd-amd64 mips64el riscv64 sparc64 s390x
+Multi-Arch: same
+Section: metapackages
+Depends: ${misc:Depends},
+         libopenblas0-pthread | libopenblas0-openmp | libopenblas0-serial,
+Breaks: libblas3 (<< 3.7.1-2~),
+        liblapack3 (<< 3.7.1-2~),
+        libatlas3-base (<< 3.10.3-4~),
+        libopenblas-dev (<< 0.2.20+ds-3~)
+Description: Optimized BLAS (linear algebra) library (meta)
+ OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version.
+ .
+ On amd64, arm64, i386, ppc64el, s390x, kfreebsd-amd64 and kfreebsd-i386,
+ all kernels are included in the library and the one matching best your
+ processor is selected at runtime.
+ .
+ On other architectures, for maximum performance, you may want to rebuild
+ OpenBLAS locally, see the section: “Building an optimized OpenBLAS package for
+ your machine” in README.Debian.
+
+Package: libopenblas0-pthread
+Architecture: amd64 arm64 armhf i386 powerpc ppc64el ppc64 kfreebsd-i386 kfreebsd-amd64 mips64el riscv64 sparc64 s390x
+Multi-Arch: same
+Section: libs
+Depends: ${shlibs:Depends},
+         ${misc:Depends}
+Breaks: libblas3 (<< 3.7.1-2~),
+        liblapack3 (<< 3.7.1-2~),
+        libatlas3-base (<< 3.10.3-4~),
+        libopenblas-dev (<< 0.2.20+ds-3~)
+Provides: libblas.so.3,
+          liblapack.so.3
+Description: Optimized BLAS (linear algebra) library (shared lib, pthread)
+ OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version.
+ .
+ On amd64, arm64, i386, ppc64el, s390x, kfreebsd-amd64 and kfreebsd-i386,
+ all kernels are included in the library and the one matching best your
+ processor is selected at runtime.
+ .
+ On other architectures, for maximum performance, you may want to rebuild
+ OpenBLAS locally, see the section: “Building an optimized OpenBLAS package for
+ your machine” in README.Debian.
+ .
+ Configuration: USE_THREAD=1 USE_OPENMP=0 INTERFACE64=0
+
+Package: libopenblas0-openmp
+Architecture: amd64 arm64 armhf i386 powerpc ppc64el ppc64 kfreebsd-i386 kfreebsd-amd64 mips64el riscv64 sparc64 s390x
+Multi-Arch: same
+Section: libs
+Depends: ${shlibs:Depends},
+         ${misc:Depends}
+Breaks: libblas3 (<< 3.7.1-2~),
+        liblapack3 (<< 3.7.1-2~),
+        libatlas3-base (<< 3.10.3-4~),
+        libopenblas-dev (<< 0.2.20+ds-3~)
+Provides: libblas.so.3,
+          liblapack.so.3
+Description: Optimized BLAS (linear algebra) library (shared lib, openmp)
+ OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version.
+ .
+ On amd64, arm64, i386, ppc64el, s390x, kfreebsd-amd64 and kfreebsd-i386,
+ all kernels are included in the library and the one matching best your
+ processor is selected at runtime.
+ .
+ On other architectures, for maximum performance, you may want to rebuild
+ OpenBLAS locally, see the section: “Building an optimized OpenBLAS package for
+ your machine” in README.Debian.
+ .
+ Configuration: USE_THREAD=1 USE_OPENMP=1 INTERFACE64=0
+
+Package: libopenblas0-serial
+Architecture: amd64 arm64 armhf i386 powerpc ppc64el ppc64 kfreebsd-i386 kfreebsd-amd64 mips64el riscv64 sparc64 s390x
+Multi-Arch: same
+Section: libs
+Depends: ${shlibs:Depends},
+         ${misc:Depends}
+Breaks: libblas3 (<< 3.7.1-2~),
+        liblapack3 (<< 3.7.1-2~),
+        libatlas3-base (<< 3.10.3-4~),
+        libopenblas-dev (<< 0.2.20+ds-3~)
+Provides: libblas.so.3,
+          liblapack.so.3
+Description: Optimized BLAS (linear algebra) library (shared lib, serial)
+ OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version.
+ .
+ On amd64, arm64, i386, ppc64el, s390x, kfreebsd-amd64 and kfreebsd-i386,
+ all kernels are included in the library and the one matching best your
+ processor is selected at runtime.
+ .
+ On other architectures, for maximum performance, you may want to rebuild
+ OpenBLAS locally, see the section: “Building an optimized OpenBLAS package for
+ your machine” in README.Debian.
+ .
+ Configuration: USE_THREAD=0 USE_OPENMP=0 INTERFACE64=0
+
+Package: libopenblas-dev
+Architecture: amd64 arm64 armhf i386 powerpc ppc64el ppc64 kfreebsd-i386 kfreebsd-amd64 mips64el riscv64 sparc64 s390x
+Multi-Arch: same
+Section: metapackages
+Depends: libopenblas0 (= ${binary:Version}),
+         ${misc:Depends},
+         libopenblas-pthread-dev | libopenblas-openmp-dev | libopenblas-serial-dev,
+Breaks: libblas-dev (<< 3.7.1-2~),
+        liblapack-dev (<< 3.7.1-2~),
+        libatlas-base-dev (<< 3.10.3-4~)
+Description: Optimized BLAS (linear algebra) library (dev, meta)
+ OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version.
+ .
+ On amd64, arm64, i386, ppc64el, s390x, kfreebsd-amd64 and kfreebsd-i386,
+ all kernels are included in the library and the one matching best your
+ processor is selected at runtime.
+ .
+ On other architectures, for maximum performance, you may want to rebuild
+ OpenBLAS locally, see the section: “Building an optimized OpenBLAS package for
+ your machine” in README.Debian.
+ .
+ This package includes the static libraries and symbolic links
+ needed for program development.
+
+Package: libopenblas-pthread-dev
+Architecture: amd64 arm64 armhf i386 powerpc ppc64el ppc64 kfreebsd-i386 kfreebsd-amd64 mips64el riscv64 sparc64 s390x
+Multi-Arch: same
+Section: libdevel
+Depends: libopenblas0-pthread (= ${binary:Version}),
+         ${misc:Depends}
+Breaks: libblas-dev (<< 3.7.1-2~),
+        liblapack-dev (<< 3.7.1-2~),
+        libatlas-base-dev (<< 3.10.3-4~)
+Provides: libblas.so,
+          liblapack.so
+Description: Optimized BLAS (linear algebra) library (dev, pthread)
+ OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version.
+ .
+ On amd64, arm64, i386, ppc64el, s390x, kfreebsd-amd64 and kfreebsd-i386,
+ all kernels are included in the library and the one matching best your
+ processor is selected at runtime.
+ .
+ On other architectures, for maximum performance, you may want to rebuild
+ OpenBLAS locally, see the section: “Building an optimized OpenBLAS package for
+ your machine” in README.Debian.
+ .
+ This package includes the static libraries and symbolic links
+ needed for program development.
+ .
+ Configuration: USE_THREAD=1 USE_OPENMP=0 INTERFACE64=0
+
+Package: libopenblas-openmp-dev
+Architecture: amd64 arm64 armhf i386 powerpc ppc64el ppc64 kfreebsd-i386 kfreebsd-amd64 mips64el riscv64 sparc64 s390x
+Multi-Arch: same
+Section: libdevel
+Depends: libopenblas0-openmp (= ${binary:Version}),
+         ${misc:Depends}
+Breaks: libblas-dev (<< 3.7.1-2~),
+        liblapack-dev (<< 3.7.1-2~),
+        libatlas-base-dev (<< 3.10.3-4~)
+Provides: libblas.so,
+          liblapack.so
+Description: Optimized BLAS (linear algebra) library (dev, openmp)
+ OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version.
+ .
+ On amd64, arm64, i386, ppc64el, s390x, kfreebsd-amd64 and kfreebsd-i386,
+ all kernels are included in the library and the one matching best your
+ processor is selected at runtime.
+ .
+ On other architectures, for maximum performance, you may want to rebuild
+ OpenBLAS locally, see the section: “Building an optimized OpenBLAS package for
+ your machine” in README.Debian.
+ .
+ This package includes the static libraries and symbolic links
+ needed for program development.
+ .
+ Configuration: USE_THREAD=1 USE_OPENMP=1 INTERFACE64=0
+
+Package: libopenblas-serial-dev
+Architecture: amd64 arm64 armhf i386 powerpc ppc64el ppc64 kfreebsd-i386 kfreebsd-amd64 mips64el riscv64 sparc64 s390x
+Multi-Arch: same
+Section: libdevel
+Depends: libopenblas0-serial (= ${binary:Version}),
+         ${misc:Depends}
+Breaks: libblas-dev (<< 3.7.1-2~),
+        liblapack-dev (<< 3.7.1-2~),
+        libatlas-base-dev (<< 3.10.3-4~)
+Provides: libblas.so,
+          liblapack.so
+Description: Optimized BLAS (linear algebra) library (dev, serial)
+ OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version.
+ .
+ On amd64, arm64, i386, ppc64el, s390x, kfreebsd-amd64 and kfreebsd-i386,
+ all kernels are included in the library and the one matching best your
+ processor is selected at runtime.
+ .
+ On other architectures, for maximum performance, you may want to rebuild
+ OpenBLAS locally, see the section: “Building an optimized OpenBLAS package for
+ your machine” in README.Debian.
+ .
+ This package includes the static libraries and symbolic links
+ needed for program development.
+ .
+ Configuration: USE_THREAD=0 USE_OPENMP=0 INTERFACE64=0
+
+# 64-bit indexing version
+
+Package: libopenblas64-0
+Architecture: amd64 arm64 kfreebsd-amd64 ppc64 ppc64el mips64el riscv64 sparc64 s390x
+Multi-Arch: same
+Section: metapackages
+Depends: ${misc:Depends},
+         libopenblas64-0-pthread | libopenblas64-0-openmp | libopenblas64-0-serial,
+Description: Optimized BLAS (linear algebra) library (shared lib, 64bit, meta)
+ OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version.
+ .
+ On amd64, arm64, i386, ppc64el, s390x, kfreebsd-amd64 and kfreebsd-i386,
+ all kernels are included in the library and the one matching best your
+ processor is selected at runtime.
+ .
+ On other architectures, for maximum performance, you may want to rebuild
+ OpenBLAS locally, see the section: “Building an optimized OpenBLAS package for
+ your machine” in README.Debian.
+ .
+ This metapackage provides a 64-bit indexing version.
+
+Package: libopenblas64-0-pthread
+Architecture: amd64 arm64 kfreebsd-amd64 ppc64 ppc64el mips64el riscv64 sparc64 s390x
+Multi-Arch: same
+Section: libs
+Depends: ${shlibs:Depends},
+         ${misc:Depends}
+Provides: libblas64.so.3,
+          liblapack64.so.3
+Description: Optimized BLAS (linear algebra) library (shared lib, 64bit, pthread)
+ OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version.
+ .
+ On amd64, arm64, i386, ppc64el, s390x, kfreebsd-amd64 and kfreebsd-i386,
+ all kernels are included in the library and the one matching best your
+ processor is selected at runtime.
+ .
+ On other architectures, for maximum performance, you may want to rebuild
+ OpenBLAS locally, see the section: “Building an optimized OpenBLAS package for
+ your machine” in README.Debian.
+ .
+ Configuration: USE_THREAD=1 USE_OPENMP=0 INTERFACE64=1
+
+Package: libopenblas64-0-openmp
+Architecture: amd64 arm64 kfreebsd-amd64 ppc64 ppc64el mips64el riscv64 sparc64 s390x
+Multi-Arch: same
+Section: libs
+Depends: ${shlibs:Depends},
+         ${misc:Depends}
+Provides: libblas64.so.3,
+          liblapack64.so.3
+Description: Optimized BLAS (linear algebra) library (shared lib, 64bit, openmp)
+ OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version.
+ .
+ On amd64, arm64, i386, ppc64el, s390x, kfreebsd-amd64 and kfreebsd-i386,
+ all kernels are included in the library and the one matching best your
+ processor is selected at runtime.
+ .
+ On other architectures, for maximum performance, you may want to rebuild
+ OpenBLAS locally, see the section: “Building an optimized OpenBLAS package for
+ your machine” in README.Debian.
+ .
+ Configuration: USE_THREAD=1 USE_OPENMP=1 INTERFACE64=1
+
+Package: libopenblas64-0-serial
+Architecture: amd64 arm64 kfreebsd-amd64 ppc64 ppc64el mips64el riscv64 sparc64 s390x
+Multi-Arch: same
+Section: libs
+Depends: ${shlibs:Depends},
+         ${misc:Depends}
+Provides: libblas64.so.3,
+          liblapack64.so.3
+Description: Optimized BLAS (linear algebra) library (shared lib, 64bit, serial)
+ OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version.
+ .
+ On amd64, arm64, i386, ppc64el, s390x, kfreebsd-amd64 and kfreebsd-i386,
+ all kernels are included in the library and the one matching best your
+ processor is selected at runtime.
+ .
+ On other architectures, for maximum performance, you may want to rebuild
+ OpenBLAS locally, see the section: “Building an optimized OpenBLAS package for
+ your machine” in README.Debian.
+ .
+ Configuration: USE_THREAD=0 USE_OPENMP=0 INTERFACE64=1
+
+Package: libopenblas64-dev
+Architecture: amd64 arm64 kfreebsd-amd64 ppc64 ppc64el mips64el riscv64 sparc64 s390x
+Multi-Arch: same
+Section: metapackages
+Depends: libopenblas64-0 (= ${binary:Version}),
+         ${misc:Depends},
+         libopenblas64-pthread-dev | libopenblas64-openmp-dev | libopenblas64-serial-dev,
+Description: Optimized BLAS (linear algebra) library (dev, 64bit, meta)
+ OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version.
+ .
+ On amd64, arm64, i386, ppc64el, s390x, kfreebsd-amd64 and kfreebsd-i386,
+ all kernels are included in the library and the one matching best your
+ processor is selected at runtime.
+ .
+ On other architectures, for maximum performance, you may want to rebuild
+ OpenBLAS locally, see the section: “Building an optimized OpenBLAS package for
+ your machine” in README.Debian.
+ .
+ This package includes the static libraries and symbolic links
+ needed for program development.
+ .
+ This metapackage provides a 64-bit indexing version.
+
+Package: libopenblas64-pthread-dev
+Architecture: amd64 arm64 kfreebsd-amd64 ppc64 ppc64el mips64el riscv64 sparc64 s390x
+Multi-Arch: same
+Section: libdevel
+Depends: libopenblas64-0-pthread (= ${binary:Version}),
+         ${misc:Depends}
+Provides: libblas64.so,
+          liblapack64.so
+Description: Optimized BLAS (linear algebra) library (dev, 64bit, pthread)
+ OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version.
+ .
+ On amd64, arm64, i386, ppc64el, s390x, kfreebsd-amd64 and kfreebsd-i386,
+ all kernels are included in the library and the one matching best your
+ processor is selected at runtime.
+ .
+ On other architectures, for maximum performance, you may want to rebuild
+ OpenBLAS locally, see the section: “Building an optimized OpenBLAS package for
+ your machine” in README.Debian.
+ .
+ This package includes the static libraries and symbolic links
+ needed for program development.
+ .
+ Configuration: USE_THREAD=1 USE_OPENMP=0 INTERFACE64=1
+
+Package: libopenblas64-openmp-dev
+Architecture: amd64 arm64 kfreebsd-amd64 ppc64 ppc64el mips64el riscv64 sparc64 s390x
+Multi-Arch: same
+Section: libdevel
+Depends: libopenblas64-0-openmp (= ${binary:Version}),
+         ${misc:Depends}
+Provides: libblas64.so,
+          liblapack64.so
+Description: Optimized BLAS (linear algebra) library (dev, 64bit, openmp)
+ OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version.
+ .
+ On amd64, arm64, i386, ppc64el, s390x, kfreebsd-amd64 and kfreebsd-i386,
+ all kernels are included in the library and the one matching best your
+ processor is selected at runtime.
+ .
+ On other architectures, for maximum performance, you may want to rebuild
+ OpenBLAS locally, see the section: “Building an optimized OpenBLAS package for
+ your machine” in README.Debian.
+ .
+ This package includes the static libraries and symbolic links
+ needed for program development.
+ .
+ Configuration: USE_THREAD=1 USE_OPENMP=1 INTERFACE64=1
+
+Package: libopenblas64-serial-dev
+Architecture: amd64 arm64 kfreebsd-amd64 ppc64 ppc64el mips64el riscv64 sparc64 s390x
+Multi-Arch: same
+Section: libdevel
+Depends: libopenblas64-0-serial (= ${binary:Version}),
+         ${misc:Depends}
+Provides: libblas64.so,
+          liblapack64.so
+Description: Optimized BLAS (linear algebra) library (dev, 64bit, serial)
+ OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version.
+ .
+ On amd64, arm64, i386, ppc64el, s390x, kfreebsd-amd64 and kfreebsd-i386,
+ all kernels are included in the library and the one matching best your
+ processor is selected at runtime.
+ .
+ On other architectures, for maximum performance, you may want to rebuild
+ OpenBLAS locally, see the section: “Building an optimized OpenBLAS package for
+ your machine” in README.Debian.
+ .
+ This package includes the static libraries and symbolic links
+ needed for program development.
+ .
+ Configuration: USE_THREAD=0 USE_OPENMP=0 INTERFACE64=1

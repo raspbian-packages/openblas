@@ -1,0 +1,2 @@
+libopenblas64-0-pthread: distant-prerequisite-in-shlibs
+libopenblas64-0-pthread: package-has-unnecessary-activation-of-ldconfig-trigger

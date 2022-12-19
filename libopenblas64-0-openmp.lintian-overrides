@@ -1,0 +1,2 @@
+libopenblas64-0-openmp: distant-prerequisite-in-shlibs
+libopenblas64-0-openmp: package-has-unnecessary-activation-of-ldconfig-trigger
