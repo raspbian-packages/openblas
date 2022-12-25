@@ -44,7 +44,13 @@ update-alternatives --install /usr/lib/@DEB_HOST_MULTIARCH@/libopenblas.so \
                     /usr/include/@DEB_HOST_MULTIARCH@/@SUBDIR@/openblas_config.h \
                     --slave /usr/lib/@DEB_HOST_MULTIARCH@/pkgconfig/openblas.pc \
                     openblas.pc-@DEB_HOST_MULTIARCH@ \
-                    /usr/lib/@DEB_HOST_MULTIARCH@/@SUBDIR@/pkgconfig/openblas.pc
+                    /usr/lib/@DEB_HOST_MULTIARCH@/@SUBDIR@/pkgconfig/openblas.pc \
+                    --slave /usr/lib/@DEB_HOST_MULTIARCH@/cmake/openblas/OpenBLASConfig.cmake \
+                    OpenBLASConfig.cmake-@DEB_HOST_MULTIARCH@ \
+                    /usr/lib/@DEB_HOST_MULTIARCH@/@SUBDIR@/cmake/openblas/OpenBLASConfig.cmake \
+                    --slave /usr/lib/@DEB_HOST_MULTIARCH@/cmake/openblas/OpenBLASConfigVersion.cmake \
+                    OpenBLASConfigVersion.cmake-@DEB_HOST_MULTIARCH@ \
+                    /usr/lib/@DEB_HOST_MULTIARCH@/@SUBDIR@/cmake/openblas/OpenBLASConfigVersion.cmake
 
 #DEBHELPER#
 
