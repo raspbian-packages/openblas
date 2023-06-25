@@ -1,0 +1,238 @@
+#!/usr/bin/make -f
+
+# For Ubuntu, see #961725
+export DEB_LDFLAGS_MAINT_STRIP := "-Wl,-Bsymbolic-functions"
+
+include /usr/share/dpkg/buildflags.mk
+include /usr/share/dpkg/pkg-info.mk
+SOVER := 0
+SRCS := $(filter-out debian $(FLAVORS), $(wildcard ./*))
+
+MAKE_OPTIONS := NO_LAPACKE=1 NO_AFFINITY=1 NO_WARMUP=1 CFLAGS="$(CPPFLAGS) $(CFLAGS)" FFLAGS="$(FFLAGS)"
+
+# Avoid having -O2 automatically added (especially for DEB_BUILD_OPTIONS=noopt)
+MAKE_OPTIONS += COMMON_OPT=
+
+# Build generic package with hardcoded max number of threads of 64
+GENERIC_OPTIONS := NUM_THREADS=64
+
+# Architectures with dynamic arch selection
+# TARGET=GENERIC is needed to avoid FTBFS when CPU detection fails (see #923607)
+ENABLE_DYNAMIC_ARCHS := amd64 arm64 i386 kfreebsd-amd64 kfreebsd-i386 ppc64el s390x
+ifneq (,$(findstring $(DEB_HOST_ARCH),$(ENABLE_DYNAMIC_ARCHS)))
+	GENERIC_OPTIONS += DYNAMIC_ARCH=1 DYNAMIC_OLDER=1 TARGET=GENERIC
+endif
+
+# For other archs, there is no dynamic arch selection. To avoid selecting a
+# target based on the buildd hardware, we enforce a generic-enough target.
+
+# We cannot use the ARMv7 profile on armhf, because it requires a 32-register FP unit.
+# See kernel/arm/KERNEL.ARMv7: it loads some *_vfpv3.S files, which use 32 registers.
+# Also, it FTBFS if GCC flag -mvfpv3 is removed (see arm-gcc-flags.patch), because GCC
+# refuses asm files with 32 FP registers in that case.
+# Issue discussed in https://github.com/xianyi/OpenBLAS/issues/388
+# See also debian/patches/arm-gcc-flags.patch which is related.
+TARGET_OPTION_armhf     = TARGET=ARMV6
+# We do not use DYNAMIC_ARCH selection on powerpc because it only works for
+# POWER6 and above
+TARGET_OPTION_powerpc   = TARGET=PPCG4
+# We do not use DYNAMIC_ARCH selection on mips64el because it only works for
+# Loongson3R3/3R4
+TARGET_OPTION_mips64el  = TARGET=SICORTEX
+# We do not use DYNAMIC_ARCH selection on ppc64 because it fails to build.
+# See https://buildd.debian.org/status/fetch.php?pkg=openblas&arch=ppc64&ver=0.3.6%2Bds-1&stamp=1562602383&raw=0
+# POWER6 is the most generic arch that compiles on ppc64
+TARGET_OPTION_ppc64     = TARGET=POWER6
+TARGET_OPTION_riscv64   = TARGET=RISCV64_GENERIC
+TARGET_OPTION_sparc64   = TARGET=SPARC
+TARGET_OPTION_s390x     = TARGET=ZARCH_GENERIC
+GENERIC_OPTIONS += $(TARGET_OPTION_$(DEB_HOST_ARCH))
+
+
+ifeq (,$(filter custom,$(DEB_BUILD_OPTIONS)))
+	# Generic package
+	MAKE_OPTIONS += $(GENERIC_OPTIONS)
+else
+	# Custom package: leave the arch detection to OpenBLAS, and optimize for the current CPU
+	export DEB_CFLAGS_MAINT_APPEND := -march=native -mtune=native
+	export DEB_FFLAGS_MAINT_APPEND := -march=native -mtune=native
+endif
+
+# Flavors: 64-bit array indexing is invalid for 32-bit machines.
+ifeq (64,$(DEB_HOST_ARCH_BITS))
+	FLAVORS = $(SOVER)-pthread $(SOVER)-openmp $(SOVER)-serial 64-$(SOVER)-pthread 64-$(SOVER)-openmp 64-$(SOVER)-serial
+else
+	FLAVORS = $(SOVER)-pthread $(SOVER)-openmp $(SOVER)-serial
+endif
+# FLAVORS =  # XXX: Define your target configurations here if you are going to build customized packages
+FLAGS_0-pthread    := USE_THREAD=1 USE_OPENMP=0 INTERFACE64=0 LIBPREFIX=libopenblas   FCOMMON_OPT=-frecursive
+FLAGS_0-openmp     := USE_THREAD=1 USE_OPENMP=1 INTERFACE64=0 LIBPREFIX=libopenblas   FCOMMON_OPT='-frecursive -fopenmp'
+FLAGS_0-serial     := USE_THREAD=0 USE_OPENMP=0 INTERFACE64=0 LIBPREFIX=libopenblas   FCOMMON_OPT=-frecursive
+FLAGS_64-0-pthread := USE_THREAD=1 USE_OPENMP=0 INTERFACE64=1 LIBPREFIX=libopenblas64 FCOMMON_OPT='-frecursive -fdefault-integer-8'
+FLAGS_64-0-openmp  := USE_THREAD=1 USE_OPENMP=1 INTERFACE64=1 LIBPREFIX=libopenblas64 FCOMMON_OPT='-frecursive -fopenmp -fdefault-integer-8'
+FLAGS_64-0-serial  := USE_THREAD=0 USE_OPENMP=0 INTERFACE64=1 LIBPREFIX=libopenblas64 FCOMMON_OPT='-frecursive -fdefault-integer-8'
+FLAGS_julia        := USE_THREAD=1 USE_OPENMP=0 INTERFACE64=1 LIBPREFIX=libopenblas64_ FCOMMON_OPT='-frecursive -fdefault-integer-8' \
+	SYMBOLSUFFIX=64_ GEMM_MULTITHREADING_THRESHOLD=50 NO_AFFINITY=1
+
+# Priority values in the Update-Alternatives mechanism.
+# O,P,S stands for openmp, pthread, serial respectively
+UAPRI_O = 95
+UAPRI_P = 100
+UAPRI_S = 90
+
+
+%:
+	dh $@
+
+override_dh_auto_configure: $(addprefix config_, $(FLAVORS))
+ifneq (,$(filter $(DEB_HOST_ARCH), amd64 arm64 ppc64el))
+ifeq (,$(filter custom,$(DEB_BUILD_OPTIONS)))
+	# shared object package for Julia's custom use
+	mkdir julia; cp -r $(SRCS) julia/;
+endif
+endif
+	:
+
+config_%:
+	# shared object packages
+	mkdir $*; cp -r $(SRCS) $*/;
+	for i in install postinst prerm shlibs; do \
+		if test -z "$$(echo $* | grep 64)"; then \
+			cp debian/libopenblas$(SOVER)-XXX.$$i debian/libopenblas$*.$$i; \
+		else \
+			cp debian/libopenblas64-$(SOVER)-XXX.$$i debian/libopenblas$*.$$i; \
+		fi; \
+		sed -i -e "s/@DEB_HOST_MULTIARCH@/$(DEB_HOST_MULTIARCH)/g" \
+			-e "s/@SUBDIR@/openblas$(subst $(SOVER)-,-,$(subst -$(SOVER)-,-,$*))/g" \
+			-e "s/@FLAVOR@/$*/g" \
+			debian/libopenblas$*.$$i; \
+		if test -n "$$(echo $* | grep pthread)"; then \
+			sed -i -e "s/@OPENBLAS_PRI@/$(UAPRI_P)/g" debian/libopenblas$*.$$i; \
+		elif test -n "$$(echo $* | grep openmp)"; then \
+			sed -i -e "s/@OPENBLAS_PRI@/$(UAPRI_O)/g" debian/libopenblas$*.$$i; \
+		else \
+			sed -i -e "s/@OPENBLAS_PRI@/$(UAPRI_S)/g" debian/libopenblas$*.$$i; \
+		fi; \
+	done;
+	# devel packages
+	for i in install links postinst prerm dirs; do \
+		if test -z "$$(echo $* | grep 64)"; then \
+			cp debian/libopenblas-XXX-dev.$$i debian/libopenblas$(subst $(SOVER)-,-,$(subst -$(SOVER)-,-,$*))-dev.$$i; \
+		else \
+			cp debian/libopenblas64-XXX-dev.$$i debian/libopenblas$(subst $(SOVER)-,-,$(subst -$(SOVER)-,-,$*))-dev.$$i; \
+		fi; \
+		sed -i -e "s/@DEB_HOST_MULTIARCH@/$(DEB_HOST_MULTIARCH)/g" \
+			-e "s/@SUBDIR@/openblas$(subst $(SOVER)-,-,$(subst -$(SOVER)-,-,$*))/g" \
+			-e "s/@FLAVOR@/$*/g" \
+			debian/libopenblas$(subst $(SOVER)-,-,$(subst -$(SOVER)-,-,$*))-dev.$$i; \
+		if test -n "$$(echo $* | grep pthread)"; then \
+			sed -i -e "s/@OPENBLAS_PRI@/$(UAPRI_P)/g" debian/libopenblas$(subst $(SOVER)-,-,$(subst -$(SOVER)-,-,$*))-dev.$$i; \
+		elif test -n "$$(echo $* | grep openmp)"; then \
+			sed -i -e "s/@OPENBLAS_PRI@/$(UAPRI_O)/g" debian/libopenblas$(subst $(SOVER)-,-,$(subst -$(SOVER)-,-,$*))-dev.$$i; \
+		else \
+			sed -i -e "s/@OPENBLAS_PRI@/$(UAPRI_S)/g" debian/libopenblas$(subst $(SOVER)-,-,$(subst -$(SOVER)-,-,$*))-dev.$$i; \
+		fi; \
+	done;
+
+override_dh_auto_build:
+	for target in $(addprefix build_, $(FLAVORS)); do \
+		$(MAKE) -f debian/rules $$target || exit 1; done
+ifneq (,$(filter $(DEB_HOST_ARCH), amd64 arm64 ppc64el))
+ifeq (,$(filter custom,$(DEB_BUILD_OPTIONS)))
+	# shared object package for Julia's custom use
+	$(MAKE) -C julia libs netlib shared $(MAKE_OPTIONS) $(FLAGS_julia)
+endif
+endif
+
+build_0-pthread:
+	$(MAKE) -C 0-pthread libs netlib shared $(MAKE_OPTIONS) $(FLAGS_0-pthread)
+	$(MAKE) -C 0-pthread/interface shared-blas-lapack $(MAKE_OPTIONS) $(FLAGS_0-pthread)
+build_64-0-pthread:
+	$(MAKE) -C 64-0-pthread libs netlib shared $(MAKE_OPTIONS) $(FLAGS_64-0-pthread)
+	$(MAKE) -C 64-0-pthread/interface shared-blas64-lapack64 $(MAKE_OPTIONS) $(FLAGS_64-0-pthread)
+build_0-openmp:
+	$(MAKE) -C 0-openmp libs netlib shared $(MAKE_OPTIONS) $(FLAGS_0-openmp)
+	$(MAKE) -C 0-openmp/interface shared-blas-lapack $(MAKE_OPTIONS) $(FLAGS_0-openmp)
+build_64-0-openmp:
+	$(MAKE) -C 64-0-openmp libs netlib shared $(MAKE_OPTIONS) $(FLAGS_64-0-openmp)
+	$(MAKE) -C 64-0-openmp/interface shared-blas64-lapack64 $(MAKE_OPTIONS) $(FLAGS_64-0-openmp)
+build_0-serial:
+	$(MAKE) -C 0-serial libs netlib shared $(MAKE_OPTIONS) $(FLAGS_0-serial)
+	$(MAKE) -C 0-serial/interface shared-blas-lapack $(MAKE_OPTIONS) $(FLAGS_0-serial)
+build_64-0-serial:
+	$(MAKE) -C 64-0-serial libs netlib shared $(MAKE_OPTIONS) $(FLAGS_64-0-serial)
+	$(MAKE) -C 64-0-serial/interface shared-blas64-lapack64 $(MAKE_OPTIONS) $(FLAGS_64-0-serial)
+# XXX: why doesn't this work??
+#build_%:
+#   $(MAKE) -C $* $(MAKE_OPTIONS) $(FLAGS_$*)
+#   $(MAKE) -C $*/interface $(MAKE_OPTIONS) $(FLAGS_$*)
+
+override_dh_auto_test:
+ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
+	for target in $(addprefix test_, $(FLAVORS)); do \
+		$(MAKE) -f debian/rules $$target || exit 1; done
+ifneq (,$(filter $(DEB_HOST_ARCH), amd64 arm64 ppc64el))
+ifeq (,$(filter custom,$(DEB_BUILD_OPTIONS)))
+	# shared object package for Julia's custom use
+	$(MAKE) -C julia tests $(MAKE_OPTIONS) $(FLAGS_julia)
+endif
+endif
+endif
+
+test_0-pthread:
+	$(MAKE) -C 0-pthread tests $(MAKE_OPTIONS) $(FLAGS_0-pthread)
+test_64-0-pthread:
+	$(MAKE) -C 64-0-pthread tests $(MAKE_OPTIONS) $(FLAGS_64-0-pthread)
+test_0-openmp:
+	$(MAKE) -C 0-openmp tests $(MAKE_OPTIONS) $(FLAGS_0-openmp)
+test_64-0-openmp:
+	$(MAKE) -C 64-0-openmp tests $(MAKE_OPTIONS) $(FLAGS_64-0-openmp)
+test_0-serial:
+	$(MAKE) -C 0-serial tests $(MAKE_OPTIONS) $(FLAGS_0-serial)
+test_64-0-serial:
+	$(MAKE) -C 64-0-serial tests $(MAKE_OPTIONS) $(FLAGS_64-0-serial)
+# XXX: why cannot this work?
+#test_%:
+#	$(MAKE) -C $* test $(MAKE_OPTIONS) $(FLAGS_$(*))
+
+override_dh_auto_install:
+	for target in $(addprefix install_, $(FLAVORS)); do \
+		$(MAKE) -f debian/rules $$target || exit 1; done
+	# change the inclusion for the 64-bit variant
+	find debian/tmp -type f -path '*openblas64*' -exec sed -i -e 's/openblas_config.h/openblas64_config.h/g' '{}' \;
+ifneq (,$(filter $(DEB_HOST_ARCH), amd64 arm64 ppc64el))
+ifeq (,$(filter custom,$(DEB_BUILD_OPTIONS)))
+	# shared object package for Julia's custom use
+	mkdir -p debian/libjulia-openblas64/usr/lib/$(DEB_HOST_MULTIARCH)/julia/
+	cp -dv julia/libopenblas64_*so* debian/libjulia-openblas64/usr/lib/$(DEB_HOST_MULTIARCH)/julia/
+endif
+endif
+
+install_%:
+	$(MAKE) -C $* install $(MAKE_OPTIONS) $(FLAGS_$*) \
+		DESTDIR=../debian/tmp/ PREFIX=/usr \
+		OPENBLAS_INCLUDE_DIR=/usr/include/$(DEB_HOST_MULTIARCH)/openblas$(subst $(SOVER)-,-,$(subst -$(SOVER)-,-,$*))/ \
+		OPENBLAS_LIBRARY_DIR=/usr/lib/$(DEB_HOST_MULTIARCH)/openblas$(subst $(SOVER)-,-,$(subst -$(SOVER)-,-,$*))/
+	# Fix the content of openblas.pc for 64-bit indexing
+	if test -n "$$(echo $* | grep 64)"; then \
+		sed -i -e "s/-lopenblas/-lopenblas64/" \
+			-e "s/Name: openblas$$/Name: openblas64/" \
+			debian/tmp/usr/lib/$(DEB_HOST_MULTIARCH)/openblas$(subst $(SOVER)-,-,$(subst -$(SOVER)-,-,$*))/pkgconfig/openblas.pc; \
+	fi
+	# Add blas-openblas.pc and lapack-openblas.pc
+	for f in blas-openblas lapack-openblas; do \
+		sed -e "s/@DEB_VERSION_UPSTREAM@/$(DEB_VERSION_UPSTREAM)/g" \
+			-e "s/@DEB_HOST_MULTIARCH@/$(DEB_HOST_MULTIARCH)/g" \
+			-e "s/@SUBDIR@/openblas$(subst $(SOVER)-,-,$(subst -$(SOVER)-,-,$*))/g" \
+			-e "s/@INDEXING@/$$(echo $* | grep -o 64)/g" \
+			< debian/$${f}.pc.in \
+			> debian/tmp/usr/lib/$(DEB_HOST_MULTIARCH)/openblas$(subst $(SOVER)-,-,$(subst -$(SOVER)-,-,$*))/pkgconfig/$${f}.pc; \
+	done
+
+# Needed to avoid a dependency on metapackage libopenblas0 from
+# flavour-specific packages, since lib{blas,lapack}.so.3 is dynamically linked
+# against libopenblas.so.0 (see #966607)
+override_dh_shlibdeps:
+	dh_shlibdeps -plibopenblas0-pthread -plibopenblas0-openmp -plibopenblas0-serial -- -xlibopenblas0
+	dh_shlibdeps -plibopenblas64-0-pthread -plibopenblas64-0-openmp -plibopenblas64-0-serial -- -xlibopenblas64-0
+	dh_shlibdeps --remaining-packages -a
