@@ -255,91 +255,20 @@ hpl_p :
 	fi; \
 	done
 
-netlib : lapack_prebuild
-ifneq ($(NO_LAPACK), 1)
-	@$(MAKE) -C $(NETLIB_LAPACK_DIR) lapacklib
-	@$(MAKE) -C $(NETLIB_LAPACK_DIR) tmglib
-endif
-ifneq ($(NO_LAPACKE), 1)
-	@$(MAKE) -C $(NETLIB_LAPACK_DIR) lapackelib
-endif
+netlib : lapack-netlib
 
-ifeq ($(NO_LAPACK), 1)
-re_lapack :
+lapack-netlib:
+	mkdir lapack-netlib
+ifeq (,$(filter libopenblas64%,$(LIBNAME)))
+	cd lapack-netlib && ar -x /usr/lib/$$(dpkg-architecture -q DEB_HOST_MULTIARCH)/liblapack_pic.a
+else
+	cd lapack-netlib && ar -x /usr/lib/$$(dpkg-architecture -q DEB_HOST_MULTIARCH)/liblapack64_pic.a
+endif
+	make -C interface delete-duplicate-lapack-objects
+	ar -ru $(LIBNAME) `LC_ALL=C ls lapack-netlib/*`
 
-else
-re_lapack :
-	@$(MAKE) -C relapack
-endif
-
-prof_lapack : lapack_prebuild
-	@$(MAKE) -C $(NETLIB_LAPACK_DIR) lapack_prof
-
-lapack_prebuild :
-ifeq ($(NO_LAPACK), $(filter 0,$(NO_LAPACK)))
-	-@echo "FC          = $(FC)" > $(NETLIB_LAPACK_DIR)/make.inc
-ifeq ($(F_COMPILER), GFORTRAN)
-	-@echo "override FFLAGS      = $(LAPACK_FFLAGS) -fno-tree-vectorize" >> $(NETLIB_LAPACK_DIR)/make.inc
-else
-	-@echo "override FFLAGS      = $(LAPACK_FFLAGS)" >> $(NETLIB_LAPACK_DIR)/make.inc
-endif
-	-@echo "FFLAGS_DRV  = $(LAPACK_FFLAGS)" >> $(NETLIB_LAPACK_DIR)/make.inc
-	-@echo "POPTS       = $(LAPACK_FPFLAGS)" >> $(NETLIB_LAPACK_DIR)/make.inc
-	-@echo "FFLAGS_NOOPT       = -O0 $(LAPACK_NOOPT)" >> $(NETLIB_LAPACK_DIR)/make.inc
-	-@echo "PNOOPT      = $(LAPACK_FPFLAGS) -O0" >> $(NETLIB_LAPACK_DIR)/make.inc
-ifeq ($(C_COMPILER)$(F_COMPILER)$(USE_OPENMP), CLANGGFORTRAN1)
-	-@echo "LDFLAGS     = $(FFLAGS) $(EXTRALIB) -lomp" >> $(NETLIB_LAPACK_DIR)/make.inc
-else
-	-@echo "LDFLAGS     = $(FFLAGS) $(EXTRALIB)" >> $(NETLIB_LAPACK_DIR)/make.inc
-endif
-	-@echo "CC          = $(CC)" >> $(NETLIB_LAPACK_DIR)/make.inc
-	-@echo "override CFLAGS      = $(LAPACK_CFLAGS)" >> $(NETLIB_LAPACK_DIR)/make.inc
-	-@echo "AR          = $(AR)" >> $(NETLIB_LAPACK_DIR)/make.inc
-	-@echo "ARFLAGS     = $(ARFLAGS) -ru" >> $(NETLIB_LAPACK_DIR)/make.inc
-	-@echo "RANLIB      = $(RANLIB)" >> $(NETLIB_LAPACK_DIR)/make.inc
-	-@echo "LAPACKLIB   = ../../$(LIBNAME)" >> $(NETLIB_LAPACK_DIR)/make.inc
-	-@echo "TMGLIB      = ../../../$(LIBNAME)" >> $(NETLIB_LAPACK_DIR)/make.inc
-	-@echo "BLASLIB     = ../../../$(LIBNAME)" >> $(NETLIB_LAPACK_DIR)/make.inc
-	-@echo "LAPACKELIB  = ../../../$(LIBNAME)" >> $(NETLIB_LAPACK_DIR)/make.inc
-	-@echo "LAPACKLIB_P = ../$(LIBNAME_P)" >> $(NETLIB_LAPACK_DIR)/make.inc
-	-@echo "SUFFIX      = $(SUFFIX)" >> $(NETLIB_LAPACK_DIR)/make.inc
-	-@echo "PSUFFIX     = $(PSUFFIX)" >> $(NETLIB_LAPACK_DIR)/make.inc
-	-@echo "CEXTRALIB   = $(EXTRALIB)" >> $(NETLIB_LAPACK_DIR)/make.inc
-ifeq ($(F_COMPILER), GFORTRAN)
-	-@echo "TIMER       = INT_ETIME" >> $(NETLIB_LAPACK_DIR)/make.inc
-ifdef SMP
-ifeq ($(OSNAME), WINNT)
-	-@echo "LOADER      = $(FC)" >> $(NETLIB_LAPACK_DIR)/make.inc
-else ifeq ($(OSNAME), Haiku)
-	-@echo "LOADER      = $(FC)" >> $(NETLIB_LAPACK_DIR)/make.inc
-else
-	-@echo "LOADER      = $(FC) -pthread" >> $(NETLIB_LAPACK_DIR)/make.inc
-endif
-else
-	-@echo "LOADER      = $(FC)" >> $(NETLIB_LAPACK_DIR)/make.inc
-endif
-else
-	-@echo "TIMER       = NONE" >> $(NETLIB_LAPACK_DIR)/make.inc
-	-@echo "LOADER      = $(FC)" >> $(NETLIB_LAPACK_DIR)/make.inc
-endif
-ifeq ($(BUILD_LAPACK_DEPRECATED), 1)
-	-@echo "BUILD_DEPRECATED      = 1" >> $(NETLIB_LAPACK_DIR)/make.inc
-endif
-ifeq ($(BUILD_SINGLE), 1)
-	-@echo "BUILD_SINGLE      = 1" >> $(NETLIB_LAPACK_DIR)/make.inc
-endif
-ifeq ($(BUILD_DOUBLE), 1)
-	-@echo "BUILD_DOUBLE      = 1" >> $(NETLIB_LAPACK_DIR)/make.inc
-endif
-ifeq ($(BUILD_COMPLEX), 1)
-	-@echo "BUILD_COMPLEX      = 1" >> $(NETLIB_LAPACK_DIR)/make.inc
-endif
-ifeq ($(BUILD_COMPLEX16), 1)
-	-@echo "BUILD_COMPLEX16      = 1" >> $(NETLIB_LAPACK_DIR)/make.inc
-endif
-	-@echo "LAPACKE_WITH_TMG      = 1" >> $(NETLIB_LAPACK_DIR)/make.inc
-	-@cat  make.inc >> $(NETLIB_LAPACK_DIR)/make.inc
-endif
+clean::
+	rm -rf lapack-netlib
 
 large.tgz :
 ifeq ($(NOFORTRAN), $(filter 0,$(NOFORTRAN)))
@@ -406,10 +335,5 @@ ifeq ($(OSNAME), Darwin)
 endif
 	@rm -f Makefile.conf config.h Makefile_kernel.conf config_kernel.h st* *.dylib
 	@rm -f cblas.tmp cblas.tmp2
-	@touch $(NETLIB_LAPACK_DIR)/make.inc
-	@$(MAKE) -C $(NETLIB_LAPACK_DIR) clean
-	@rm -f $(NETLIB_LAPACK_DIR)/make.inc $(NETLIB_LAPACK_DIR)/lapacke/include/lapacke_mangling.h
-	@$(MAKE) -C relapack clean
 	@rm -f *.grd Makefile.conf_last config_last.h
-	@(cd $(NETLIB_LAPACK_DIR)/TESTING && rm -f x* *.out testing_results.txt)
 	@echo Done.
