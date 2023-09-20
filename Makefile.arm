@@ -9,8 +9,8 @@ endif
 endif
 
 ifeq ($(CORE), ARMV6)
-CCOMMON_OPT += -mfpu=vfp
-FCOMMON_OPT += -mfpu=vfp
+CCOMMON_OPT += -mfpu=vfp -march=armv6
+FCOMMON_OPT += -mfpu=vfp -march=armv6
 endif
 
 ifdef HAVE_NEON
