@@ -1,0 +1,57 @@
+#!/bin/sh
+set -e
+
+update-alternatives --install /usr/lib/@DEB_HOST_MULTIARCH@/libblas.so \
+                    libblas.so-@DEB_HOST_MULTIARCH@ \
+                    /usr/lib/@DEB_HOST_MULTIARCH@/@SUBDIR@/libblas.so \
+                    @OPENBLAS_PRI@ \
+                    --slave /usr/lib/@DEB_HOST_MULTIARCH@/libblas.a \
+                    libblas.a-@DEB_HOST_MULTIARCH@ \
+                    /usr/lib/@DEB_HOST_MULTIARCH@/@SUBDIR@/libblas.a \
+                    --slave /usr/include/@DEB_HOST_MULTIARCH@/cblas.h \
+                    cblas.h-@DEB_HOST_MULTIARCH@ \
+                    /usr/include/@DEB_HOST_MULTIARCH@/@SUBDIR@/cblas.h \
+                    --slave /usr/lib/@DEB_HOST_MULTIARCH@/pkgconfig/blas.pc \
+                    blas.pc-@DEB_HOST_MULTIARCH@ \
+                    /usr/lib/@DEB_HOST_MULTIARCH@/@SUBDIR@/pkgconfig/blas-openblas.pc
+
+update-alternatives --install /usr/lib/@DEB_HOST_MULTIARCH@/liblapack.so \
+                    liblapack.so-@DEB_HOST_MULTIARCH@ \
+                    /usr/lib/@DEB_HOST_MULTIARCH@/@SUBDIR@/liblapack.so \
+                    @OPENBLAS_PRI@ \
+                    --slave /usr/lib/@DEB_HOST_MULTIARCH@/liblapack.a \
+                    liblapack.a-@DEB_HOST_MULTIARCH@ \
+                    /usr/lib/@DEB_HOST_MULTIARCH@/@SUBDIR@/liblapack.a \
+                    --slave /usr/lib/@DEB_HOST_MULTIARCH@/pkgconfig/lapack.pc \
+                    lapack.pc-@DEB_HOST_MULTIARCH@ \
+                    /usr/lib/@DEB_HOST_MULTIARCH@/@SUBDIR@/pkgconfig/lapack-openblas.pc
+
+update-alternatives --install /usr/lib/@DEB_HOST_MULTIARCH@/libopenblas.so \
+                    libopenblas.so-@DEB_HOST_MULTIARCH@ \
+                    /usr/lib/@DEB_HOST_MULTIARCH@/@SUBDIR@/libopenblas.so \
+                    @OPENBLAS_PRI@ \
+                    --slave /usr/lib/@DEB_HOST_MULTIARCH@/libopenblas.a \
+                    libopenblas.a-@DEB_HOST_MULTIARCH@ \
+                    /usr/lib/@DEB_HOST_MULTIARCH@/@SUBDIR@/libopenblas.a \
+                    --slave /usr/include/@DEB_HOST_MULTIARCH@/cblas-openblas.h \
+                    cblas-openblas.h-@DEB_HOST_MULTIARCH@ \
+                    /usr/include/@DEB_HOST_MULTIARCH@/@SUBDIR@/cblas.h \
+                    --slave /usr/include/@DEB_HOST_MULTIARCH@/f77blas.h \
+                    f77blas.h-@DEB_HOST_MULTIARCH@ \
+                    /usr/include/@DEB_HOST_MULTIARCH@/@SUBDIR@/f77blas.h \
+                    --slave /usr/include/@DEB_HOST_MULTIARCH@/openblas_config.h \
+                    openblas_config.h-@DEB_HOST_MULTIARCH@ \
+                    /usr/include/@DEB_HOST_MULTIARCH@/@SUBDIR@/openblas_config.h \
+                    --slave /usr/lib/@DEB_HOST_MULTIARCH@/pkgconfig/openblas.pc \
+                    openblas.pc-@DEB_HOST_MULTIARCH@ \
+                    /usr/lib/@DEB_HOST_MULTIARCH@/@SUBDIR@/pkgconfig/openblas.pc \
+                    --slave /usr/lib/@DEB_HOST_MULTIARCH@/cmake/openblas/OpenBLASConfig.cmake \
+                    OpenBLASConfig.cmake-@DEB_HOST_MULTIARCH@ \
+                    /usr/lib/@DEB_HOST_MULTIARCH@/@SUBDIR@/cmake/openblas/OpenBLASConfig.cmake \
+                    --slave /usr/lib/@DEB_HOST_MULTIARCH@/cmake/openblas/OpenBLASConfigVersion.cmake \
+                    OpenBLASConfigVersion.cmake-@DEB_HOST_MULTIARCH@ \
+                    /usr/lib/@DEB_HOST_MULTIARCH@/@SUBDIR@/cmake/openblas/OpenBLASConfigVersion.cmake
+
+#DEBHELPER#
+
+exit 0
