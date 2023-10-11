@@ -6,4 +6,5 @@ matgen-symbols-not-included.patch
 gensymbols-fix-detect-netlib.patch
 riscv64-supported.patch
 fix-arm64-sigill.patch
+avx512-dgemm.patch
 auto-0.3.7+ds-1+rpi1-e5cdb5bc2fdbe4ed5849a311d639ae1e43ddffb5-1566623053

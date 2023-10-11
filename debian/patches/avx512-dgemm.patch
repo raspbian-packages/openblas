@@ -1,0 +1,80 @@
+Description: Fix incorrect results of AVX512 DGEMM kernel when built on pre-AVX2 machine
+ When building OpenBLAS with dynamic arch selection on x86-64 hardware
+ that does not support AVX2 (e.g. Intel Ivybridge or earlier), then
+ the AVX512 (SkylakeX) kernel for DGEMM would produce incorrect
+ results (of course when run on AVX512-capable hardware).
+ .
+ The problem was that the check for determining whether the compiler
+ is able to understand AVX512 assembly/intrinsics was doubly
+ incorrect: it would test the build machine capabilities (instead of
+ the compiler capabilities); and it would check for AVX2 instead of
+ AVX512. As a consequence, on pre-AVX2 hardware, the build system
+ would conclude that the compiler is not able to understand AVX512
+ primitives, and would create a broken AVX512 (SkylakeX) DGEMM kernel
+ (essentially a Haswell kernel, but with some wrong assumptions, hence
+ leading to incorrect numerical results).
+Origin: upstream, https://github.com/xianyi/OpenBLAS/pull/3579
+Bug: https://github.com/xianyi/OpenBLAS/issues/2986
+     https://github.com/xianyi/OpenBLAS/issues/3454
+     https://github.com/xianyi/OpenBLAS/issues/3557
+Bug-Debian: https://bugs.debian.org/1025480
+Applied-Upstream: 0.3.21
+Reviewed-by: Sébastien Villemot <sebastien@debian.org>
+Last-Update: 2023-06-26
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+Index: openblas-0.3.13+ds/Makefile.prebuild
+===================================================================
+--- openblas-0.3.13+ds.orig/Makefile.prebuild
++++ openblas-0.3.13+ds/Makefile.prebuild
+@@ -67,7 +67,8 @@ endif
+ 
+ 
+ getarch : getarch.c cpuid.S dummy $(CPUIDEMU)
+-	$(HOSTCC) $(HOST_CFLAGS) $(EXFLAGS) -o $(@F) getarch.c cpuid.S $(CPUIDEMU)
++	avx512=$$(perl c_check - - gcc | grep NO_AVX512); \
++	$(HOSTCC) $(HOST_CFLAGS) $(EXFLAGS) $${avx512:+-D$${avx512}} -o $(@F) getarch.c cpuid.S $(CPUIDEMU)
+ 
+ getarch_2nd : getarch_2nd.c config.h dummy
+ ifndef TARGET_CORE
+Index: openblas-0.3.13+ds/c_check
+===================================================================
+--- openblas-0.3.13+ds.orig/c_check
++++ openblas-0.3.13+ds/c_check
+@@ -240,7 +240,7 @@ if (($architecture eq "x86") || ($archit
+ #	$tmpf = new File::Temp( UNLINK => 1 );
+ 	($fh,$tmpf) = tempfile( SUFFIX => '.c' , UNLINK => 1 );
+ 	$code = '"vbroadcastss -4 * 4(%rsi), %zmm2"';
+-	print $tmpf "#include <immintrin.h>\n\nint main(void){ __asm__ volatile($code); }\n";
++	print $fh "#include <immintrin.h>\n\nint main(void){ __asm__ volatile($code); }\n";
+ 	$args = " -march=skylake-avx512 -c -o $tmpf.o $tmpf";
+ 	if ($compiler eq "PGI") {
+ 	    $args = " -tp skylake -c -o $tmpf.o $tmpf";
+@@ -264,7 +264,7 @@ if ($data =~ /HAVE_C11/) {
+        $c11_atomics = 0;
+     } else {
+        ($fh,$tmpf) = tempfile( SUFFIX => '.c' , UNLINK => 1 );
+-       print $tmpf "#include <stdatomic.h>\nint main(void){}\n";
++       print $fh "#include <stdatomic.h>\nint main(void){}\n";
+        $args = " -c -o $tmpf.o $tmpf";
+        my @cmd = ("$compiler_name $flags $args >/dev/null 2>/dev/null");
+        system(@cmd) == 0;
+Index: openblas-0.3.13+ds/getarch.c
+===================================================================
+--- openblas-0.3.13+ds.orig/getarch.c
++++ openblas-0.3.13+ds/getarch.c
+@@ -94,14 +94,6 @@ USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ #include <sys/sysinfo.h>
+ #endif
+ 
+-#if defined(__x86_64__) || defined(_M_X64)
+-#if (( defined(__GNUC__)  && __GNUC__   > 6 && defined(__AVX2__)) || (defined(__clang__) && __clang_major__ >= 6))
+-#else
+-#ifndef NO_AVX512
+-#define NO_AVX512
+-#endif
+-#endif
+-#endif
+ /* #define FORCE_P2		*/
+ /* #define FORCE_KATMAI		*/
+ /* #define FORCE_COPPERMINE	*/
