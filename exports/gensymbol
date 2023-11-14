@@ -768,23 +768,6 @@ lapackobjs2z="$lapackobjs2z
     zungtsqr_row
     "
 
-#functions added for lapack-3.11
-lapackobjs2c="$lapackobjs2c
-    cgedmd
-    cgedmdq
-    "
-lapackobjs2d="$lapackobjs2d
-    dgedmd
-    dgedmdq
-    "
-lapackobjs2s="$lapackobjs2s
-    sgedmd
-    sgedmdq
-    "
-lapackobjs2z="$lapackobjs2z
-    zgedmd
-    zgedmdq
-    "
 lapack_extendedprecision_objs="
     zposvxx clagge clatms chesvxx cposvxx cgesvxx ssyrfssx csyrfsx
     dlagsy dsysvxx sporfsx slatms zlatms zherfsx csysvxx
@@ -954,10 +937,6 @@ lapackeobjsc="
     LAPACKE_cgebrd_work
     LAPACKE_cgecon
     LAPACKE_cgecon_work
-    LAPACKE_cgedmd
-    LAPACKE_cgedmd_work
-    LAPACKE_cgedmdq
-    LAPACKE_cgedmdq_work
     LAPACKE_cgeequ
     LAPACKE_cgeequ_work
     LAPACKE_cgeequb
@@ -1617,10 +1596,6 @@ lapackeobjsd="
     LAPACKE_dgebrd_work
     LAPACKE_dgecon
     LAPACKE_dgecon_work
-    LAPACKE_dgedmd
-    LAPACKE_dgedmd_work
-    LAPACKE_dgedmdq
-    LAPACKE_dgedmdq_work
     LAPACKE_dgeequ
     LAPACKE_dgeequ_work
     LAPACKE_dgeequb
@@ -2234,10 +2209,6 @@ lapackeobjss="
     LAPACKE_sgebrd_work
     LAPACKE_sgecon
     LAPACKE_sgecon_work
-    LAPACKE_sgedmd
-    LAPACKE_sgedmd_work
-    LAPACKE_sgedmdq
-    LAPACKE_sgedmdq_work
     LAPACKE_sgeequ
     LAPACKE_sgeequ_work
     LAPACKE_sgeequb
@@ -2847,10 +2818,6 @@ lapackeobjsz="
     LAPACKE_zgebrd_work
     LAPACKE_zgecon
     LAPACKE_zgecon_work
-    LAPACKE_zgedmd
-    LAPACKE_zgedmd_work
-    LAPACKE_zgedmdq
-    LAPACKE_zgedmdq_work
     LAPACKE_zgeequ
     LAPACKE_zgeequ_work
     LAPACKE_zgeequb
