@@ -1,10 +1,16 @@
-openblas (0.3.24+ds-1+rpi1) trixie-staging; urgency=medium
+openblas (0.3.25+ds-1+rpi1) trixie-staging; urgency=medium
 
   [changes brought forward from 0.2.15-1+rpi1 by Peter Michael Green <plugwash@raspbian.org> at Fri, 11 Mar 2016 23:39:32 +0000]
   * Disable arm-gcc-flags.patch which was enforcing gcc flags that are wrong
     for raspbian.
 
- -- Raspbian forward porter <root@raspbian.org>  Wed, 20 Sep 2023 18:16:27 +0000
+ -- Raspbian forward porter <root@raspbian.org>  Fri, 01 Dec 2023 11:18:53 +0000
+
+openblas (0.3.25+ds-1) unstable; urgency=medium
+
+  * New upstream version 0.3.25+ds
+
+ -- Sébastien Villemot <sebastien@debian.org>  Tue, 14 Nov 2023 20:25:25 +0100
 
 openblas (0.3.24+ds-1) unstable; urgency=medium
 
