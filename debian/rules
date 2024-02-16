@@ -40,7 +40,7 @@ endif
 # See kernel/arm/KERNEL.ARMv7: it loads some *_vfpv3.S files, which use 32 registers.
 # Also, it FTBFS if GCC flag -mvfpv3 is removed (see arm-gcc-flags.patch), because GCC
 # refuses asm files with 32 FP registers in that case.
-# Issue discussed in https://github.com/xianyi/OpenBLAS/issues/388
+# Issue discussed in https://github.com/OpenMathLib/OpenBLAS/issues/388
 # See also debian/patches/arm-gcc-flags.patch which is related.
 TARGET_OPTION_armhf     = TARGET=ARMV6
 # We do not use DYNAMIC_ARCH selection on powerpc and ppc64 because it only

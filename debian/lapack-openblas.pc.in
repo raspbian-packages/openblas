@@ -4,7 +4,7 @@ includedir=${prefix}/include/@DEB_HOST_MULTIARCH@
 Name: openblas-lapack@INDEXING@
 Description: Optimized BLAS (linear algebra) library, LAPACK
 Version: @DEB_VERSION_UPSTREAM@
-URL: https://github.com/xianyi/OpenBLAS
+URL: https://github.com/OpenMathLib/OpenBLAS
 Libs: -L${libdir} -llapack@INDEXING@
 Libs.private: -L${libdir} -llapack@INDEXING@ -lgfortran -lpthread -lm
 Cflags: -I${includedir}
