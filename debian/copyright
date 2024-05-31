@@ -6,7 +6,7 @@ Files-Excluded: lapack-netlib/*
                 relapack/*
 
 Files: *
-Copyright: 2011-2023 The OpenBLAS Project
+Copyright: 2011-2024 The OpenBLAS Project
            2009-2010 The University of Texas at Austin
            2013 Martin Koehler, grisuthedragon@users.github.com
            2020 IBM Corporation
@@ -212,6 +212,7 @@ Files: benchmark/cholesky.c
  interface/max.c
  interface/nrm2.c
  interface/rot.c
+ interface/sbgemmt.c
  interface/sbgemv.c
  interface/sbmv.c
  interface/scal.c
@@ -420,6 +421,7 @@ Files: benchmark/cholesky.c
  kernel/generic/zlaswp_ncopy_1.c
  kernel/generic/zlaswp_ncopy_2.c
  kernel/generic/zlaswp_ncopy_4.c
+ kernel/generic/zlaswp_ncopy_8.c
  kernel/generic/zneg_tcopy_1.c
  kernel/generic/zneg_tcopy_2.c
  kernel/generic/zneg_tcopy_4.c
@@ -479,10 +481,12 @@ Files: benchmark/cholesky.c
  kernel/power/sbgemm_ncopy_8_power10.c
  kernel/power/sbgemm_tcopy_16_power10.c
  kernel/power/sbgemm_tcopy_8_power10.c
+ kernel/power/sgemm_ncopy_16_power.c
  kernel/power/trsm_kernel_LN_power10.c
  kernel/power/trsm_kernel_LT_power10.c
  kernel/power/trsm_kernel_RN_power10.c
  kernel/power/trsm_kernel_RT_power10.c
+ kernel/riscv64/zgemm_beta_rvv.c
  kernel/setparam-ref.c
  kernel/x86_64/dger.c
  kernel/x86_64/sger.c
@@ -504,6 +508,8 @@ Files: benchmark/cholesky.c
  kernel/x86_64/strsm_kernel_LT_bulldozer.c
  kernel/x86_64/strsm_kernel_RN_bulldozer.c
  kernel/x86_64/strsm_kernel_RT_bulldozer.c
+ kernel/x86_64/zsum_sse.S
+ kernel/x86_64/zsum_sse2.S
  kernel/x86_64/ztrsm_kernel_LN_bulldozer.c
  kernel/x86_64/ztrsm_kernel_LT_bulldozer.c
  kernel/x86_64/ztrsm_kernel_RN_bulldozer.c
@@ -555,7 +561,7 @@ Files: benchmark/cholesky.c
  lapack/trtrs/ztrtrs_single.c
  symcopy.h
 Copyright: 2009-2010 The University of Texas at Austin
-           2023 The OpenBLAS Project
+           2023-2024 The OpenBLAS Project
 License: BSD-2-clause-texas
    1. Redistributions of source code must retain the above
       copyright notice, this list of conditions and the following
@@ -612,7 +618,7 @@ License: Apache-2.0
 
 Files: debian/*
 Copyright: 2011-2012 Sylvestre Ledru <sylvestre@debian.org>
-           2012-2023 Sébastien Villemot <sebastien@debian.org>
+           2012-2024 Sébastien Villemot <sebastien@debian.org>
 License: BSD-2-clause
    1. Redistributions of source code must retain the above
       copyright notice, this list of conditions and the following

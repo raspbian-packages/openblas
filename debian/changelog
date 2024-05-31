@@ -1,10 +1,34 @@
-openblas (0.3.26+ds-1+rpi1) trixie-staging; urgency=medium
+openblas (0.3.27+ds-2+rpi1) trixie-staging; urgency=medium
 
   [changes brought forward from 0.2.15-1+rpi1 by Peter Michael Green <plugwash@raspbian.org> at Fri, 11 Mar 2016 23:39:32 +0000]
   * Disable arm-gcc-flags.patch which was enforcing gcc flags that are wrong
     for raspbian.
 
- -- Raspbian forward porter <root@raspbian.org>  Fri, 16 Feb 2024 16:52:19 +0000
+ -- Raspbian forward porter <root@raspbian.org>  Fri, 31 May 2024 04:39:55 +0000
+
+openblas (0.3.27+ds-2) unstable; urgency=medium
+
+  * testsuite-64bit-big-endian.patch: new patch from upstream.
+    Fixes FTBFS on big-endian 64-bit architectures.
+
+ -- Sébastien Villemot <sebastien@debian.org>  Mon, 29 Apr 2024 17:31:55 +0200
+
+openblas (0.3.27+ds-1) unstable; urgency=medium
+
+  [ Sébastien Villemot ]
+  * New upstream version 0.3.27+ds
+  * d/copyright: reflect upstream changes
+  * Bump Standards-Version to 4.7.0
+
+  [ Sunita Nadampalli ]
+  * Increase the maximum number of threads from 64 to 128. This is
+    required to support the latest processors with more than 64 cores. For
+    example, AWS Graviton4 supports 96 Neoverse cores.
+
+  [ Helmut Grohne ]
+  * DEP17: Restore possibly lost /usr/lib/*/pkgconfig (Closes: #1065681)
+
+ -- Sébastien Villemot <sebastien@debian.org>  Fri, 12 Apr 2024 16:26:31 +0200
 
 openblas (0.3.26+ds-1) unstable; urgency=medium
 

@@ -7,7 +7,7 @@ Last-Update: 2022-08-14
 This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 --- a/exports/gensymbol
 +++ b/exports/gensymbol
-@@ -739,12 +739,10 @@ lapackobjs2c="$lapackobjs2c
+@@ -743,12 +743,10 @@ lapackobjs2c="$lapackobjs2c
      cungtsqr
      "
  lapackobjs2d="$lapackobjs2d

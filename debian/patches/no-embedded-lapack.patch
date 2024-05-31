@@ -8,7 +8,7 @@ Last-Update: 2017-07-27
 This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 --- a/Makefile
 +++ b/Makefile
-@@ -275,91 +275,20 @@ hpl_p :
+@@ -282,95 +282,20 @@ hpl_p :
  	fi; \
  	done
  
@@ -55,7 +55,11 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 -ifeq ($(C_COMPILER)$(F_COMPILER)$(USE_OPENMP), CLANGGFORTRAN1)
 -	-@echo "LDFLAGS     = $(FFLAGS) $(EXTRALIB) -lomp" >> $(NETLIB_LAPACK_DIR)/make.inc
 -else
+-ifeq ($(C_COMPILER)$(F_COMPILER)$(USE_OPENMP), CLANGIBM1)
+-	-@echo "LDFLAGS     = $(FFLAGS) $(EXTRALIB) -lomp" >> $(NETLIB_LAPACK_DIR)/make.inc
+-else
 -	-@echo "LDFLAGS     = $(FFLAGS) $(EXTRALIB)" >> $(NETLIB_LAPACK_DIR)/make.inc
+-endif
 -endif
 -	-@echo "CC          = $(CC)" >> $(NETLIB_LAPACK_DIR)/make.inc
 -	-@echo "override CFLAGS      = $(LAPACK_CFLAGS)" >> $(NETLIB_LAPACK_DIR)/make.inc
@@ -110,7 +114,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  
  large.tgz :
  ifeq ($(NOFORTRAN), $(filter 0,$(NOFORTRAN)))
-@@ -426,10 +355,5 @@ ifeq ($(OSNAME), Darwin)
+@@ -438,10 +363,5 @@ ifeq ($(OSNAME), Darwin)
  endif
  	@rm -f Makefile.conf config.h Makefile_kernel.conf config_kernel.h st* *.dylib
  	@rm -f cblas.tmp cblas.tmp2
@@ -134,7 +138,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  # - CC is an implicit variable so neither '?=' or 'ifndef' can be used.
 --- a/interface/Makefile
 +++ b/interface/Makefile
-@@ -2384,3 +2384,9 @@ cblas_zgeadd.$(SUFFIX) cblas_zgeadd.$(PS
+@@ -2419,3 +2419,9 @@ cblas_zgeadd.$(SUFFIX) cblas_zgeadd.$(PS
  cblas_xerbla.$(SUFFIX) cblas_xerbla.$(PSUFFIX) : xerbla.c
  	$(CC) -c $(CFLAGS) -DCBLAS $< -o $(@F)
  
@@ -146,7 +150,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 +		&& rm $(SLAPACKOBJS) $(DLAPACKOBJS) $(CLAPACKOBJS) $(ZLAPACKOBJS) lsame.o xerbla.o; fi
 --- a/Makefile.install
 +++ b/Makefile.install
-@@ -85,15 +85,6 @@ endif
+@@ -89,15 +89,6 @@ endif
  endif
  
  ifneq ($(OSNAME), AIX)

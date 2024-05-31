@@ -23,8 +23,8 @@ else
 	MAKE_OPTIONS += NO_PARALLEL_MAKE=1
 endif
 
-# Build generic package with hardcoded max number of threads of 64
-GENERIC_OPTIONS := NUM_THREADS=64
+# Build generic package with hardcoded max number of threads of 128
+GENERIC_OPTIONS := NUM_THREADS=128
 
 # Architectures with dynamic arch selection
 # TARGET=GENERIC is needed to avoid FTBFS when CPU detection fails (see #923607)
