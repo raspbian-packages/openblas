@@ -30,8 +30,9 @@ Breaks: libblas3 (<< 3.7.1-2~),
 Description: Optimized BLAS (linear algebra) library (meta)
  OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version.
  .
- On amd64, arm64, i386, loong64, ppc64el and s390x, all kernels are included in
- the library and the one matching best your processor is selected at runtime.
+ On amd64, arm64, i386, loong64, ppc64el, riscv64 and s390x, all kernels are
+ included in the library and the one matching best your processor is selected
+ at runtime.
  .
  On other architectures, for maximum performance, you may want to rebuild
  OpenBLAS locally, see the section: “Building an optimized OpenBLAS package for
@@ -52,8 +53,9 @@ Provides: libblas.so.3,
 Description: Optimized BLAS (linear algebra) library (shared lib, pthread)
  OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version.
  .
- On amd64, arm64, i386, loong64, ppc64el and s390x, all kernels are included in
- the library and the one matching best your processor is selected at runtime.
+ On amd64, arm64, i386, loong64, ppc64el, riscv64 and s390x, all kernels are
+ included in the library and the one matching best your processor is selected
+ at runtime.
  .
  On other architectures, for maximum performance, you may want to rebuild
  OpenBLAS locally, see the section: “Building an optimized OpenBLAS package for
@@ -76,8 +78,9 @@ Provides: libblas.so.3,
 Description: Optimized BLAS (linear algebra) library (shared lib, openmp)
  OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version.
  .
- On amd64, arm64, i386, loong64, ppc64el and s390x, all kernels are included in
- the library and the one matching best your processor is selected at runtime.
+ On amd64, arm64, i386, loong64, ppc64el, riscv64 and s390x, all kernels are
+ included in the library and the one matching best your processor is selected
+ at runtime.
  .
  On other architectures, for maximum performance, you may want to rebuild
  OpenBLAS locally, see the section: “Building an optimized OpenBLAS package for
@@ -100,8 +103,9 @@ Provides: libblas.so.3,
 Description: Optimized BLAS (linear algebra) library (shared lib, serial)
  OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version.
  .
- On amd64, arm64, i386, loong64, ppc64el and s390x, all kernels are included in
- the library and the one matching best your processor is selected at runtime.
+ On amd64, arm64, i386, loong64, ppc64el, riscv64 and s390x, all kernels are
+ included in the library and the one matching best your processor is selected
+ at runtime.
  .
  On other architectures, for maximum performance, you may want to rebuild
  OpenBLAS locally, see the section: “Building an optimized OpenBLAS package for
@@ -122,8 +126,9 @@ Breaks: libblas-dev (<< 3.7.1-2~),
 Description: Optimized BLAS (linear algebra) library (dev, meta)
  OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version.
  .
- On amd64, arm64, i386, loong64, ppc64el and s390x, all kernels are included in
- the library and the one matching best your processor is selected at runtime.
+ On amd64, arm64, i386, loong64, ppc64el, riscv64 and s390x, all kernels are
+ included in the library and the one matching best your processor is selected
+ at runtime.
  .
  On other architectures, for maximum performance, you may want to rebuild
  OpenBLAS locally, see the section: “Building an optimized OpenBLAS package for
@@ -146,8 +151,9 @@ Provides: libblas.so,
 Description: Optimized BLAS (linear algebra) library (dev, pthread)
  OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version.
  .
- On amd64, arm64, i386, loong64, ppc64el and s390x, all kernels are included in
- the library and the one matching best your processor is selected at runtime.
+ On amd64, arm64, i386, loong64, ppc64el, riscv64 and s390x, all kernels are
+ included in the library and the one matching best your processor is selected
+ at runtime.
  .
  On other architectures, for maximum performance, you may want to rebuild
  OpenBLAS locally, see the section: “Building an optimized OpenBLAS package for
@@ -172,8 +178,9 @@ Provides: libblas.so,
 Description: Optimized BLAS (linear algebra) library (dev, openmp)
  OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version.
  .
- On amd64, arm64, i386, loong64, ppc64el and s390x, all kernels are included in
- the library and the one matching best your processor is selected at runtime.
+ On amd64, arm64, i386, loong64, ppc64el, riscv64 and s390x, all kernels are
+ included in the library and the one matching best your processor is selected
+ at runtime.
  .
  On other architectures, for maximum performance, you may want to rebuild
  OpenBLAS locally, see the section: “Building an optimized OpenBLAS package for
@@ -198,8 +205,9 @@ Provides: libblas.so,
 Description: Optimized BLAS (linear algebra) library (dev, serial)
  OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version.
  .
- On amd64, arm64, i386, loong64, ppc64el and s390x, all kernels are included in
- the library and the one matching best your processor is selected at runtime.
+ On amd64, arm64, i386, loong64, ppc64el, riscv64 and s390x, all kernels are
+ included in the library and the one matching best your processor is selected
+ at runtime.
  .
  On other architectures, for maximum performance, you may want to rebuild
  OpenBLAS locally, see the section: “Building an optimized OpenBLAS package for
@@ -221,8 +229,9 @@ Depends: ${misc:Depends},
 Description: Optimized BLAS (linear algebra) library (shared lib, 64bit, meta)
  OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version.
  .
- On amd64, arm64, i386, loong64, ppc64el and s390x, all kernels are included in
- the library and the one matching best your processor is selected at runtime.
+ On amd64, arm64, i386, loong64, ppc64el, riscv64 and s390x, all kernels are
+ included in the library and the one matching best your processor is selected
+ at runtime.
  .
  On other architectures, for maximum performance, you may want to rebuild
  OpenBLAS locally, see the section: “Building an optimized OpenBLAS package for
@@ -241,8 +250,9 @@ Provides: libblas64.so.3,
 Description: Optimized BLAS (linear algebra) library (shared lib, 64bit, pthread)
  OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version.
  .
- On amd64, arm64, i386, loong64, ppc64el and s390x, all kernels are included in
- the library and the one matching best your processor is selected at runtime.
+ On amd64, arm64, i386, loong64, ppc64el, riscv64 and s390x, all kernels are
+ included in the library and the one matching best your processor is selected
+ at runtime.
  .
  On other architectures, for maximum performance, you may want to rebuild
  OpenBLAS locally, see the section: “Building an optimized OpenBLAS package for
@@ -261,8 +271,9 @@ Provides: libblas64.so.3,
 Description: Optimized BLAS (linear algebra) library (shared lib, 64bit, openmp)
  OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version.
  .
- On amd64, arm64, i386, loong64, ppc64el and s390x, all kernels are included in
- the library and the one matching best your processor is selected at runtime.
+ On amd64, arm64, i386, loong64, ppc64el, riscv64 and s390x, all kernels are
+ included in the library and the one matching best your processor is selected
+ at runtime.
  .
  On other architectures, for maximum performance, you may want to rebuild
  OpenBLAS locally, see the section: “Building an optimized OpenBLAS package for
@@ -281,8 +292,9 @@ Provides: libblas64.so.3,
 Description: Optimized BLAS (linear algebra) library (shared lib, 64bit, serial)
  OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version.
  .
- On amd64, arm64, i386, loong64, ppc64el and s390x, all kernels are included in
- the library and the one matching best your processor is selected at runtime.
+ On amd64, arm64, i386, loong64, ppc64el, riscv64 and s390x, all kernels are
+ included in the library and the one matching best your processor is selected
+ at runtime.
  .
  On other architectures, for maximum performance, you may want to rebuild
  OpenBLAS locally, see the section: “Building an optimized OpenBLAS package for
@@ -300,8 +312,9 @@ Depends: libopenblas64-0 (= ${binary:Version}),
 Description: Optimized BLAS (linear algebra) library (dev, 64bit, meta)
  OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version.
  .
- On amd64, arm64, i386, loong64, ppc64el and s390x, all kernels are included in
- the library and the one matching best your processor is selected at runtime.
+ On amd64, arm64, i386, loong64, ppc64el, riscv64 and s390x, all kernels are
+ included in the library and the one matching best your processor is selected
+ at runtime.
  .
  On other architectures, for maximum performance, you may want to rebuild
  OpenBLAS locally, see the section: “Building an optimized OpenBLAS package for
@@ -323,8 +336,9 @@ Provides: libblas64.so,
 Description: Optimized BLAS (linear algebra) library (dev, 64bit, pthread)
  OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version.
  .
- On amd64, arm64, i386, loong64, ppc64el and s390x, all kernels are included in
- the library and the one matching best your processor is selected at runtime.
+ On amd64, arm64, i386, loong64, ppc64el, riscv64 and s390x, all kernels are
+ included in the library and the one matching best your processor is selected
+ at runtime.
  .
  On other architectures, for maximum performance, you may want to rebuild
  OpenBLAS locally, see the section: “Building an optimized OpenBLAS package for
@@ -346,8 +360,9 @@ Provides: libblas64.so,
 Description: Optimized BLAS (linear algebra) library (dev, 64bit, openmp)
  OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version.
  .
- On amd64, arm64, i386, loong64, ppc64el and s390x, all kernels are included in
- the library and the one matching best your processor is selected at runtime.
+ On amd64, arm64, i386, loong64, ppc64el, riscv64 and s390x, all kernels are
+ included in the library and the one matching best your processor is selected
+ at runtime.
  .
  On other architectures, for maximum performance, you may want to rebuild
  OpenBLAS locally, see the section: “Building an optimized OpenBLAS package for
@@ -369,8 +384,9 @@ Provides: libblas64.so,
 Description: Optimized BLAS (linear algebra) library (dev, 64bit, serial)
  OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version.
  .
- On amd64, arm64, i386, loong64, ppc64el and s390x, all kernels are included in
- the library and the one matching best your processor is selected at runtime.
+ On amd64, arm64, i386, loong64, ppc64el, riscv64 and s390x, all kernels are
+ included in the library and the one matching best your processor is selected
+ at runtime.
  .
  On other architectures, for maximum performance, you may want to rebuild
  OpenBLAS locally, see the section: “Building an optimized OpenBLAS package for

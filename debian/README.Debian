@@ -20,10 +20,10 @@ More information is available at:
 Building an optimized OpenBLAS package for your machine
 =======================================================
 
-On amd64, arm64, i386, loong64, ppc64el and s390x, libopenblas provides a
-multiple architecture library. All kernels are included in the library and the
-one matching best your processor is selected at run time. Recompiling locally
-should bring minimal performance improvement.
+On amd64, arm64, i386, loong64, ppc64el, riscv64 and s390x, libopenblas
+provides a multiple architecture library. All kernels are included in the
+library and the one matching best your processor is selected at run time.
+Recompiling locally should bring minimal performance improvement.
 
 On the contrary, on other architectures, the package is compiled with minimal
 optimizations, so that it can run on all hardware. You may want to recompile it
@@ -69,5 +69,5 @@ using:
 
  $ aptitude versions libopenblas0
 
- -- Sébastien Villemot <sebastien@debian.org>, Sat,  9 Sep 2023 17:15:50 +0200
+ -- Sébastien Villemot <sebastien@debian.org>, Sun, 11 Aug 2024 10:34:19 +0200
  -- Sylvestre Ledru <sylvestre@debian.org>  Tue, 31 May 2011 13:56:22 +0200

@@ -8,9 +8,9 @@ Last-Update: 2014-02-17
 This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 --- a/driver/others/blas_server.c
 +++ b/driver/others/blas_server.c
-@@ -893,16 +893,6 @@ int exec_blas(BLASLONG num, blas_queue_t
-   fprintf(STDERR, "Exec_blas is called. Number of executing threads : %ld\n", num);
- #endif
+@@ -811,16 +811,6 @@ if (openblas_threads_callback_) {
+   }
+ 
  
 -#ifdef __ELF__
 -  if (omp_in_parallel && (num > 1)) {

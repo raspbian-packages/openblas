@@ -28,7 +28,7 @@ GENERIC_OPTIONS := NUM_THREADS=128
 
 # Architectures with dynamic arch selection
 # TARGET=GENERIC is needed to avoid FTBFS when CPU detection fails (see #923607)
-ENABLE_DYNAMIC_ARCHS := amd64 arm64 i386 ppc64el s390x loong64
+ENABLE_DYNAMIC_ARCHS := amd64 arm64 i386 ppc64el s390x loong64 riscv64
 ifneq (,$(filter $(DEB_HOST_ARCH),$(ENABLE_DYNAMIC_ARCHS)))
 	GENERIC_OPTIONS += DYNAMIC_ARCH=1 DYNAMIC_OLDER=1 TARGET=GENERIC
 endif
@@ -54,7 +54,6 @@ TARGET_OPTION_ppc64     = TARGET=POWER4
 # We do not use DYNAMIC_ARCH selection on mips64el because it only works for
 # Loongson3R3/3R4
 TARGET_OPTION_mips64el  = TARGET=MIPS64_GENERIC
-TARGET_OPTION_riscv64   = TARGET=RISCV64_GENERIC
 TARGET_OPTION_sparc64   = TARGET=SPARC
 GENERIC_OPTIONS += $(TARGET_OPTION_$(DEB_HOST_ARCH))
 

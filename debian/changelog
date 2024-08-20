@@ -1,10 +1,25 @@
-openblas (0.3.27+ds-2+rpi1) trixie-staging; urgency=medium
+openblas (0.3.28+ds-2+rpi1) trixie-staging; urgency=medium
 
   [changes brought forward from 0.2.15-1+rpi1 by Peter Michael Green <plugwash@raspbian.org> at Fri, 11 Mar 2016 23:39:32 +0000]
   * Disable arm-gcc-flags.patch which was enforcing gcc flags that are wrong
     for raspbian.
 
- -- Raspbian forward porter <root@raspbian.org>  Fri, 31 May 2024 04:39:55 +0000
+ -- Raspbian forward porter <root@raspbian.org>  Tue, 20 Aug 2024 23:47:01 +0000
+
+openblas (0.3.28+ds-2) unstable; urgency=medium
+
+  * gcc14-mips64el.patch: new patch, fixes FTBFS on mips64el
+
+ -- Sébastien Villemot <sebastien@debian.org>  Tue, 13 Aug 2024 22:05:18 +0200
+
+openblas (0.3.28+ds-1) unstable; urgency=medium
+
+  * New upstream version 0.3.28+ds
+  * d/copyright: reflect upstream changes
+  * testsuite-64bit-big-endian.patch: drop patch, applied upstream
+  * Enable dynamic arch support on riscv64
+
+ -- Sébastien Villemot <sebastien@debian.org>  Sun, 11 Aug 2024 10:37:39 +0200
 
 openblas (0.3.27+ds-2) unstable; urgency=medium
 

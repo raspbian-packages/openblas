@@ -21,7 +21,7 @@ Last-Update: 2020-07-31
 This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 --- a/interface/Makefile
 +++ b/interface/Makefile
-@@ -2425,3 +2425,28 @@ cblas_xerbla.$(SUFFIX) cblas_xerbla.$(PS
+@@ -2440,3 +2440,28 @@ cblas_zgemm_batch.$(SUFFIX) cblas_zgemm_
  delete-duplicate-lapack-objects:
  	if test -d ../lapack-netlib; then cd ../lapack-netlib \
  		&& rm $(SLAPACKOBJS) $(DLAPACKOBJS) $(CLAPACKOBJS) $(ZLAPACKOBJS) lsame.o xerbla.o; fi

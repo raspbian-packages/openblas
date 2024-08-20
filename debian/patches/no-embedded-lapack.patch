@@ -8,7 +8,7 @@ Last-Update: 2017-07-27
 This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 --- a/Makefile
 +++ b/Makefile
-@@ -282,95 +282,20 @@ hpl_p :
+@@ -286,95 +286,20 @@ hpl_p :
  	fi; \
  	done
  
@@ -114,7 +114,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  
  large.tgz :
  ifeq ($(NOFORTRAN), $(filter 0,$(NOFORTRAN)))
-@@ -438,10 +363,5 @@ ifeq ($(OSNAME), Darwin)
+@@ -442,10 +367,5 @@ ifeq ($(OSNAME), Darwin)
  endif
  	@rm -f Makefile.conf config.h Makefile_kernel.conf config_kernel.h st* *.dylib
  	@rm -f cblas.tmp cblas.tmp2
@@ -138,10 +138,11 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  # - CC is an implicit variable so neither '?=' or 'ifndef' can be used.
 --- a/interface/Makefile
 +++ b/interface/Makefile
-@@ -2419,3 +2419,9 @@ cblas_zgeadd.$(SUFFIX) cblas_zgeadd.$(PS
- cblas_xerbla.$(SUFFIX) cblas_xerbla.$(PSUFFIX) : xerbla.c
- 	$(CC) -c $(CFLAGS) -DCBLAS $< -o $(@F)
+@@ -2433,3 +2433,10 @@ cblas_cgemm_batch.$(SUFFIX) cblas_cgemm_
  
+ cblas_zgemm_batch.$(SUFFIX) cblas_zgemm_batch.$(PSUFFIX) : gemm_batch.c ../param.h
+ 	$(CC) -c $(CFLAGS) -DCBLAS $< -o $(@F)
++
 +# The list of symbols to be removed can be seen in the diff between LAPACK's
 +# original SRC/Makefile and the version of that same file that is included in
 +# OpenBLAS (unfiltered) tarball
