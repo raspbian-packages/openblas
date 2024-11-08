@@ -1,0 +1,8 @@
+arm-gcc-flags.patch
+remove-openmp-warning.patch
+no-embedded-lapack.patch
+shared-blas-lapack.patch
+matgen-symbols-not-included.patch
+combssq-deprecate.patch
+gcc14-mips64el.patch
+openblas-Fixed-undefined-reference-to-blas_set_parameter.patc
