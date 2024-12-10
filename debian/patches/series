@@ -5,4 +5,5 @@ matgen-symbols-not-included.patch
 combssq-deprecate.patch
 gcc14-mips64el.patch
 openblas-Fixed-undefined-reference-to-blas_set_parameter.patc
+pkg-config-libsuffix.patch
 auto-0.3.7+ds-1+rpi1-e5cdb5bc2fdbe4ed5849a311d639ae1e43ddffb5-1566623053
