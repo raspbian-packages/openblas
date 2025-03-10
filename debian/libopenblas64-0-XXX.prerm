@@ -1,0 +1,18 @@
+#!/bin/sh
+set -e
+
+if [ "$1" != "upgrade" ]
+then
+    update-alternatives --remove libblas64.so.3-@DEB_HOST_MULTIARCH@ \
+                        /usr/lib/@DEB_HOST_MULTIARCH@/@SUBDIR@/libblas64.so.3
+
+    update-alternatives --remove liblapack64.so.3-@DEB_HOST_MULTIARCH@ \
+                        /usr/lib/@DEB_HOST_MULTIARCH@/@SUBDIR@/liblapack64.so.3
+
+    update-alternatives --remove libopenblas64.so.0-@DEB_HOST_MULTIARCH@ \
+                        /usr/lib/@DEB_HOST_MULTIARCH@/@SUBDIR@/libopenblas64.so.0
+fi
+
+#DEBHELPER#
+
+exit 0

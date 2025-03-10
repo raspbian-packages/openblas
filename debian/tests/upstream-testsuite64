@@ -1,0 +1,29 @@
+#!/bin/sh
+# Execute upstream's testsuite against the installed binaries.
+
+set -e
+
+if [ $(dpkg-architecture -qDEB_HOST_ARCH_BITS) != 64 ]; then
+    echo "$(basename $0): test only supported on 64bit"
+    exit 77
+fi
+
+if [ -z "$AUTOPKGTEST_TMP" ]
+then
+	echo "Temporary directory \$AUTOPKGTEST_TMP is not set. Aborting" >&2
+	exit 1
+fi
+
+# Tell us which flavor is being used
+update-alternatives --get-selections | grep '^libopenblas64.so'
+
+# Work from $AUTOPKGTEST_TMP as we need to treat the original source as read-only
+cp -a test Makefile* ?_check cpuid* ctest* getarch* param.h "$AUTOPKGTEST_TMP"/
+cd "$AUTOPKGTEST_TMP"/test
+
+# Make tests use the installed binaries instead of using the build result path
+sed -i -e 's,\.\./\$(LIBNAME),,g' Makefile
+sed -i -e '3i CEXTRALIB += -lopenblas64' Makefile
+
+# Execute tests
+make FCOMMON_OPT='-frecursive -fdefault-integer-8'
