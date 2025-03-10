@@ -2461,3 +2461,10 @@ cblas_cgemm_batch.$(SUFFIX) cblas_cgemm_batch.$(PSUFFIX) : gemm_batch.c ../param
 
 cblas_zgemm_batch.$(SUFFIX) cblas_zgemm_batch.$(PSUFFIX) : gemm_batch.c ../param.h
 	$(CC) -c $(CFLAGS) -DCBLAS $< -o $(@F)
+
+# The list of symbols to be removed can be seen in the diff between LAPACK's
+# original SRC/Makefile and the version of that same file that is included in
+# OpenBLAS (unfiltered) tarball
+delete-duplicate-lapack-objects:
+	if test -d ../lapack-netlib; then cd ../lapack-netlib \
+		&& rm $(SLAPACKOBJS) $(DLAPACKOBJS) $(CLAPACKOBJS) $(ZLAPACKOBJS) lsame.o xerbla.o; fi
