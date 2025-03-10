@@ -1,0 +1,7 @@
+39eb43d4410d0745ca2c78d1162d973abf3aa35b.patch
+arm-gcc-flags.patch
+remove-openmp-warning.patch
+no-embedded-lapack.patch
+shared-blas-lapack.patch
+matgen-symbols-not-included.patch
+combssq-deprecate.patch
