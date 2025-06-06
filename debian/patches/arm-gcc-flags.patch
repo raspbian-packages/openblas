@@ -7,8 +7,10 @@ Forwarded: not-needed
 Last-Update: 2015-04-29
 ---
 This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
---- a/Makefile.arm
-+++ b/Makefile.arm
+Index: openblas/Makefile.arm
+===================================================================
+--- openblas.orig/Makefile.arm
++++ openblas/Makefile.arm
 @@ -9,8 +9,8 @@ endif
  endif
  

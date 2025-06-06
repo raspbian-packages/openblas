@@ -135,54 +135,27 @@ config_%:
 		fi; \
 	done;
 
-override_dh_auto_build:
-	for target in $(addprefix build_, $(FLAVORS)); do \
-		$(MAKE) -f debian/rules $$target || exit 1; done
+override_dh_auto_build: $(addprefix build_, $(FLAVORS))
+	:
 
-build_0-pthread:
-	$(MAKE) -C 0-pthread libs netlib shared $(MAKE_OPTIONS) $(FLAGS_0-pthread)
-	$(MAKE) -C 0-pthread/interface shared-blas-lapack $(MAKE_OPTIONS) $(FLAGS_0-pthread)
-build_64-0-pthread:
-	$(MAKE) -C 64-0-pthread libs netlib shared $(MAKE_OPTIONS) $(FLAGS_64-0-pthread)
-	$(MAKE) -C 64-0-pthread/interface shared-blas64-lapack64 $(MAKE_OPTIONS) $(FLAGS_64-0-pthread)
-build_0-openmp:
-	$(MAKE) -C 0-openmp libs netlib shared $(MAKE_OPTIONS) $(FLAGS_0-openmp)
-	$(MAKE) -C 0-openmp/interface shared-blas-lapack $(MAKE_OPTIONS) $(FLAGS_0-openmp)
-build_64-0-openmp:
-	$(MAKE) -C 64-0-openmp libs netlib shared $(MAKE_OPTIONS) $(FLAGS_64-0-openmp)
-	$(MAKE) -C 64-0-openmp/interface shared-blas64-lapack64 $(MAKE_OPTIONS) $(FLAGS_64-0-openmp)
-build_0-serial:
-	$(MAKE) -C 0-serial libs netlib shared $(MAKE_OPTIONS) $(FLAGS_0-serial)
-	$(MAKE) -C 0-serial/interface shared-blas-lapack $(MAKE_OPTIONS) $(FLAGS_0-serial)
-build_64-0-serial:
-	$(MAKE) -C 64-0-serial libs netlib shared $(MAKE_OPTIONS) $(FLAGS_64-0-serial)
-	$(MAKE) -C 64-0-serial/interface shared-blas64-lapack64 $(MAKE_OPTIONS) $(FLAGS_64-0-serial)
-# XXX: why doesn't this work??
-#build_%:
-#   $(MAKE) -C $* $(MAKE_OPTIONS) $(FLAGS_$*)
-#   $(MAKE) -C $*/interface $(MAKE_OPTIONS) $(FLAGS_$*)
+build_64-%:
+	$(MAKE) -C 64-$* libs netlib shared $(MAKE_OPTIONS) $(FLAGS_64-$*)
+	$(MAKE) -C 64-$*/interface shared-blas64-lapack64 $(MAKE_OPTIONS) $(FLAGS_64-$*)
+build_0-%:
+	$(MAKE) -C 0-$* libs netlib shared $(MAKE_OPTIONS) $(FLAGS_0-$*)
+	$(MAKE) -C 0-$*/interface shared-blas-lapack $(MAKE_OPTIONS) $(FLAGS_0-$*)
 
-override_dh_auto_test:
+
 ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
-	for target in $(addprefix test_, $(FLAVORS)); do \
-		$(MAKE) -f debian/rules $$target || exit 1; done
+override_dh_auto_test: $(addprefix test_, $(FLAVORS))
+	:
+else
+override_dh_auto_test:
+	:
 endif
 
-test_0-pthread:
-	$(MAKE) -C 0-pthread tests $(MAKE_OPTIONS) $(FLAGS_0-pthread)
-test_64-0-pthread:
-	$(MAKE) -C 64-0-pthread tests $(MAKE_OPTIONS) $(FLAGS_64-0-pthread)
-test_0-openmp:
-	$(MAKE) -C 0-openmp tests $(MAKE_OPTIONS) $(FLAGS_0-openmp)
-test_64-0-openmp:
-	$(MAKE) -C 64-0-openmp tests $(MAKE_OPTIONS) $(FLAGS_64-0-openmp)
-test_0-serial:
-	$(MAKE) -C 0-serial tests $(MAKE_OPTIONS) $(FLAGS_0-serial)
-test_64-0-serial:
-	$(MAKE) -C 64-0-serial tests $(MAKE_OPTIONS) $(FLAGS_64-0-serial)
-# XXX: why cannot this work?
-#test_%:
-#	$(MAKE) -C $* test $(MAKE_OPTIONS) $(FLAGS_$(*))
+test_%:
+	$(MAKE) -C $* tests $(MAKE_OPTIONS) $(FLAGS_$*)
 
 override_dh_auto_install:
 	for target in $(addprefix install_, $(FLAVORS)); do \

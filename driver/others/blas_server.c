@@ -146,8 +146,8 @@ typedef struct {
 } thread_status_t;
 
 #ifdef HAVE_C11
-#define	atomic_load_queue(p)		__atomic_load_n(p, __ATOMIC_RELAXED)
-#define	atomic_store_queue(p, v)	__atomic_store_n(p, v, __ATOMIC_RELAXED)
+#define	atomic_load_queue(p)		__atomic_load_n(p, __ATOMIC_ACQUIRE)
+#define	atomic_store_queue(p, v)	__atomic_store_n(p, v, __ATOMIC_RELEASE)
 #else
 #define	atomic_load_queue(p)		(blas_queue_t*)(*(volatile blas_queue_t**)(p))
 #define	atomic_store_queue(p, v)	(*(volatile blas_queue_t* volatile*)(p) = (v))
@@ -637,7 +637,9 @@ int exec_blas_async(BLASLONG pos, blas_queue_t *queue){
 
 #ifdef SMP_SERVER
   // Handle lazy re-init of the thread-pool after a POSIX fork
+  LOCK_COMMAND(&server_lock);
   if (unlikely(blas_server_avail == 0)) blas_thread_init();
+  UNLOCK_COMMAND(&server_lock);
 #endif
   BLASLONG i = 0;
   blas_queue_t *current = queue;
@@ -1066,7 +1068,13 @@ fprintf(STDERR, "Server[%2ld] Calculation started.  Mode = 0x%03x M = %3ld N=%3l
       main_status[cpu] = MAIN_RUNNING1;
 #endif
 
-//For target LOONGSON3R5, applying an offset to the buffer is essential
+if (buffer == NULL) {
+	blas_thread_buffer[cpu] = blas_memory_alloc(2);
+	buffer = blas_thread_buffer[cpu];
+}      
+
+	
+//For LOONGARCH64, applying an offset to the buffer is essential
 //for minimizing cache conflicts and optimizing performance.
 #if defined(ARCH_LOONGARCH64) && !defined(NO_AFFINITY)
       if (sa == NULL) sa = (void *)((BLASLONG)buffer + (WhereAmI() & 0xf) * GEMM_OFFSET_A);

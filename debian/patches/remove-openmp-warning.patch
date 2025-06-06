@@ -6,8 +6,10 @@ Forwarded: no
 Last-Update: 2014-02-17
 ---
 This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
---- a/driver/others/blas_server.c
-+++ b/driver/others/blas_server.c
+Index: openblas/driver/others/blas_server.c
+===================================================================
+--- openblas.orig/driver/others/blas_server.c
++++ openblas/driver/others/blas_server.c
 @@ -811,16 +811,6 @@ if (openblas_threads_callback_) {
    }
  

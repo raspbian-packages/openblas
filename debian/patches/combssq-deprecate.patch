@@ -5,8 +5,10 @@ Forwarded: no
 Last-Update: 2022-08-14
 ---
 This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
---- a/exports/gensymbol
-+++ b/exports/gensymbol
+Index: openblas/exports/gensymbol
+===================================================================
+--- openblas.orig/exports/gensymbol
++++ openblas/exports/gensymbol
 @@ -743,12 +743,10 @@ lapackobjs2c="$lapackobjs2c
      cungtsqr
      "

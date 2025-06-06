@@ -1,10 +1,32 @@
-openblas (0.3.28+ds-4+rpi1) trixie-staging; urgency=medium
+openblas (0.3.29+ds-3+rpi1) trixie-staging; urgency=medium
 
   [changes brought forward from 0.2.15-1+rpi1 by Peter Michael Green <plugwash@raspbian.org> at Fri, 11 Mar 2016 23:39:32 +0000]
   * Disable arm-gcc-flags.patch which was enforcing gcc flags that are wrong
     for raspbian.
 
- -- Raspbian forward porter <root@raspbian.org>  Tue, 10 Dec 2024 19:23:06 +0000
+ -- Raspbian forward porter <root@raspbian.org>  Fri, 06 Jun 2025 04:17:28 +0000
+
+openblas (0.3.29+ds-3) unstable; urgency=medium
+
+  * Cherry-pick upstream PR#5170 for thread safety of pthread build.
+  * Remove armhf-specific OPENBLAS_NUM_THREADS overrides during tests.
+  * Simplify d/rules and reduce repeatition.
+
+ -- Mo Zhou <lumin@debian.org>  Mon, 10 Mar 2025 14:55:28 -0400
+
+openblas (0.3.29+ds-2) unstable; urgency=medium
+
+  * d/rules: Set OPENBLAS_NUM_THREADS=1 for armhf to avoid test failure.
+  * Upload to unstable.
+
+ -- Mo Zhou <lumin@debian.org>  Wed, 05 Feb 2025 21:51:01 -0500
+
+openblas (0.3.29+ds-1) experimental; urgency=medium
+
+  * New upstream version 0.3.29+ds
+  * Remove merged patches and rebase existing ones.
+
+ -- Mo Zhou <lumin@debian.org>  Mon, 27 Jan 2025 23:06:02 -0500
 
 openblas (0.3.28+ds-4) unstable; urgency=medium
 
