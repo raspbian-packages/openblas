@@ -1,0 +1,18 @@
+#! /bin/sh
+set -e
+
+update-alternatives --install /usr/lib/@DEB_HOST_MULTIARCH@/libblas.so.3 \
+                    libblas.so.3-@DEB_HOST_MULTIARCH@ \
+	            /usr/lib/@DEB_HOST_MULTIARCH@/@SUBDIR@/libblas.so.3 @OPENBLAS_PRI@
+
+update-alternatives --install /usr/lib/@DEB_HOST_MULTIARCH@/liblapack.so.3 \
+                    liblapack.so.3-@DEB_HOST_MULTIARCH@ \
+	            /usr/lib/@DEB_HOST_MULTIARCH@/@SUBDIR@/liblapack.so.3 @OPENBLAS_PRI@
+
+update-alternatives --install /usr/lib/@DEB_HOST_MULTIARCH@/libopenblas.so.0 \
+                    libopenblas.so.0-@DEB_HOST_MULTIARCH@ \
+	            /usr/lib/@DEB_HOST_MULTIARCH@/@SUBDIR@/libopenblas.so.0 @OPENBLAS_PRI@
+
+#DEBHELPER#
+
+exit 0
