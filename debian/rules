@@ -4,11 +4,17 @@
 export DEB_LDFLAGS_MAINT_STRIP := "-Wl,-Bsymbolic-functions"
 
 include /usr/share/dpkg/buildflags.mk
+include /usr/share/dpkg/buildtools.mk
 include /usr/share/dpkg/pkg-info.mk
 SOVER := 0
 SRCS := $(filter-out debian $(FLAVORS), $(wildcard ./*))
 
 MAKE_OPTIONS := NO_LAPACKE=1 NO_AFFINITY=1 NO_WARMUP=1 CFLAGS="$(CPPFLAGS) $(CFLAGS)" FFLAGS="$(FFLAGS)"
+
+MAKE_OPTIONS += CC='$(CC)' FC='$(FC)'
+ifneq ($(DEB_BUILD_ARCH),$(DEB_HOST_ARCH))
+MAKE_OPTIONS += CROSS=1 HOSTCC='$(CC_FOR_BUILD)'
+endif
 
 # Avoid having -O2 automatically added (especially for DEB_BUILD_OPTIONS=noopt)
 MAKE_OPTIONS += COMMON_OPT=
@@ -36,6 +42,7 @@ endif
 # For other archs, there is no dynamic arch selection. To avoid selecting a
 # target based on the buildd hardware, we enforce a generic-enough target.
 
+TARGET_OPTION_alpha     = TARGET=EV5
 # We cannot use the ARMv7 profile on armhf, because it requires a 32-register FP unit.
 # See kernel/arm/KERNEL.ARMv7: it loads some *_vfpv3.S files, which use 32 registers.
 # Also, it FTBFS if GCC flag -mvfpv3 is removed (see arm-gcc-flags.patch), because GCC

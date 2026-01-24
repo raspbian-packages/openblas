@@ -6,11 +6,9 @@ Forwarded: not-needed
 Last-Update: 2017-07-27
 ---
 This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
-Index: openblas/Makefile
-===================================================================
---- openblas.orig/Makefile
-+++ openblas/Makefile
-@@ -286,95 +286,20 @@ hpl_p :
+--- a/Makefile
++++ b/Makefile
+@@ -291,95 +291,20 @@ hpl_p :
  	fi; \
  	done
  
@@ -116,21 +114,19 @@ Index: openblas/Makefile
  
  large.tgz :
  ifeq ($(NOFORTRAN), $(filter 0,$(NOFORTRAN)))
-@@ -445,10 +370,5 @@ ifeq ($(OSNAME), Darwin)
+@@ -450,10 +375,5 @@ ifeq ($(OSNAME), Darwin)
  endif
  	@rm -f Makefile.conf config.h Makefile_kernel.conf config_kernel.h st* *.dylib
  	@rm -f cblas.tmp cblas.tmp2
 -	@touch $(NETLIB_LAPACK_DIR)/make.inc
 -	@$(MAKE) -C $(NETLIB_LAPACK_DIR) clean
--	@rm -f $(NETLIB_LAPACK_DIR)/make.inc $(NETLIB_LAPACK_DIR)/lapacke/include/lapacke_mangling.h
+-	@rm -f $(NETLIB_LAPACK_DIR)/make.inc
 -	@$(MAKE) -C relapack clean
  	@rm -f *.grd Makefile.conf_last config_last.h
 -	@(cd $(NETLIB_LAPACK_DIR)/TESTING && rm -f x* *.out testing_results.txt)
  	@echo Done.
-Index: openblas/Makefile.system
-===================================================================
---- openblas.orig/Makefile.system
-+++ openblas/Makefile.system
+--- a/Makefile.system
++++ b/Makefile.system
 @@ -44,8 +44,6 @@ else ifeq ($(ARCH), zarch)
  override ARCH=zarch
  endif
@@ -140,10 +136,8 @@ Index: openblas/Makefile.system
  # Default C compiler
  # - Only set if not specified on the command line or inherited from the environment.
  # - CC is an implicit variable so neither '?=' or 'ifndef' can be used.
-Index: openblas/interface/Makefile
-===================================================================
---- openblas.orig/interface/Makefile
-+++ openblas/interface/Makefile
+--- a/interface/Makefile
++++ b/interface/Makefile
 @@ -2461,3 +2461,10 @@ cblas_cgemm_batch.$(SUFFIX) cblas_cgemm_
  
  cblas_zgemm_batch.$(SUFFIX) cblas_zgemm_batch.$(PSUFFIX) : gemm_batch.c ../param.h
@@ -155,10 +149,8 @@ Index: openblas/interface/Makefile
 +delete-duplicate-lapack-objects:
 +	if test -d ../lapack-netlib; then cd ../lapack-netlib \
 +		&& rm $(SLAPACKOBJS) $(DLAPACKOBJS) $(CLAPACKOBJS) $(ZLAPACKOBJS) lsame.o xerbla.o; fi
-Index: openblas/Makefile.install
-===================================================================
---- openblas.orig/Makefile.install
-+++ openblas/Makefile.install
+--- a/Makefile.install
++++ b/Makefile.install
 @@ -92,15 +92,6 @@ endif
  endif
  

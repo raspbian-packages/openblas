@@ -274,6 +274,7 @@ SMALL_MATRIX_OPT = 1
 endif
 ifeq ($(ARCH), arm64)
 GEMM_GEMV_FORWARD = 1
+GEMM_GEMV_FORWARD_BF16 = 1
 endif
 ifeq ($(ARCH), riscv)
 GEMM_GEMV_FORWARD = 1
@@ -418,6 +419,7 @@ ifeq ($(ARCH), arm64)
 export MACOSX_DEPLOYMENT_TARGET=11.0
 ifeq ($(C_COMPILER), GCC)
 export NO_SVE = 1
+export NO_SME = 1
 endif
 else
 export MACOSX_DEPLOYMENT_TARGET=10.8
@@ -431,6 +433,11 @@ endif
 ifeq (x$(XCVER), x 15)
 CCOMMON_OPT += -Wl,-ld_classic
 FCOMMON_OPT += -Wl,-ld_classic
+endif
+ifeq (x$(XCVER), x 16)
+ifeq ($(F_COMPILER), GFORTRAN)
+override CEXTRALIB := $(filter-out(-lto_library, $(CEXTRALIB))) 
+endif
 endif
 endif
 
@@ -706,6 +713,9 @@ DYNAMIC_CORE += NEOVERSEV1
 DYNAMIC_CORE += NEOVERSEN2
 DYNAMIC_CORE += ARMV8SVE
 DYNAMIC_CORE += A64FX
+endif
+ifneq ($(NO_SME), 1)
+DYNAMIC_CORE += ARMV9SME
 endif
 DYNAMIC_CORE += THUNDERX
 DYNAMIC_CORE += THUNDERX2T99
@@ -1468,6 +1478,10 @@ endif
 
 ifeq ($(NO_SVE), 1)
 CCOMMON_OPT     += -DNO_SVE
+endif
+
+ifeq ($(NO_SME), 1)
+CCOMMON_OPT     += -DNO_SME
 endif
 
 ifdef SMP

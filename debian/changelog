@@ -1,10 +1,42 @@
-openblas (0.3.29+ds-3+rpi1) trixie-staging; urgency=medium
+openblas (0.3.30+ds-3+rpi1) forky-staging; urgency=medium
 
   [changes brought forward from 0.2.15-1+rpi1 by Peter Michael Green <plugwash@raspbian.org> at Fri, 11 Mar 2016 23:39:32 +0000]
   * Disable arm-gcc-flags.patch which was enforcing gcc flags that are wrong
     for raspbian.
 
- -- Raspbian forward porter <root@raspbian.org>  Fri, 06 Jun 2025 04:17:28 +0000
+ -- Raspbian forward porter <root@raspbian.org>  Sat, 24 Jan 2026 17:58:45 +0000
+
+openblas (0.3.30+ds-3) unstable; urgency=medium
+
+  * ppc64el-gcc-15.patch: new patch, fixes FTBFS on ppc64el (Closes: #1114016)
+
+ -- Sébastien Villemot <sebastien@debian.org>  Sun, 14 Sep 2025 11:34:16 +0200
+
+openblas (0.3.30+ds-2) unstable; urgency=medium
+
+  * armhf-cpuid-asm.patch: new patch, fixes FTBFS on armhf
+
+ -- Sébastien Villemot <sebastien@debian.org>  Fri, 05 Sep 2025 10:42:37 +0200
+
+openblas (0.3.30+ds-1) experimental; urgency=medium
+
+  [ Sébastien Villemot ]
+  * New upstream version 0.3.30+ds
+  * d/watch: upgrade to version 5
+  * d/copyright: reflect upstream changes
+  * 39eb43d4410d0745ca2c78d1162d973abf3aa35b.patch: drop patch, applied upstream
+  * Remove “Rules-Requires-Root: no”, which is now the default
+  * Bump S-V to 4.7.2
+
+  [ Helmut Grohne ]
+  * Fix FTCBFS
+    * Build-Depend on gfortran-for-host.
+    * Set more MAKE_OPTIONS to forward the toolchain. (Closes: #1107590)
+
+  [ John Paul Adrian Glaubitz ]
+  * Build on alpha (Closes: #1107581)
+
+ -- Sébastien Villemot <sebastien@debian.org>  Sun, 31 Aug 2025 21:45:04 +0200
 
 openblas (0.3.29+ds-3) unstable; urgency=medium
 

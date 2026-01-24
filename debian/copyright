@@ -6,38 +6,13 @@ Files-Excluded: lapack-netlib/*
                 relapack/*
 
 Files: *
-Copyright: 2011-2024 The OpenBLAS Project
+Copyright: 2011-2025 The OpenBLAS Project
            2009-2010 The University of Texas at Austin
            2013 Martin Koehler, grisuthedragon@users.github.com
            2020 IBM Corporation
            2022 Arm Ltd
+           2025 Qualcomm Innovation Center
 License: BSD-3-clause
- Redistribution and use in source and binary forms, with or without
- modification, are permitted provided that the following conditions are
- met:
- .
-   1. Redistributions of source code must retain the above copyright
-      notice, this list of conditions and the following disclaimer.
- .
-   2. Redistributions in binary form must reproduce the above copyright
-      notice, this list of conditions and the following disclaimer in
-      the documentation and/or other materials provided with the
-      distribution.
-   3. Neither the name of the OpenBLAS project nor the names of 
-      its contributors may be used to endorse or promote products 
-      derived from this software without specific prior written 
-      permission.
- .
- THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
- LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
- USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 Files: benchmark/cholesky.c
  benchmark/linpack.c
@@ -397,6 +372,7 @@ Files: benchmark/cholesky.c
  kernel/generic/zgemm_ncopy_2.c
  kernel/generic/zgemm_ncopy_4.c
  kernel/generic/zgemm_ncopy_8.c
+ kernel/generic/zgemm_ncopy_16.c
  kernel/generic/zgemm_tcopy_1.c
  kernel/generic/zgemm_tcopy_2.c
  kernel/generic/zgemm_tcopy_4.c
@@ -567,7 +543,7 @@ Files: benchmark/cholesky.c
  lapack/trtrs/ztrtrs_single.c
  symcopy.h
 Copyright: 2009-2010, 2024 The University of Texas at Austin
-           2023-2024 The OpenBLAS Project
+           2023-2025 The OpenBLAS Project
 License: BSD-2-clause-texas
    1. Redistributions of source code must retain the above
       copyright notice, this list of conditions and the following
@@ -603,6 +579,10 @@ Copyright: none
 License: public-domain
  These files come from netlib.org and are in the public domain.
 
+Files: test/compare_sgemm_sbgemm.c
+Copyright: 2020,2025 The OpenBLAS Project
+License: BSD-3-clause
+
 Files: utest/ctest.h
 Copyright: 2011-2016 Bas van den Berg
 License: Apache-2.0
@@ -624,7 +604,7 @@ License: Apache-2.0
 
 Files: debian/*
 Copyright: 2011-2012 Sylvestre Ledru <sylvestre@debian.org>
-           2012-2024 Sébastien Villemot <sebastien@debian.org>
+           2012-2025 Sébastien Villemot <sebastien@debian.org>
 License: BSD-2-clause
    1. Redistributions of source code must retain the above
       copyright notice, this list of conditions and the following
@@ -649,3 +629,31 @@ License: BSD-2-clause
     (INCLUDING NEGLIGENCE OR OTHERWISE)  ARISING IN ANY WAY OUT
     OF  THE  USE OF  THIS  SOFTWARE,  EVEN  IF ADVISED  OF  THE
     POSSIBILITY OF SUCH DAMAGE.
+
+License: BSD-3-clause
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are
+ met:
+ .
+   1. Redistributions of source code must retain the above copyright
+      notice, this list of conditions and the following disclaimer.
+ .
+   2. Redistributions in binary form must reproduce the above copyright
+      notice, this list of conditions and the following disclaimer in
+      the documentation and/or other materials provided with the
+      distribution.
+   3. Neither the name of the OpenBLAS project nor the names of 
+      its contributors may be used to endorse or promote products 
+      derived from this software without specific prior written 
+      permission.
+ .
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
+ USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.

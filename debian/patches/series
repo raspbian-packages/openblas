@@ -1,7 +1,8 @@
-39eb43d4410d0745ca2c78d1162d973abf3aa35b.patch
 remove-openmp-warning.patch
 no-embedded-lapack.patch
 shared-blas-lapack.patch
 matgen-symbols-not-included.patch
 combssq-deprecate.patch
+armhf-cpuid-asm.patch
+ppc64el-gcc-15.patch
 auto-0.3.7+ds-1+rpi1-e5cdb5bc2fdbe4ed5849a311d639ae1e43ddffb5-1566623053

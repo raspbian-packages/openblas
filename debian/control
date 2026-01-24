@@ -6,19 +6,18 @@ Section: devel
 Priority: optional
 Build-Depends: debhelper-compat (= 13),
                debhelper (>= 12.8~),
-               gfortran,
+               gfortran-for-host,
                liblapack-dev (>= 3.12),
-               liblapack64-dev (>= 3.12) [amd64 arm64 ppc64el ppc64 mips64el riscv64 sparc64 s390x loong64],
-Standards-Version: 4.7.0
+               liblapack64-dev (>= 3.12) [alpha amd64 arm64 ppc64el ppc64 mips64el riscv64 sparc64 s390x loong64],
+Standards-Version: 4.7.2
 Vcs-Browser: https://salsa.debian.org/science-team/openblas
 Vcs-Git: https://salsa.debian.org/science-team/openblas.git
 Homepage: https://www.openblas.net/
-Rules-Requires-Root: no
 
 # 32-bit indexing version
 
 Package: libopenblas0
-Architecture: amd64 arm64 armhf i386 powerpc ppc64el ppc64 mips64el riscv64 sparc64 s390x loong64
+Architecture: alpha amd64 arm64 armhf i386 powerpc ppc64el ppc64 mips64el riscv64 sparc64 s390x loong64
 Multi-Arch: same
 Section: metapackages
 Depends: ${misc:Depends},
@@ -39,7 +38,7 @@ Description: Optimized BLAS (linear algebra) library (meta)
  your machine” in README.Debian.
 
 Package: libopenblas0-pthread
-Architecture: amd64 arm64 armhf i386 powerpc ppc64el ppc64 mips64el riscv64 sparc64 s390x loong64
+Architecture: alpha amd64 arm64 armhf i386 powerpc ppc64el ppc64 mips64el riscv64 sparc64 s390x loong64
 Multi-Arch: same
 Section: libs
 Depends: ${shlibs:Depends},
@@ -64,7 +63,7 @@ Description: Optimized BLAS (linear algebra) library (shared lib, pthread)
  Configuration: USE_THREAD=1 USE_OPENMP=0 INTERFACE64=0
 
 Package: libopenblas0-openmp
-Architecture: amd64 arm64 armhf i386 powerpc ppc64el ppc64 mips64el riscv64 sparc64 s390x loong64
+Architecture: alpha amd64 arm64 armhf i386 powerpc ppc64el ppc64 mips64el riscv64 sparc64 s390x loong64
 Multi-Arch: same
 Section: libs
 Depends: ${shlibs:Depends},
@@ -89,7 +88,7 @@ Description: Optimized BLAS (linear algebra) library (shared lib, openmp)
  Configuration: USE_THREAD=1 USE_OPENMP=1 INTERFACE64=0
 
 Package: libopenblas0-serial
-Architecture: amd64 arm64 armhf i386 powerpc ppc64el ppc64 mips64el riscv64 sparc64 s390x loong64
+Architecture: alpha amd64 arm64 armhf i386 powerpc ppc64el ppc64 mips64el riscv64 sparc64 s390x loong64
 Multi-Arch: same
 Section: libs
 Depends: ${shlibs:Depends},
@@ -114,7 +113,7 @@ Description: Optimized BLAS (linear algebra) library (shared lib, serial)
  Configuration: USE_THREAD=0 USE_OPENMP=0 INTERFACE64=0
 
 Package: libopenblas-dev
-Architecture: amd64 arm64 armhf i386 powerpc ppc64el ppc64 mips64el riscv64 sparc64 s390x loong64
+Architecture: alpha amd64 arm64 armhf i386 powerpc ppc64el ppc64 mips64el riscv64 sparc64 s390x loong64
 Multi-Arch: same
 Section: metapackages
 Depends: libopenblas0 (= ${binary:Version}),
@@ -138,7 +137,7 @@ Description: Optimized BLAS (linear algebra) library (dev, meta)
  needed for program development.
 
 Package: libopenblas-pthread-dev
-Architecture: amd64 arm64 armhf i386 powerpc ppc64el ppc64 mips64el riscv64 sparc64 s390x loong64
+Architecture: alpha amd64 arm64 armhf i386 powerpc ppc64el ppc64 mips64el riscv64 sparc64 s390x loong64
 Multi-Arch: same
 Section: libdevel
 Depends: libopenblas0-pthread (= ${binary:Version}),
@@ -165,7 +164,7 @@ Description: Optimized BLAS (linear algebra) library (dev, pthread)
  Configuration: USE_THREAD=1 USE_OPENMP=0 INTERFACE64=0
 
 Package: libopenblas-openmp-dev
-Architecture: amd64 arm64 armhf i386 powerpc ppc64el ppc64 mips64el riscv64 sparc64 s390x loong64
+Architecture: alpha amd64 arm64 armhf i386 powerpc ppc64el ppc64 mips64el riscv64 sparc64 s390x loong64
 Multi-Arch: same
 Section: libdevel
 Depends: libopenblas0-openmp (= ${binary:Version}),
@@ -192,7 +191,7 @@ Description: Optimized BLAS (linear algebra) library (dev, openmp)
  Configuration: USE_THREAD=1 USE_OPENMP=1 INTERFACE64=0
 
 Package: libopenblas-serial-dev
-Architecture: amd64 arm64 armhf i386 powerpc ppc64el ppc64 mips64el riscv64 sparc64 s390x loong64
+Architecture: alpha amd64 arm64 armhf i386 powerpc ppc64el ppc64 mips64el riscv64 sparc64 s390x loong64
 Multi-Arch: same
 Section: libdevel
 Depends: libopenblas0-serial (= ${binary:Version}),
@@ -221,7 +220,7 @@ Description: Optimized BLAS (linear algebra) library (dev, serial)
 # 64-bit indexing version
 
 Package: libopenblas64-0
-Architecture: amd64 arm64 ppc64 ppc64el mips64el riscv64 sparc64 s390x loong64
+Architecture: alpha amd64 arm64 ppc64 ppc64el mips64el riscv64 sparc64 s390x loong64
 Multi-Arch: same
 Section: metapackages
 Depends: ${misc:Depends},
@@ -240,7 +239,7 @@ Description: Optimized BLAS (linear algebra) library (shared lib, 64bit, meta)
  This metapackage provides a 64-bit indexing version.
 
 Package: libopenblas64-0-pthread
-Architecture: amd64 arm64 ppc64 ppc64el mips64el riscv64 sparc64 s390x loong64
+Architecture: alpha amd64 arm64 ppc64 ppc64el mips64el riscv64 sparc64 s390x loong64
 Multi-Arch: same
 Section: libs
 Depends: ${shlibs:Depends},
@@ -261,7 +260,7 @@ Description: Optimized BLAS (linear algebra) library (shared lib, 64bit, pthread
  Configuration: USE_THREAD=1 USE_OPENMP=0 INTERFACE64=1
 
 Package: libopenblas64-0-openmp
-Architecture: amd64 arm64 ppc64 ppc64el mips64el riscv64 sparc64 s390x loong64
+Architecture: alpha amd64 arm64 ppc64 ppc64el mips64el riscv64 sparc64 s390x loong64
 Multi-Arch: same
 Section: libs
 Depends: ${shlibs:Depends},
@@ -282,7 +281,7 @@ Description: Optimized BLAS (linear algebra) library (shared lib, 64bit, openmp)
  Configuration: USE_THREAD=1 USE_OPENMP=1 INTERFACE64=1
 
 Package: libopenblas64-0-serial
-Architecture: amd64 arm64 ppc64 ppc64el mips64el riscv64 sparc64 s390x loong64
+Architecture: alpha amd64 arm64 ppc64 ppc64el mips64el riscv64 sparc64 s390x loong64
 Multi-Arch: same
 Section: libs
 Depends: ${shlibs:Depends},
@@ -303,7 +302,7 @@ Description: Optimized BLAS (linear algebra) library (shared lib, 64bit, serial)
  Configuration: USE_THREAD=0 USE_OPENMP=0 INTERFACE64=1
 
 Package: libopenblas64-dev
-Architecture: amd64 arm64 ppc64 ppc64el mips64el riscv64 sparc64 s390x loong64
+Architecture: alpha amd64 arm64 ppc64 ppc64el mips64el riscv64 sparc64 s390x loong64
 Multi-Arch: same
 Section: metapackages
 Depends: libopenblas64-0 (= ${binary:Version}),
@@ -326,7 +325,7 @@ Description: Optimized BLAS (linear algebra) library (dev, 64bit, meta)
  This metapackage provides a 64-bit indexing version.
 
 Package: libopenblas64-pthread-dev
-Architecture: amd64 arm64 ppc64 ppc64el mips64el riscv64 sparc64 s390x loong64
+Architecture: alpha amd64 arm64 ppc64 ppc64el mips64el riscv64 sparc64 s390x loong64
 Multi-Arch: same
 Section: libdevel
 Depends: libopenblas64-0-pthread (= ${binary:Version}),
@@ -350,7 +349,7 @@ Description: Optimized BLAS (linear algebra) library (dev, 64bit, pthread)
  Configuration: USE_THREAD=1 USE_OPENMP=0 INTERFACE64=1
 
 Package: libopenblas64-openmp-dev
-Architecture: amd64 arm64 ppc64 ppc64el mips64el riscv64 sparc64 s390x loong64
+Architecture: alpha amd64 arm64 ppc64 ppc64el mips64el riscv64 sparc64 s390x loong64
 Multi-Arch: same
 Section: libdevel
 Depends: libopenblas64-0-openmp (= ${binary:Version}),
@@ -374,7 +373,7 @@ Description: Optimized BLAS (linear algebra) library (dev, 64bit, openmp)
  Configuration: USE_THREAD=1 USE_OPENMP=1 INTERFACE64=1
 
 Package: libopenblas64-serial-dev
-Architecture: amd64 arm64 ppc64 ppc64el mips64el riscv64 sparc64 s390x loong64
+Architecture: alpha amd64 arm64 ppc64 ppc64el mips64el riscv64 sparc64 s390x loong64
 Multi-Arch: same
 Section: libdevel
 Depends: libopenblas64-0-serial (= ${binary:Version}),
