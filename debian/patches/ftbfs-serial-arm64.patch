@@ -1,0 +1,23 @@
+Description: Fix FTBFS on arm64
+Origin: upstream, https://github.com/OpenMathLib/OpenBLAS/commit/d2906e8787ccc50051505f97262027bae6b55258
+Reviewed-by: Sébastien Villemot <sebastien@debian.org>
+Last-Update: 2026-02-05
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+diff --git a/interface/gemm.c b/interface/gemm.c
+index 4b1c9a93c..60addbd2c 100644
+--- a/interface/gemm.c
++++ b/interface/gemm.c
+@@ -184,11 +184,11 @@ static int init_amxtile_permission() {
+ }
+ #endif
+ 
+-#ifdef SMP
+ #ifdef DYNAMIC_ARCH
+ extern char* gotoblas_corename(void);
+ #endif
+ 
++#ifdef SMP
+ #if defined(DYNAMIC_ARCH) || defined(NEOVERSEV1)
+ static inline int get_gemm_optimal_nthreads_neoversev1(double MNK, int ncpu) {
+   return

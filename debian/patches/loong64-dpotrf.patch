@@ -1,0 +1,20 @@
+Description: Fix dpotrf result on loong64 with la464 kernel
+Origin: upstream, https://github.com/OpenMathLib/OpenBLAS/commit/4001d7a74f7866bdcd8855caca62436ca7bc45ee
+Bug: https://github.com/OpenMathLib/OpenBLAS/issues/5602
+Bug-Debian: https://bugs.debian.org/1126103
+Last-Update: 2026-02-03
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+diff --git a/kernel/setparam-ref.c b/kernel/setparam-ref.c
+index 24bd81a8e..51981c625 100644
+--- a/kernel/setparam-ref.c
++++ b/kernel/setparam-ref.c
+@@ -1194,7 +1194,7 @@ static void init_parameter(void) {
+ 
+       TABLE_NAME.dgemm_p = 112;
+       TABLE_NAME.dgemm_q = 289;
+-      TABLE_NAME.dgemm_r = 342;
++      TABLE_NAME.dgemm_r = 353;
+ 
+       TABLE_NAME.cgemm_p = 128;
+       TABLE_NAME.cgemm_q = 256;
