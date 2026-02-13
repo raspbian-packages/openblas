@@ -1,0 +1,9 @@
+arm-gcc-flags.patch
+remove-openmp-warning.patch
+no-embedded-lapack.patch
+shared-blas-lapack.patch
+matgen-symbols-not-included.patch
+combssq-deprecate.patch
+loong64-dpotrf.patch
+ftbfs-serial.patch
+ftbfs-serial-arm64.patch
