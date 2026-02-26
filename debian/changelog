@@ -1,10 +1,51 @@
-openblas (0.3.30+ds-3+rpi1) forky-staging; urgency=medium
+openblas (0.3.31+ds-3+rpi1) forky-staging; urgency=medium
 
   [changes brought forward from 0.2.15-1+rpi1 by Peter Michael Green <plugwash@raspbian.org> at Fri, 11 Mar 2016 23:39:32 +0000]
   * Disable arm-gcc-flags.patch which was enforcing gcc flags that are wrong
     for raspbian.
 
- -- Raspbian forward porter <root@raspbian.org>  Sat, 24 Jan 2026 17:58:45 +0000
+ -- Raspbian forward porter <root@raspbian.org>  Thu, 26 Feb 2026 23:08:48 +0000
+
+openblas (0.3.31+ds-3) unstable; urgency=medium
+
+  * Upload to unstable
+
+ -- Sébastien Villemot <sebastien@debian.org>  Fri, 13 Feb 2026 15:01:49 +0100
+
+openblas (0.3.31+ds-2) experimental; urgency=medium
+
+  * ftbfs-serial-arm64.patch: new patch taken from upstream.
+    Fixes FTBFS on arm64.
+
+ -- Sébastien Villemot <sebastien@debian.org>  Thu, 05 Feb 2026 18:35:53 +0100
+
+openblas (0.3.31+ds-1) experimental; urgency=medium
+
+  [ Sébastien Villemot ]
+  * New upstream version 0.3.31+ds
+  * d/copyright: reflect upstream changes
+  * armhf-cpuid-asm.patch: drop patch, applied upstream
+  * ppc64el-gcc-15.patch: drop patch, workaround no longer needed
+  * loong64-dpotrf.patch: new patch taken from upstream.
+    Fixes incorrect result of dpotrf on loong64 when using the la464 kernel.
+    (Closes: #1126103)
+  * ftbfs-serial.patch: new patch taken from upstream.
+    Fixes FTBFS in serial flavour of the library.
+  * d/t/upstream-testsuite{,64}: minor adjustment for linking to libopenblas
+  * Drop versioned Build-Depends on debhelper.
+    No longer needed, the constraint is satisfied in oldoldstable.
+  * d/rules: use buildopts.mk to parse DEB_BUILD_OPTIONS
+  * Drop “Priority: optional”, which is now the default
+  * Bump Standards-Version to 4.7.3
+  * Drop obsolete Breaks relationships (version constraints satisfied in
+    oldoldstable)
+  * d/copyright: update Upstream-Contact
+  * d/upstream/metadata: update Changelog and Donation
+
+  [ Alexandre Detiste ]
+  * fix team name
+
+ -- Sébastien Villemot <sebastien@debian.org>  Wed, 04 Feb 2026 09:57:25 +0100
 
 openblas (0.3.30+ds-3) unstable; urgency=medium
 

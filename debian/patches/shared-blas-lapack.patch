@@ -19,11 +19,9 @@ Forwarded: not-needed
 Last-Update: 2020-07-31
 ---
 This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
-Index: openblas/interface/Makefile
-===================================================================
---- openblas.orig/interface/Makefile
-+++ openblas/interface/Makefile
-@@ -2468,3 +2468,28 @@ cblas_zgemm_batch.$(SUFFIX) cblas_zgemm_
+--- a/interface/Makefile
++++ b/interface/Makefile
+@@ -2608,3 +2608,28 @@ zgemm_batch_strided.$(SUFFIX) zgemm_batc
  delete-duplicate-lapack-objects:
  	if test -d ../lapack-netlib; then cd ../lapack-netlib \
  		&& rm $(SLAPACKOBJS) $(DLAPACKOBJS) $(CLAPACKOBJS) $(ZLAPACKOBJS) lsame.o xerbla.o; fi

@@ -4,6 +4,7 @@
 export DEB_LDFLAGS_MAINT_STRIP := "-Wl,-Bsymbolic-functions"
 
 include /usr/share/dpkg/buildflags.mk
+include /usr/share/dpkg/buildopts.mk
 include /usr/share/dpkg/buildtools.mk
 include /usr/share/dpkg/pkg-info.mk
 SOVER := 0
@@ -22,9 +23,8 @@ MAKE_OPTIONS += COMMON_OPT=
 # Handle requested number of parallel jobs
 # NB: by default, the OpenBLAS build system uses as many jobs as there are logical
 # cores, so explicitly disable this if parallel build is not requested.
-ifneq (,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
-	NUMJOBS = $(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
-	MAKE_OPTIONS += MAKE_NB_JOBS=$(NUMJOBS)
+ifneq (,$(DEB_BUILD_OPTION_PARALLEL))
+	MAKE_OPTIONS += MAKE_NB_JOBS=$(DEB_BUILD_OPTION_PARALLEL)
 else
 	MAKE_OPTIONS += NO_PARALLEL_MAKE=1
 endif

@@ -18,7 +18,6 @@ cd "$AUTOPKGTEST_TMP"/test
 
 # Make tests use the installed binaries instead of using the build result path
 sed -i -e 's,\.\./\$(LIBNAME),,g' Makefile
-sed -i -e '3i CEXTRALIB += -lopenblas' Makefile
 
 # Execute tests
-make
+make CEXTRALIB=-lopenblas

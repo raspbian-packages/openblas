@@ -1,9 +1,9 @@
 Description: Adapt build system for the absence of lapack-netlib/ and relapack directories.
- Instead use the binary provided by package liblapack-pic, stripping from it the
- symbols that are overridden by OpenBLAS.
+ Instead use the PIC libraries provided by packages liblapack-dev and liblapack64-dev,
+ stripping from them the symbols that are overridden by OpenBLAS.
 Author: Sébastien Villemot <sebastien@debian.org>
 Forwarded: not-needed
-Last-Update: 2017-07-27
+Last-Update: 2026-02-03
 ---
 This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 --- a/Makefile
@@ -138,10 +138,10 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  # - CC is an implicit variable so neither '?=' or 'ifndef' can be used.
 --- a/interface/Makefile
 +++ b/interface/Makefile
-@@ -2461,3 +2461,10 @@ cblas_cgemm_batch.$(SUFFIX) cblas_cgemm_
+@@ -2601,3 +2601,10 @@ cgemm_batch_strided.$(SUFFIX) cgemm_batc
  
- cblas_zgemm_batch.$(SUFFIX) cblas_zgemm_batch.$(PSUFFIX) : gemm_batch.c ../param.h
- 	$(CC) -c $(CFLAGS) -DCBLAS $< -o $(@F)
+ zgemm_batch_strided.$(SUFFIX) zgemm_batch_strided.$(PSUFFIX) : gemm_batch_strided.c ../param.h
+ 	$(CC) -c $(CFLAGS) -UCBLAS $< -o $(@F)
 +
 +# The list of symbols to be removed can be seen in the diff between LAPACK's
 +# original SRC/Makefile and the version of that same file that is included in
@@ -151,19 +151,36 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 +		&& rm $(SLAPACKOBJS) $(DLAPACKOBJS) $(CLAPACKOBJS) $(ZLAPACKOBJS) lsame.o xerbla.o; fi
 --- a/Makefile.install
 +++ b/Makefile.install
-@@ -92,15 +92,6 @@ endif
+@@ -92,32 +92,6 @@ endif
  endif
  
  ifneq ($(OSNAME), AIX)
 -ifneq ($(NO_LAPACKE), 1)
+-	@cp $(NETLIB_LAPACK_DIR)/LAPACKE/include/lapacke.h lapacke_h.tmp
+-ifdef SYMBOLPREFIX
+-	@sed 's/LAPACKE_[a-z1-9].[^() ]*/$(SYMBOLPREFIX)&/g' lapacke_h.tmp > lapacke.tmp2
+-	@mv lapacke.tmp2 lapacke_h.tmp
+-endif
+-ifdef SYMBOLSUFFIX
+-	@sed 's/LAPACKE_[a-z1-9].[^() ]*/&$(SYMBOLSUFFIX)/g' lapacke_h.tmp > lapacke.tmp2
+-	@mv lapacke.tmp2 lapacke_h.tmp
+-endif
+-	@-install -m644 lapacke_h.tmp "$(DESTDIR)$(OPENBLAS_INCLUDE_DIR)/lapacke.h"
 -	@echo Copying LAPACKE header files to $(DESTDIR)$(OPENBLAS_INCLUDE_DIR)
--	@-install -m644 $(NETLIB_LAPACK_DIR)/LAPACKE/include/lapack.h "$(DESTDIR)$(OPENBLAS_INCLUDE_DIR)/lapack.h"
--	@-install -m644 $(NETLIB_LAPACK_DIR)/LAPACKE/include/lapacke.h "$(DESTDIR)$(OPENBLAS_INCLUDE_DIR)/lapacke.h"
+-	@cp $(NETLIB_LAPACK_DIR)/LAPACKE/include/lapack.h lapack_h.tmp
+-ifdef SYMBOLPREFIX
+-	@sed 's/LAPACK_[a-z1-9]*(\.\.\.)/$(SYMBOLPREFIX)&/g' lapack_h.tmp > lapack.tmp2
+-	@mv lapack.tmp2 lapack_h.tmp
+-endif
+-ifdef SYMBOLSUFFIX
+-	@sed 's/\(#define $(SYMBOLPREFIX)LAPACK_[a-z1-9].*\)\((...)\)/\1$(SYMBOLSUFFIX)\2/g' lapack_h.tmp > lapack.tmp2
+-	@mv lapack.tmp2 lapack_h.tmp
+-endif
+-	@-install -m644 lapack_h.tmp "$(DESTDIR)$(OPENBLAS_INCLUDE_DIR)/lapack.h"
 -	@-install -m644 $(NETLIB_LAPACK_DIR)/LAPACKE/include/lapacke_config.h "$(DESTDIR)$(OPENBLAS_INCLUDE_DIR)/lapacke_config.h"
 -	@-install -m644 $(NETLIB_LAPACK_DIR)/LAPACKE/include/lapacke_mangling_with_flags.h.in "$(DESTDIR)$(OPENBLAS_INCLUDE_DIR)/lapacke_mangling.h"
 -	@-install -m644 $(NETLIB_LAPACK_DIR)/LAPACKE/include/lapacke_utils.h "$(DESTDIR)$(OPENBLAS_INCLUDE_DIR)/lapacke_utils.h"
 -endif
--
+ 
  #for install static library
  ifneq ($(NO_STATIC),1)
- 	@echo Copying the static library to $(DESTDIR)$(OPENBLAS_LIBRARY_DIR)

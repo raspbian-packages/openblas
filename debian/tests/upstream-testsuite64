@@ -23,7 +23,6 @@ cd "$AUTOPKGTEST_TMP"/test
 
 # Make tests use the installed binaries instead of using the build result path
 sed -i -e 's,\.\./\$(LIBNAME),,g' Makefile
-sed -i -e '3i CEXTRALIB += -lopenblas64' Makefile
 
 # Execute tests
-make FCOMMON_OPT='-frecursive -fdefault-integer-8'
+make CEXTRALIB=-lopenblas64 FCOMMON_OPT='-frecursive -fdefault-integer-8'

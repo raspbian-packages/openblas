@@ -1,7 +1,7 @@
 Bug-Database: https://github.com/OpenMathLib/OpenBLAS/issues
 Bug-Submit: https://github.com/OpenMathLib/OpenBLAS/issues/new
-Changelog: https://www.openblas.net/Changelog.txt
-Donation: https://github.com/OpenMathLib/OpenBLAS/wiki/Donation
+Changelog: https://github.com/OpenMathLib/OpenBLAS/blob/develop/Changelog.txt
+Donation: http://www.openmathlib.org/OpenBLAS/docs/about/
 Repository: https://github.com/OpenMathLib/OpenBLAS.git
 Repository-Browse: https://github.com/OpenMathLib/OpenBLAS/
 Security-Contact: https://github.com/OpenMathLib/OpenBLAS/tree/HEAD/SECURITY.md

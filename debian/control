@@ -1,15 +1,13 @@
 Source: openblas
-Maintainer: Debian Science Team <debian-science-maintainers@lists.alioth.debian.org>
+Maintainer: Debian Science Maintainers <debian-science-maintainers@lists.alioth.debian.org>
 Uploaders: Sébastien Villemot <sebastien@debian.org>,
            Mo Zhou <lumin@debian.org>
 Section: devel
-Priority: optional
 Build-Depends: debhelper-compat (= 13),
-               debhelper (>= 12.8~),
                gfortran-for-host,
                liblapack-dev (>= 3.12),
                liblapack64-dev (>= 3.12) [alpha amd64 arm64 ppc64el ppc64 mips64el riscv64 sparc64 s390x loong64],
-Standards-Version: 4.7.2
+Standards-Version: 4.7.3
 Vcs-Browser: https://salsa.debian.org/science-team/openblas
 Vcs-Git: https://salsa.debian.org/science-team/openblas.git
 Homepage: https://www.openblas.net/
@@ -22,10 +20,6 @@ Multi-Arch: same
 Section: metapackages
 Depends: ${misc:Depends},
          libopenblas0-pthread | libopenblas0-openmp | libopenblas0-serial,
-Breaks: libblas3 (<< 3.7.1-2~),
-        liblapack3 (<< 3.7.1-2~),
-        libatlas3-base (<< 3.10.3-4~),
-        libopenblas-dev (<< 0.2.20+ds-3~)
 Description: Optimized BLAS (linear algebra) library (meta)
  OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version.
  .
@@ -43,10 +37,6 @@ Multi-Arch: same
 Section: libs
 Depends: ${shlibs:Depends},
          ${misc:Depends}
-Breaks: libblas3 (<< 3.7.1-2~),
-        liblapack3 (<< 3.7.1-2~),
-        libatlas3-base (<< 3.10.3-4~),
-        libopenblas-dev (<< 0.2.20+ds-3~)
 Provides: libblas.so.3,
           liblapack.so.3
 Description: Optimized BLAS (linear algebra) library (shared lib, pthread)
@@ -68,10 +58,6 @@ Multi-Arch: same
 Section: libs
 Depends: ${shlibs:Depends},
          ${misc:Depends}
-Breaks: libblas3 (<< 3.7.1-2~),
-        liblapack3 (<< 3.7.1-2~),
-        libatlas3-base (<< 3.10.3-4~),
-        libopenblas-dev (<< 0.2.20+ds-3~)
 Provides: libblas.so.3,
           liblapack.so.3
 Description: Optimized BLAS (linear algebra) library (shared lib, openmp)
@@ -93,10 +79,6 @@ Multi-Arch: same
 Section: libs
 Depends: ${shlibs:Depends},
          ${misc:Depends}
-Breaks: libblas3 (<< 3.7.1-2~),
-        liblapack3 (<< 3.7.1-2~),
-        libatlas3-base (<< 3.10.3-4~),
-        libopenblas-dev (<< 0.2.20+ds-3~)
 Provides: libblas.so.3,
           liblapack.so.3
 Description: Optimized BLAS (linear algebra) library (shared lib, serial)
@@ -119,9 +101,6 @@ Section: metapackages
 Depends: libopenblas0 (= ${binary:Version}),
          ${misc:Depends},
          libopenblas-pthread-dev | libopenblas-openmp-dev | libopenblas-serial-dev,
-Breaks: libblas-dev (<< 3.7.1-2~),
-        liblapack-dev (<< 3.7.1-2~),
-        libatlas-base-dev (<< 3.10.3-4~)
 Description: Optimized BLAS (linear algebra) library (dev, meta)
  OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version.
  .
@@ -142,9 +121,6 @@ Multi-Arch: same
 Section: libdevel
 Depends: libopenblas0-pthread (= ${binary:Version}),
          ${misc:Depends}
-Breaks: libblas-dev (<< 3.7.1-2~),
-        liblapack-dev (<< 3.7.1-2~),
-        libatlas-base-dev (<< 3.10.3-4~)
 Provides: libblas.so,
           liblapack.so
 Description: Optimized BLAS (linear algebra) library (dev, pthread)
@@ -169,9 +145,6 @@ Multi-Arch: same
 Section: libdevel
 Depends: libopenblas0-openmp (= ${binary:Version}),
          ${misc:Depends}
-Breaks: libblas-dev (<< 3.7.1-2~),
-        liblapack-dev (<< 3.7.1-2~),
-        libatlas-base-dev (<< 3.10.3-4~)
 Provides: libblas.so,
           liblapack.so
 Description: Optimized BLAS (linear algebra) library (dev, openmp)
@@ -196,9 +169,6 @@ Multi-Arch: same
 Section: libdevel
 Depends: libopenblas0-serial (= ${binary:Version}),
          ${misc:Depends}
-Breaks: libblas-dev (<< 3.7.1-2~),
-        liblapack-dev (<< 3.7.1-2~),
-        libatlas-base-dev (<< 3.10.3-4~)
 Provides: libblas.so,
           liblapack.so
 Description: Optimized BLAS (linear algebra) library (dev, serial)
