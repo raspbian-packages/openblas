@@ -1,0 +1,2 @@
+libopenblas64-0-serial: distant-prerequisite-in-shlibs
+libopenblas64-0-serial: package-has-unnecessary-activation-of-ldconfig-trigger
