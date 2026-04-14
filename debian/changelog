@@ -1,10 +1,50 @@
-openblas (0.3.31+ds-3+rpi1) forky-staging; urgency=medium
+openblas (0.3.32+ds-5+rpi1) forky-staging; urgency=medium
 
   [changes brought forward from 0.2.15-1+rpi1 by Peter Michael Green <plugwash@raspbian.org> at Fri, 11 Mar 2016 23:39:32 +0000]
   * Disable arm-gcc-flags.patch which was enforcing gcc flags that are wrong
     for raspbian.
 
- -- Raspbian forward porter <root@raspbian.org>  Thu, 26 Feb 2026 23:08:48 +0000
+ -- Raspbian forward porter <root@raspbian.org>  Tue, 14 Apr 2026 10:34:28 +0000
+
+openblas (0.3.32+ds-5) unstable; urgency=medium
+
+  * _Float16-redux.patch: fix invalid preprocessor logic
+
+ -- Sébastien Villemot <sebastien@debian.org>  Wed, 08 Apr 2026 16:43:38 +0200
+
+openblas (0.3.32+ds-4) unstable; urgency=medium
+
+  * _Float16-loong64.patch: fix _Float16 issue in development header on loong64
+  * _Float16-redux.patch: fix _Float16 issue in development header on
+    armhf, s390x and sparc64
+
+ -- Sébastien Villemot <sebastien@debian.org>  Wed, 08 Apr 2026 09:27:42 +0200
+
+openblas (0.3.32+ds-3) unstable; urgency=medium
+
+  * Upload to unstable
+
+ -- Sébastien Villemot <sebastien@debian.org>  Tue, 07 Apr 2026 10:07:43 +0200
+
+openblas (0.3.32+ds-2) experimental; urgency=medium
+
+  * cblas_dspmv-arm64.patch: new patch taken from upstream.
+    Fixes FTBFS on arm64.
+  * Bump Standards-Version to 4.7.4
+
+ -- Sébastien Villemot <sebastien@debian.org>  Fri, 03 Apr 2026 10:54:00 +0200
+
+openblas (0.3.32+ds-1) experimental; urgency=medium
+
+  * New upstream version 0.3.32+ds
+    – fixes miscompilation on ppc64el (Closes: #1126688)
+  * d/copyright: reflect upstream changes
+  * Drop patches applied upstream
+    – ftbfs-serial-arm64.patch
+    – ftbfs-serial.patch
+    – loong64-dpotrf.patch
+
+ -- Sébastien Villemot <sebastien@debian.org>  Wed, 25 Mar 2026 11:53:53 +0100
 
 openblas (0.3.31+ds-3) unstable; urgency=medium
 

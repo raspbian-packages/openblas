@@ -1,0 +1,20 @@
+Description: Fix development header on loong64 with respect to missing _Float16 type
+Origin: upstream, https://github.com/OpenMathLib/OpenBLAS/commit/2671786e61325a97b87dbe1a2cdd8abb74486498
+Bug: https://github.com/OpenMathLib/OpenBLAS/issues/5714
+Reviewed-by: Sébastien Villemot <sebastien@debian.org>
+Last-Update: 2026-04-07
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+diff --git a/openblas_config_template.h b/openblas_config_template.h
+index 1735fdda2..660a7da0d 100644
+--- a/openblas_config_template.h
++++ b/openblas_config_template.h
+@@ -40,7 +40,7 @@ typedef uint16_t bfloat16;
+ #endif
+ 
+ #if defined(__GNUC__) && (__GNUC__ > 12)
+-#if defined(OPENBLAS_ARCH_POWER)
++#if defined(OPENBLAS_ARCH_POWER) || defined(OPENBLAS_ARCH_LOONGARCH64)
+ typedef bfloat16 hfloat16;
+ #else
+ typedef _Float16 hfloat16;

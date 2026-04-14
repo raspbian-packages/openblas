@@ -7,7 +7,7 @@ Build-Depends: debhelper-compat (= 13),
                gfortran-for-host,
                liblapack-dev (>= 3.12),
                liblapack64-dev (>= 3.12) [alpha amd64 arm64 ppc64el ppc64 mips64el riscv64 sparc64 s390x loong64],
-Standards-Version: 4.7.3
+Standards-Version: 4.7.4
 Vcs-Browser: https://salsa.debian.org/science-team/openblas
 Vcs-Git: https://salsa.debian.org/science-team/openblas.git
 Homepage: https://www.openblas.net/

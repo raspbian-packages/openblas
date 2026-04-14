@@ -6,7 +6,7 @@ Files-Excluded: lapack-netlib/*
                 relapack/*
 
 Files: *
-Copyright: 2011-2025 The OpenBLAS Project
+Copyright: 2011-2026 The OpenBLAS Project
            2009-2010 The University of Texas at Austin
            2013 Martin Koehler, grisuthedragon@users.github.com
            2020 IBM Corporation
@@ -34,6 +34,7 @@ Files: benchmark/cholesky.c
  common_power.h
  common_sparc.h
  common_thread.h
+ common_wasm.h
  common_x86.h
  common_x86_64.h
  cpuid.h
