@@ -3,7 +3,5 @@ no-embedded-lapack.patch
 shared-blas-lapack.patch
 matgen-symbols-not-included.patch
 combssq-deprecate.patch
-cblas_dspmv-arm64.patch
-_Float16-loong64.patch
-_Float16-redux.patch
+trsm-barcelona.patch
 auto-0.3.7+ds-1+rpi1-e5cdb5bc2fdbe4ed5849a311d639ae1e43ddffb5-1566623053

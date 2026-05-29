@@ -1,10 +1,35 @@
-openblas (0.3.32+ds-5+rpi1) forky-staging; urgency=medium
+openblas (0.3.33+ds-3+rpi1) forky-staging; urgency=medium
 
   [changes brought forward from 0.2.15-1+rpi1 by Peter Michael Green <plugwash@raspbian.org> at Fri, 11 Mar 2016 23:39:32 +0000]
   * Disable arm-gcc-flags.patch which was enforcing gcc flags that are wrong
     for raspbian.
 
- -- Raspbian forward porter <root@raspbian.org>  Tue, 14 Apr 2026 10:34:28 +0000
+ -- Raspbian forward porter <root@raspbian.org>  Fri, 29 May 2026 00:41:26 +0000
+
+openblas (0.3.33+ds-3) unstable; urgency=medium
+
+  * i386-zen.patch: drop patch, does not actually fix i386 FTBFS
+  * trsm-barcelona.patch: new patch, should really fix i386 FTBFS
+
+ -- Sébastien Villemot <sebastien@debian.org>  Sat, 16 May 2026 11:14:12 +0200
+
+openblas (0.3.33+ds-2) unstable; urgency=medium
+
+  * Upload to unstable
+  * i386-zen.patch: new patch, fixes FTBFS on some i386 hardware
+
+ -- Sébastien Villemot <sebastien@debian.org>  Thu, 14 May 2026 11:01:51 +0200
+
+openblas (0.3.33+ds-1) experimental; urgency=medium
+
+  * New upstream version 0.3.33+ds
+  * d/copyright: reflect upstream changes
+  * Drop patches applied upstream
+    – _Float16-loong64.patch
+    – _Float16-redux.patch
+    – cblas_dspmv-arm64.patch
+
+ -- Sébastien Villemot <sebastien@debian.org>  Fri, 24 Apr 2026 20:40:32 +0200
 
 openblas (0.3.32+ds-5) unstable; urgency=medium
 

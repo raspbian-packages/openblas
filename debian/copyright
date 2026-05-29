@@ -471,6 +471,10 @@ Files: benchmark/cholesky.c
  kernel/power/trsm_kernel_RT_power10.c
  kernel/riscv64/zgemm_beta_rvv.c
  kernel/setparam-ref.c
+ kernel/wasm/trsm_kernel_LN_wasm128.c
+ kernel/wasm/trsm_kernel_LT_wasm128.c
+ kernel/wasm/trsm_kernel_RN_wasm128.c
+ kernel/wasm/trsm_kernel_RT_wasm128.c
  kernel/x86_64/dger.c
  kernel/x86_64/sger.c
  kernel/x86_64/ctrsm_kernel_LN_bulldozer.c

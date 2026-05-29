@@ -1,0 +1,27 @@
+Description: Fix TRSM on Barcelona target (and possibly others)
+ This should fix i386 test failures such as this one:
+ https://buildd.debian.org/status/fetch.php?pkg=openblas&arch=i386&ver=0.3.33%2Bds-1&stamp=1777066182&raw=0
+Origin: upstream, https://github.com/OpenMathLib/OpenBLAS/commit/26c4eb65d1b60005d6556e432f4a8989efc5b6e6
+Bug: https://github.com/OpenMathLib/OpenBLAS/issues/5787
+     https://github.com/OpenMathLib/OpenBLAS/issues/5810
+Reviewed-by: Sébastien Villemot <sebastien@debian.org>
+Last-Update: 2026-05-16
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+diff --git a/interface/trsm.c b/interface/trsm.c
+index ae35d0d3b..069df1aa5 100644
+--- a/interface/trsm.c
++++ b/interface/trsm.c
+@@ -381,8 +381,12 @@ if (strcmp(gotoblas_corename(), "armv9sme") == 0
+ #endif
+ #endif
+ 
++
++
++//end of the ifndef CBLAS ... else ... section	
+ #endif
+ 
++  if ((args.m == 0) || (args.n == 0)) return;
+   IDEBUG_START;
+ 
+   FUNCTION_PROFILE_START();
