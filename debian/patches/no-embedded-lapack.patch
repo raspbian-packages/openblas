@@ -8,7 +8,7 @@ Last-Update: 2026-02-03
 This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 --- a/Makefile
 +++ b/Makefile
-@@ -291,95 +291,20 @@ hpl_p :
+@@ -292,95 +292,20 @@ hpl_p :
  	fi; \
  	done
  
@@ -114,7 +114,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  
  large.tgz :
  ifeq ($(NOFORTRAN), $(filter 0,$(NOFORTRAN)))
-@@ -450,10 +375,5 @@ ifeq ($(OSNAME), Darwin)
+@@ -451,10 +376,5 @@ ifeq ($(OSNAME), Darwin)
  endif
  	@rm -f Makefile.conf config.h Makefile_kernel.conf config_kernel.h st* *.dylib
  	@rm -f cblas.tmp cblas.tmp2
@@ -127,7 +127,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  	@echo Done.
 --- a/Makefile.system
 +++ b/Makefile.system
-@@ -44,8 +44,6 @@ else ifeq ($(ARCH), zarch)
+@@ -48,8 +48,6 @@ else ifeq ($(ARCH), zarch)
  override ARCH=zarch
  endif
  
@@ -151,7 +151,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 +		&& rm $(SLAPACKOBJS) $(DLAPACKOBJS) $(CLAPACKOBJS) $(ZLAPACKOBJS) lsame.o xerbla.o; fi
 --- a/Makefile.install
 +++ b/Makefile.install
-@@ -92,32 +92,6 @@ endif
+@@ -99,32 +99,6 @@ endif
  endif
  
  ifneq ($(OSNAME), AIX)

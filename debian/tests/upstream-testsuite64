@@ -18,7 +18,7 @@ fi
 update-alternatives --get-selections | grep '^libopenblas64.so'
 
 # Work from $AUTOPKGTEST_TMP as we need to treat the original source as read-only
-cp -a test Makefile* ?_check cpuid* ctest* getarch* param.h "$AUTOPKGTEST_TMP"/
+cp -a test Makefile* ?_check cpuid* ctest* getarch* param.h common*.h "$AUTOPKGTEST_TMP"/
 cd "$AUTOPKGTEST_TMP"/test
 
 # Make tests use the installed binaries instead of using the build result path

@@ -1,10 +1,25 @@
-openblas (0.3.33+ds-3+rpi1) forky-staging; urgency=medium
+openblas (0.3.34+ds-2+rpi1) forky-staging; urgency=medium
 
   [changes brought forward from 0.2.15-1+rpi1 by Peter Michael Green <plugwash@raspbian.org> at Fri, 11 Mar 2016 23:39:32 +0000]
   * Disable arm-gcc-flags.patch which was enforcing gcc flags that are wrong
     for raspbian.
 
- -- Raspbian forward porter <root@raspbian.org>  Fri, 29 May 2026 00:41:26 +0000
+ -- Raspbian forward porter <root@raspbian.org>  Sat, 03 Oct 2026 14:22:27 +0000
+
+openblas (0.3.34+ds-2) unstable; urgency=medium
+
+  * Upload to unstable
+
+ -- Sébastien Villemot <sebastien@debian.org>  Sat, 19 Sep 2026 15:06:32 +0200
+
+openblas (0.3.34+ds-1) experimental; urgency=medium
+
+  * New upstream version 0.3.34+ds
+  * trsm-barcelona.patch: drop patch, applied upstream
+  * d/copyright: reflect upstream changes
+  * Bump to debhelper compat level 14
+
+ -- Sébastien Villemot <sebastien@debian.org>  Wed, 02 Sep 2026 11:34:21 +0200
 
 openblas (0.3.33+ds-3) unstable; urgency=medium
 
